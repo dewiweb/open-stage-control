@@ -558,6 +558,53 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#script" title="Script" class="md-nav__link">
+    Script
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#condition" title="condition" class="md-nav__link">
+    condition
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#script_1" title="script" class="md-nav__link">
+    script
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sendtarget-address-arg1-arg2" title="send(target, address, arg1, arg2, ...)" class="md-nav__link">
+    send(target, address, arg1, arg2, ...)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setid-value" title="set(id, value)" class="md-nav__link">
+    set(id, value)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
       
       
     </ul>
@@ -825,6 +872,53 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#script" title="Script" class="md-nav__link">
+    Script
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#condition" title="condition" class="md-nav__link">
+    condition
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#script_1" title="script" class="md-nav__link">
+    script
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sendtarget-address-arg1-arg2" title="send(target, address, arg1, arg2, ...)" class="md-nav__link">
+    send(target, address, arg1, arg2, ...)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setid-value" title="set(id, value)" class="md-nav__link">
+    set(id, value)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
       
       
     </ul>
@@ -916,6 +1010,40 @@
 <li>type: <code>boolean</code></li>
 <li>default: <code>true</code></li>
 <li>usage: set to <code>false</code> to prevent <code>keydown</code> repeats when holding the key combo pressed.</li>
+</ul>
+<h2 id="script">Script<a class="headerlink" href="#script" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><span class="p">{</span>
+    <span class="nx">type</span><span class="o">:</span><span class="s1">&#39;script&#39;</span><span class="p">,</span>
+    <span class="c1">// etc</span>
+<span class="p">}</span>
+</pre></div>
+
+<h3 id="condition"><code>condition</code><a class="headerlink" href="#condition" title="Permanent link">&para;</a></h3>
+<ul>
+<li>type: <code>string</code></li>
+<li>default: <code>''</code></li>
+<li>usage: when the widget receives a value, if this property return a falsy value, the <code>script</code> property won't be evaluated. If it's non-falsy, it will be evaluated normally. <a href="../../extras/advanced-property-syntax/#formulas">Formulas</a> are given 1 extra variable in this context:</li>
+<li><code>value</code>: the value received by the widget</li>
+</ul>
+<h3 id="script_1"><code>script</code><a class="headerlink" href="#script_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li>type: <code>string</code></li>
+<li>default: <code>''</code></li>
+<li>usage: this property is evaluated each time the widget receives a value if <code>condition</code> is non-falsy. <a href="../../extras/advanced-property-syntax/#formulas">Formulas</a> are given extras variables in this context:</li>
+<li><code>value</code>: the value received by the widget</li>
+<li><code>send</code>: <code>function</code> for sending osc messages</li>
+<li><code>set</code>: <code>function</code> for setting a widget's value</li>
+</ul>
+<h4 id="sendtarget-address-arg1-arg2"><code>send(target, address, arg1, arg2, ...)</code><a class="headerlink" href="#sendtarget-address-arg1-arg2" title="Permanent link">&para;</a></h4>
+<ul>
+<li><code>target</code> (<code>string</code> or <code>array</code> or <code>false</code>): one or several osc targets. Default targets (<code>--send</code> and the script's <code>target</code> property) are ignored unless <code>target</code> is <code>false</code></li>
+<li><code>address</code> (<code>string</code>): a valid osc address</li>
+<li><code>arg</code>: one or several osc arguments to be sent. The script's <code>preArgs</code> property is ignored</li>
+</ul>
+<h4 id="setid-value"><code>set(id, value)</code><a class="headerlink" href="#setid-value" title="Permanent link">&para;</a></h4>
+<ul>
+<li><code>id</code> (<code>string</code>): a widget's id</li>
+<li><code>value</code>: the widget's new value</li>
 </ul>
                 
                   
