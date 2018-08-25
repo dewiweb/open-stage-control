@@ -519,13 +519,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#widgetid" title="widgetId" class="md-nav__link">
-    widgetId
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#binding" title="binding" class="md-nav__link">
     binding
   </a>
@@ -833,13 +826,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#widgetid" title="widgetId" class="md-nav__link">
-    widgetId
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#binding" title="binding" class="md-nav__link">
     binding
   </a>
@@ -975,12 +961,6 @@
 <span class="p">}</span>
 </pre></div>
 
-<h3 id="widgetid"><code>widgetId</code><a class="headerlink" href="#widgetid" title="Permanent link">&para;</a></h3>
-<ul>
-<li>type: <code>object</code></li>
-<li>default: <code>empty</code></li>
-<li>usage: a widget's <code>id</code> whose value will be linked to the Keys</li>
-</ul>
 <h3 id="binding"><code>binding</code><a class="headerlink" href="#binding" title="Permanent link">&para;</a></h3>
 <ul>
 <li>type: <code>string|array</code></li>
@@ -991,8 +971,7 @@
 <ul>
 <li>type: <code>string</code></li>
 <li>default: <code>''</code></li>
-<li>usage: <a href="http://mathjs.org/docs/expressions/syntax.html">MathJS</a> expression whose output will be sent to the linked widget. This will be evaluated when the key combo is pressed. Available variables are ;</li>
-<li><code>value</code>: widget's value</li>
+<li>usage: this property is evaluated each time the key combo is pressed. <a href="../../extras/advanced-property-syntax/#formulas">Formulas</a> are given extras variables in this context:</li>
 <li><code>key</code>: pressed key name (usefull for handling multiple keys with a single <code>keys</code> widget)</li>
 <li><code>ctrl</code>: control key state</li>
 <li><code>alt</code>: alt key state    </li>
