@@ -156,1229 +156,234 @@
             "title": "Keyboard shortcuts"
         }, 
         {
-            "location": "/widgets/widgets/", 
-            "text": "Widgets properties\n\n\nAll widgets share a set of generic properties described below.\n\n\nBasics\n\n\ntype\n\n\n\n\ntype: \nstring\n\n\ndefault: \nfader\n\n\n\n\nid\n\n\n\n\ntype: \nstring\n\n\ndefault: generated unique 'widget_n'\n\n\nusage: widgets sharing the same \nid\n will act as clones and update each other's value(s) without sending extra osc messages.\n\n\n\n\nlinkId\n\n\n\n\ntype: \nstring|array\n\n\ndefault: \nempty\n\n\nusage:\n\n\nwidgets sharing the same \nlinkId\n update each other's value(s) AND send their respective osc messages.\n\n\nwhen prefixed with \n, the linkId will make the widget act as a master (sending but not receiving)\n\n\nwhen prefixed with \n, the linkId will make the widget act as a slave (receiving but not sending)\n\n\n\n\n\n\n\n\nStyle\n\n\nlabel\n\n\n\n\ntype: \nstring|false\n\n\ndefault: \nauto\n, which displays \nid\n\n\nusage:\n\n\nset to \nfalse\n to hide completely\n\n\ninsert icons from \nFontAwesome\n using the prefix \n^\n followed by the icon's name : \nmade with ^heart\n, etc\n\n\n\n\n\n\n\n\ntop\n / \nleft\n\n\n\n\ntype: \nnumber|percentage\n\n\ndefault: \nauto\n\n\nusage:\n\n\nwhen both \ntop\n and \nleft\n are set to \nauto\n, the widget is positioned according to the normal flow of the page (from left to right, by order of creation).\n\n\notherwise, the widget will be absolutely positioned\n\n\n\n\n\n\n\n\nwidth\n / \nheight\n\n\n\n\ntype: \nnumber|percentage\n\n\ndefault: \nauto\n\n\n\n\ncolor\n\n\n\n\ntype: \nstring\n\n\ndefault: \nauto\n, inherited accent color\n\n\nusage: any valid \ncss\n color code is valid, this will change the default accent color for the widget and all its children\n\n\n\n\ncss\n\n\n\n\ntype: \nstring\n\n\ndefault: \nempty\n\n\nusage: applies CSS rules to widget. See \ncss tips\n.\n\n\n\n\nValue\n\n\ndefault\n\n\n\n\ntype: \n*\n\n\ndefault: \nempty\n\n\nusage: if set, the widget will be initialized with this \nvalue\n when the session is loaded. Some widgets use this property under specific conditions (see fader's \ndoubleTap\n for example).\n\n\n\n\nvalue\n\n\n\n\ntype: \n*\n\n\ndefault: \nempty\n\n\nusage: set \nvalue\n to define a widget's value depending on other widget's values / properties using \nproperty inheritance and property maths\n. When updated by an osc-sending event (e.g. dragging a slider), the widget will send its own osc message as well.\n\n\n\n\n\n\ndefault\n and \nvalue\n must match the widget's value type (ie a \nnumber\n for sliders, an \narray\n for pads, etc) and restrictions (equal to \non\n or \noff\n for a push/toggle button)\n\n\n\n\nOSC\n\n\nprecision\n\n\n\n\ntype: \ninteger|string\n\n\ndefault: \n2\n\n\nusage: the \nprecision\n property defines the number of decimals to display and to send.\n\n\nset to \n0\n to send \nintegers\n only.\n\n\na specific data type can be specified by appending a valid osc type tag to the precision value, for example : \n3d\n will make the widget send double precision numbers rounded to three decimals\n\n\n\n\ntarget\n\n\n\n\ntype: \narray|string\n\n\ndefault: \n[]\n\n\nusage:\n\n\nthis defines the targets of the widget's osc messages\n\n\neach element of the \narray\n must be a string formatted as follows : \nip:port\n\n\nmultiple targets can be specified : \n[\nip1:port1\n,\nip2:port2\n]\n\n\na single target can be set : \nip:port\n\n\nif \nmidi\n is enabled, targets can be \nmidi:device_name\n\n\nspecial item \nself\n can be used to refer to the emitting client directly\n\n\nif no target is set (empty array \n[]\n), messages can still be sent if the server has defaults targets (\n-s / --send\n)\n\n\nto disable the default global osc targets (set via the app's \n--send\n option), set one of the array's item as \nnull\n (unquoted).\n\n\n\n\n\n\n\n\naddress\n\n\n\n\ntype: \nstring\n\n\ndefault: \n/widgets_id\n\n\nusage: this is the \naddress\n of the osc messages sent by the widget, it must start with a \n/\n\n\n\n\ntouchAddress\n\n\n\n\ntype: \nstring\n\n\ndefault: \nempty\n\n\nusage: sliders and pads can send special osc messages to inform weither they are currently touched or not. The osc message will be of the following form :\n\n    /touch/address [preArgs] 0/1\n\n\n\n\n\npreArgs\n\n\n\n\ntype: \narray|*\n\n\ndefault: \n[]\n\n\nusage:\n\n\neach element of the \narray\n defines a constant value that will be prepended to the osc message\n\n\nvalues can be defined as objects if the osc data type needs to be specified (ie different from the default implied by the \nprecision\n option)\n\n\na single non-array value can be set\n\n\n\n\n\n\nexample:\n\npreArgs\n:\n \n[\n\n    \n1\n,\n        \n// this will always be sent as a string\n\n    \n0.5\n,\n        \n// this will be sent as an integer if precision equals 0\n\n    \n1\n,\n          \n// this will be sent as float if precision is different from 0\n\n    \n{\n\n        \ntype\n:\nf\n,\n\n        \nvalue\n:\n0.5\n\n    \n},\n\n    \n{\n\n        \ntype\n:\ni\n,\n\n        \nvalue\n:\n1\n\n    \n},\n\n    \n{\n\n        \ntype\n:\nT\n,\n\n        \nvalue\n:\ntrue\n\n    \n},\n\n    \n{\n\n        \ntype\n:\nF\n,\n\n        \nvalue\n:\nfalse\n\n    \n}\n\n\n]\n\n\n\n\n\n\nbypass\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: set to \ntrue\n to prevent the widget from sending any osc message\n\n\n\n\n\n\nChanging OSC properties dynamically using advanced property syntax is likely to break synchronisation between multiple clients.", 
-            "title": "Widget properties"
+            "location": "/widgets-reference/", 
+            "text": "Generic properties\n\n\n\n\n\n\n\n\nproperty\n\n\ntype\n\n\ndefault\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\ntype\n\u00b6\n\n\nstring\n\n\n\"auto\"\n\n\n\n\n\n\n\n\nid\n\u00b6\n\n\nstring\n\n\n\"auto\"\n\n\nWidgets sharing the same \nid\n will act as clones and update each other's value(s) without sending extra osc messages.\n\n\n\n\n\n\nlinkId\n\u00b6\n\n\nstring\n|\narray\n\n\n\"\"\n\n\nWidgets sharing the same \nlinkId\n update each other's value(s) AND send their respective osc messages.\nWhen prefixed with \n, the \nlinkId\n will make the widget act as a master (sending but not receiving)\nWhen prefixed with \n, the \nlinkId\n will make the widget act as a slave (receiving but not sending)\n\n\n\n\n\n\ngeometry\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nleft\n\u00b6\n\n\nnumber\n|\nstring\n\n\n\"auto\"\n\n\nWhen both top and left are set to auto, the widget is positioned according to the normal flow of the page (from left to right, by order of creation).\nOtherwise, the widget will be absolutely positioned\n\n\n\n\n\n\ntop\n\u00b6\n\n\nnumber\n|\npercentage\n\n\n\"auto\"\n\n\nWhen both top and left are set to auto, the widget is positioned according to the normal flow of the page (from left to right, by order of creation).\nOtherwise, the widget will be absolutely positioned\n\n\n\n\n\n\nwidth\n\u00b6\n\n\nnumber\n|\npercentage\n\n\n\"auto\"\n\n\n\n\n\n\n\n\nheight\n\u00b6\n\n\nnumber\n|\npercentage\n\n\n\"auto\"\n\n\n\n\n\n\n\n\nstyle\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nlabel\n\u00b6\n\n\nstring\n|\nboolean\n\n\n\"auto\"\n\n\nSet to \nfalse\n to hide completely\nInsert icons using the prefix ^ followed by the icon's name : ^play, ^pause, etc\n\n\n\n\n\n\ncolor\n\u00b6\n\n\nstring\n\n\n\"auto\"\n\n\nCSS color code. Set to \"auto\" to inherit from parent widget.\n\n\n\n\n\n\ncss\n\u00b6\n\n\nstring\n\n\n\"\"\n\n\nCSS rules\n\n\n\n\n\n\nvalue\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\ndefault\n\u00b6\n\n\n*\n\n\n\"\"\n\n\nIf set, the widget will be initialized with this value when the session is loaded.\n\n\n\n\n\n\nvalue\n\u00b6\n\n\n*\n\n\n\"\"\n\n\nDefine the widget's value depending on other widget's values / properties using property inheritance and property maths\n\n\n\n\n\n\nosc\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nprecision\n\u00b6\n\n\ninteger\n|\nstring\n\n\n2\n\n\nDefines the number of decimals to display and to send.\nSet to \n0\n to send integers only.\nData type can be specified by appending a valid osc type tag to the precision value, for example : \n3d\n will make the widget send double precision numbers rounded to three decimals\n\n\n\n\n\n\naddress\n\u00b6\n\n\nstring\n\n\n\"auto\"\n\n\nOSC address for sending messages, it must start with a /\n\n\n\n\n\n\npreArgs\n\u00b6\n\n\n*\n|\narray\n\n\n\"\"\n\n\nA value or array of values that will be prepended to the OSC messages.\nValues can be defined as objects if the osc type tag needs to be specified: \n{type: \ni\n, value: 1}\n\n\n\n\n\n\ntarget\n\u00b6\n\n\nstring\n|\narray\n|\nnull\n\n\n\"\"\n\n\n- A \nstring\n or \narray\n of strings formatted as follow: \nip:port\n or \n[\nip:port\n]\n- If midi is enabled, targets can be \nmidi:device_name\n- The special item \nself\n can be used to refer to the emitting client directly.\n- If no target is set, messages can still be sent if the server has default targets\n- The server's default targets can be bypassed by setting one of the items to \nnull\n\n\n\n\n\n\nbypass\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to prevent the widget from sending any osc message\n\n\n\n\n\n\n\n\nSliders\n\n\nfader\n\n\n\n\n\n\n\n\nproperty\n\n\ntype\n\n\ndefault\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nstyle\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\ncss\n\u00b6\n\n\nstring\n\n\n\"\"\n\n\nAvailable CSS variables:\n- \n--color-gauge: color;\n- \n--color-knob: color;\n- \n--color-pips: color;\n- \n--gauge-opacity: number;\n\n\n\n\n\n\nfader\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nhorizontal\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to display the fader horizontally\n\n\n\n\n\n\nalignRight\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to invert the pip's and fader's position\n\n\n\n\n\n\npips\n\u00b6\n\n\nboolean\n\n\ntrue\n\n\nSet to \nfalse\n to hide the scale\n\n\n\n\n\n\ninput\n\u00b6\n\n\nboolean\n\n\ntrue\n\n\nSet to \nfalse\n to hide the built-in input\n\n\n\n\n\n\nmeter\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to true to display a vu-meter next in the fader\n- the meter's \nid\n will be the same as the widget's with \n/meter\n appended to it\n- the meter's \nid\n will be the same as the widget's with \n/meter\n appended to it\n\n\n\n\n\n\ncompact\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to display a compact alternative for the widget. Disables default mouse/touch focusing on the value display.\n\n\n\n\n\n\ndashed\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to display a dashed gauge\n\n\n\n\n\n\nsnap\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nBy default, dragging the widget will modify it's value starting from its last value. Setting this to \ntrue\n will make it snap directly to the mouse/touch position\n\n\n\n\n\n\nspring\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nWhen set to \ntrue\n, the widget will go back to its \ndefault\n value when released\n\n\n\n\n\n\ndoubleTap\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to make the fader reset to its \ndefault\n value when receiving a double tap.\nCan also be an osc address, in which case the widget will just send an osc message (\n/\ndoubleTap\n \npreArgs\n)\n\n\n\n\n\n\nrange\n\u00b6\n\n\nobject\n\n\n{\n\"min\": 0,\n\"max\": 1\n}\n\n\nDefines the breakpoints of the fader's scale:\n- keys can be percentages and/or \nmin\n / \nmax\n- values can be \nnumber\n or \nobject\n if a custom label is needed\nExample: (\n{min:{\n-inf\n: 0}, \n50%\n: 0.25, max: {\n+inf\n: 1}}\n)\n\n\n\n\n\n\nlogScale\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to use logarithmic scale for the y axis\n\n\n\n\n\n\nunit\n\u00b6\n\n\nstring\n\n\n\"\"\n\n\nUnit will be appended to the displayed widget's value (it doesn't affect osc messages)\n\n\n\n\n\n\norigin\n\u00b6\n\n\nnumber\n\n\n\"auto\"\n\n\nDefines the starting point's value of the fader's gauge\n\n\n\n\n\n\nosc\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\ntouchAddress\n\u00b6\n\n\nstring\n\n\n\"\"\n\n\nOSC address for touched state messages: \n/touchAddress [preArgs] 0/1\n\n\n\n\n\n\nmeterAddress\n\u00b6\n\n\nstring\n\n\n\"\"\n\n\nOSC address for the built-in meter\n\n\n\n\n\n\n\n\nknob\n\n\n\n\n\n\n\n\nproperty\n\n\ntype\n\n\ndefault\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nstyle\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\ncss\n\u00b6\n\n\nstring\n\n\n\"\"\n\n\nAvailable CSS variables:\n- \n--color-gauge: color;\n- \n--color-knob: color;\n- \n--color-pips: color;\n\n\n\n\n\n\nknob\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\npips\n\u00b6\n\n\nboolean\n\n\ntrue\n\n\nSet to \nfalse\n to hide the scale\n\n\n\n\n\n\ninput\n\u00b6\n\n\nboolean\n\n\ntrue\n\n\nSet to \nfalse\n to hide the built-in input\n\n\n\n\n\n\ndashed\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to display a dashed gauge\n\n\n\n\n\n\nangle\n\u00b6\n\n\nnumber\n\n\n270\n\n\nDefines the angle's width of the knob, in degrees\n\n\n\n\n\n\nsnap\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nBy default, dragging the widget will modify it's value starting from its last value. Setting this to \ntrue\n will make it snap directly to the mouse/touch position\n\n\n\n\n\n\nspring\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nWhen set to \ntrue\n, the widget will go back to its \ndefault\n value when released\n\n\n\n\n\n\ndoubleTap\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to make the knob reset to its \ndefault\n value when receiving a double tap.\nCan also be an osc address, in which case the widget will just send an osc message (\n/\ndoubleTap\n \npreArgs\n)\n\n\n\n\n\n\nrange\n\u00b6\n\n\nobject\n\n\n{\n\"min\": 0,\n\"max\": 1\n}\n\n\nDefines the breakpoints of the fader's scale:\n- keys can be percentages and/or \nmin\n / \nmax\n- values can be \nnumber\n or \nobject\n if a custom label is needed\nExample: (\n{min:{\n-inf\n: 0}, \n50%\n: 0.25, max: {\n+inf\n: 1}}\n)\n\n\n\n\n\n\nlogScale\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to use logarithmic scale for the y axis\n\n\n\n\n\n\nunit\n\u00b6\n\n\nstring\n\n\n\"\"\n\n\nUnit will be appended to the displayed widget's value (it doesn't affect osc messages)\n\n\n\n\n\n\norigin\n\u00b6\n\n\nnumber\n\n\n\"auto\"\n\n\nDefines the starting point's value of the knob's gauge\n\n\n\n\n\n\nosc\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\ntouchAddress\n\u00b6\n\n\nstring\n\n\n\"\"\n\n\nOSC address for touched state messages: \n/touchAddress [preArgs] 0/1\n\n\n\n\n\n\n\n\nencoder\n\n\n\n\n\n\n\n\nproperty\n\n\ntype\n\n\ndefault\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nencoder\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nticks\n\u00b6\n\n\nnumber\n\n\n\"auto\"\n\n\ndefines the granularity / verbosity of the encoder (number of step for a 360\u00b0 arc)\n\n\n\n\n\n\nback\n\u00b6\n\n\n*\n\n\n-1\n\n\nDefines which value is sent when rotating the encoder anticlockwise\n\n\n\n\n\n\nforth\n\u00b6\n\n\n*\n\n\n1\n\n\nDefines which value is sent when rotating the encoder clockwise\n\n\n\n\n\n\nrelease\n\u00b6\n\n\nnumber\n\n\n\"auto\"\n\n\nDefines which value is sent when releasing the encoder:\n- Set to \nnull\n to send send no argument in the osc message\n- Can be an \nobject\n if the type needs to be specified\n\n\n\n\n\n\nsnap\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nBy default, dragging the widget will modify it's value starting from its last value. Setting this to \ntrue\n will make it snap directly to the mouse/touch position\n\n\n\n\n\n\ndoubleTap\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to make the fader reset to its \ndefault\n value when receiving a double tap.\nCan also be an osc address, in which case the widget will just send an osc message (\n/\ndoubleTap\n \npreArgs\n)\n\n\n\n\n\n\nosc\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\ntouchAddress\n\u00b6\n\n\nstring\n\n\n\"\"\n\n\nOSC address for touched state messages: \n/touchAddress [preArgs] 0/1\n\n\n\n\n\n\n\n\nrange\n\n\n\n\n\n\n\n\nproperty\n\n\ntype\n\n\ndefault\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nstyle\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\ncss\n\u00b6\n\n\nstring\n\n\n\"\"\n\n\nAvailable CSS variables:\n- \n--color-gauge: color;\n- \n--color-knob: color;\n- \n--color-pips: color;\n- \n--gauge-opacity: number;\n\n\n\n\n\n\nrange\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nrange\n\u00b6\n\n\nobject\n\n\n{\n\"min\": 0,\n\"max\": 1\n}\n\n\nSee fader's \nrange\n\n\n\n\n\n\nhorizontal\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSee fader's \nhorizontal\n\n\n\n\n\n\nalignRight\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSee fader's \nalignRight\n\n\n\n\n\n\ninput\n\u00b6\n\n\nboolean\n\n\ntrue\n\n\nSee fader's \ninput\n\n\n\n\n\n\ncompact\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSee fader's \ncompact\n\n\n\n\n\n\npips\n\u00b6\n\n\nboolean\n\n\ntrue\n\n\nSee fader's \npips\n\n\n\n\n\n\nsnap\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSee fader's \nsnap\n\n\n\n\n\n\nspring\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSee fader's \nspring\n\n\n\n\n\n\nlogScale\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSee fader's \nlogScale\n\n\n\n\n\n\nosc\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\ntouchAddress\n\u00b6\n\n\nstring\n\n\n\"\"\n\n\nSee fader's \ntouchAddress\n\n\n\n\n\n\nsplit\n\u00b6\n\n\nboolean\n|\nobject\n\n\nfalse\n\n\nSet to \ntrue\n to send separate osc messages for \nlow\n and \nhigh\n handles. The \naddress\n will be the same as the widget's with \n/low\n or \n/high\n appended to it\nCan be set as an object to specify a different \naddress\n : \n['/osc_address_low', '/osc_address_high']\nNote: the widget will only respond to its original osc address, not to the splitted version\n\n\n\n\n\n\n\n\nButtons\n\n\ntoggle\n\n\n\n\n\n\n\n\nproperty\n\n\ntype\n\n\ndefault\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\ntoggle\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\ndoubleTap\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to make the button require a double tap to be toggled instead of a single tap\n\n\n\n\n\n\nled\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to display the toggle's state with a led\n\n\n\n\n\n\non\n\u00b6\n\n\n*\n\n\n1\n\n\nSet to \nnull\n to send send no argument in the osc message\nCan be an \nobject\n if the type needs to be specified (see preArgs)\n\n\n\n\n\n\noff\n\u00b6\n\n\n*\n\n\n0\n\n\nSet to \nnull\n to send send no argument in the osc message\nCan be an \nobject\n if the type needs to be specified (see preArgs)\n\n\n\n\n\n\n\n\npush\n\n\n\n\n\n\n\n\nproperty\n\n\ntype\n\n\ndefault\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\npush\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\non\n\u00b6\n\n\n*\n\n\n1\n\n\nSet to \nnull\n to send send no argument in the osc message\nCan be an \nobject\n if the type needs to be specified (see preArgs)\n\n\n\n\n\n\noff\n\u00b6\n\n\n*\n\n\n0\n\n\nSet to \nnull\n to send send no argument in the osc message\nCan be an \nobject\n if the type needs to be specified (see preArgs)\n\n\n\n\n\n\nnorelease\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to prevent sending any osc message when releasing the button\n\n\n\n\n\n\n\n\nswitch\n\n\n\n\n\n\n\n\nproperty\n\n\ntype\n\n\ndefault\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nswitch\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nhorizontal\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to display values horizontally\n\n\n\n\n\n\nshowValues\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nIf values is an object, set to \ntrue\n to display both values and labels instead of labels only\n\n\n\n\n\n\nvalues\n\u00b6\n\n\narray\n|\nobject\n\n\n{\n\"Value 1\": 1,\n\"Value 2\": 2\n}\n\n\nArray\n of possible values to switch between : \n[1,2,3]\nObject\n of \nlabel\n:value\n pairs. Numeric labels must be prepended or appended with a white space (or any other non-numeric character) otherwise the order of the values won't be kept\n\n\n\n\n\n\n\n\ndropdown\n\n\n\n\n\n\n\n\nproperty\n\n\ntype\n\n\ndefault\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\ndropdown\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nvalues\n\u00b6\n\n\narray\n|\nobject\n\n\n{\n\"Value 1\": 1,\n\"Value 2\": 2\n}\n\n\nArray\n of possible values to switch between : \n[1,2,3]\nObject\n of label:value pairs. Numeric labels must be prepended or appended with a white space (or any other non-numeric character) otherwise the order of the values won't be kept\nAn empty option will always be prepended to values (sends an osc message without any value); it can be hidden by adding \noption:first-child{display:none}\n to the widget's \ncss\n\n\n\n\n\n\n\n\nPads\n\n\nxy\n\n\n\n\n\n\n\n\nproperty\n\n\ntype\n\n\ndefault\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nxy\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\npointSize\n\u00b6\n\n\ninteger\n\n\n20\n\n\nDefines the points' size\n\n\n\n\n\n\nsnap\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nBy default, the points are dragged from their initial position.\nIf set to \ntrue\n, touching anywhere on the widget's surface will make them snap to the touching coordinates\n\n\n\n\n\n\nspring\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nWhen set to \ntrue\n, the widget will go back to its default value when released\n\n\n\n\n\n\npips\n\u00b6\n\n\nboolean\n\n\ntrue\n\n\nSet to \nfalse\n to hide the scale\n\n\n\n\n\n\nrangeX\n\u00b6\n\n\nobject\n\n\n{\n\"min\": 0,\n\"max\": 1\n}\n\n\nDefines the min and max values for the x axis\n\n\n\n\n\n\nrangeY\n\u00b6\n\n\nobject\n\n\n{\n\"min\": 0,\n\"max\": 1\n}\n\n\nDefines the min and max values for the y axis\n\n\n\n\n\n\nlogScaleX\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to use logarithmic scale for the x axis (log10)\n\n\n\n\n\n\nlogScaleY\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to use logarithmic scale for the y axis (log10)\n\n\n\n\n\n\ninput\n\u00b6\n\n\nboolean\n\n\ntrue\n\n\nSet to false to hide the built-in input widget\n\n\n\n\n\n\ndoubleTap\n\u00b6\n\n\nboolean\n|\nstring\n\n\nfalse\n\n\nSet to \ntrue\n to make the fader reset to its default value when receiving a double tap.\nCan also be an osc address, which case the widget will just send an osc message: \n/\ndoubleTap\n \npreArgs\n\n\n\n\n\n\nosc\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\ntouchAddress\n\u00b6\n\n\nstring\n\n\n\"\"\n\n\nOSC address for touched state messages: \n/touchAddress [preArgs] 0/1\n)\n\n\n\n\n\n\nsplit\n\u00b6\n\n\nboolean\n|\nobject\n\n\nfalse\n\n\nSet to \ntrue\n to send separate osc messages for each point's x and y axis. The address will be the same as the widget's with \n/x\n or \n/y\n appended to it\nCan be set as an \nobject\n to specify a different address : ['/osc_address_x', '/osc_address_y']\nNote: the widget will only respond to its original osc address, not to the splitted version\n\n\n\n\n\n\n\n\nrgb\n\n\n\n\n\n\n\n\nproperty\n\n\ntype\n\n\ndefault\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nrgb\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nsnap\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nBy default, the points are dragged from their initial position.\nIf set to \ntrue\n, touching anywhere on the widget's surface will make them snap to the touching coordinates\n\n\n\n\n\n\nspring\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nWhen set to \ntrue\n, the widget will go back to its default value when released\n\n\n\n\n\n\nrange\n\u00b6\n\n\nobject\n\n\n{\n\"min\": 0,\n\"max\": 255\n}\n\n\nDefines the widget's output scale.\n\n\n\n\n\n\ninput\n\u00b6\n\n\nboolean\n\n\ntrue\n\n\nSet to \nfalse\n to hide the built-in input widget\n\n\n\n\n\n\nosc\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nsplit\n\u00b6\n\n\nboolean\n|\nobject\n\n\nfalse\n\n\nSet to \ntrue\n to send separate osc messages for for r and g \n b. The address will be the same as the widget's with \n/r\n, \n/g\n or \n/b\n appended to it\nCan be set as an \nobject\n to specify a different address : \n['/r', '/g', 'b']\nNote: the widget will only respond to its original osc address, not to the splitted version\n\n\n\n\n\n\n\n\nmultixy\n\n\n\n\n\n\n\n\nproperty\n\n\ntype\n\n\ndefault\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nmulti xy\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\npoints\n\u00b6\n\n\ninteger\n|\narray\n\n\n2\n\n\nDefines the number of points on the pad\nCan be an array of strings that will be used as labels for the points (ex: \n['A', 'B']\n)\n\n\n\n\n\n\nxy\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\npointSize\n\u00b6\n\n\ninteger\n\n\n20\n\n\nDefines the points' size\n\n\n\n\n\n\nsnap\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nBy default, the points are dragged from their initial position.\nIf set to \ntrue\n, touching anywhere on the widget's surface will make them snap to the touching coordinates\n\n\n\n\n\n\nspring\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nWhen set to \ntrue\n, the widget will go back to its default value when released\n\n\n\n\n\n\npips\n\u00b6\n\n\nboolean\n\n\ntrue\n\n\nSet to \nfalse\n to hide the scale\n\n\n\n\n\n\nrangeX\n\u00b6\n\n\nobject\n\n\n{\n\"min\": 0,\n\"max\": 1\n}\n\n\nDefines the min and max values for the x axis\n\n\n\n\n\n\nrangeY\n\u00b6\n\n\nobject\n\n\n{\n\"min\": 0,\n\"max\": 1\n}\n\n\nDefines the min and max values for the y axis\n\n\n\n\n\n\nlogScaleX\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to use logarithmic scale for the x axis (log10)\n\n\n\n\n\n\nlogScaleY\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to use logarithmic scale for the y axis (log10)\n\n\n\n\n\n\nosc\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\ntouchAddress\n\u00b6\n\n\nstring\n\n\n\"\"\n\n\nOSC address for touched state messages: \n/touchAddress [preArgs] 0/1\n\n\n\n\n\n\nsplit\n\u00b6\n\n\nboolean\n|\nobject\n\n\nfalse\n\n\nSet to \ntrue\n to send separate osc messages for each point's x and y axis. The address will be the same as the widget's with \n/N/x\n or \n/N/y\n appended to it, where N is the point's id (or the point's label if points is an array)\nCan be set as an \nobject\n to specify a different address : \n['/0/x', '/0/y', '/1/x', '/2/y']\nNote: the widget will only respond to its original osc address, not to the splitted version\n\n\n\n\n\n\n\n\nMatrices\n\n\nmatrix\n\n\n\n\n\n\n\n\nproperty\n\n\ntype\n\n\ndefault\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nmatrix\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nwidgetType\n\u00b6\n\n\nstring\n\n\n\"toggle\"\n\n\nDefines the type of the widgets in the matrix\n\n\n\n\n\n\nmatrix\n\u00b6\n\n\narray\n\n\n[\n2,\n2\n]\n\n\nDefines the number of columns and and rows in the matrix\n\n\n\n\n\n\nstart\n\u00b6\n\n\ninteger\n\n\n0\n\n\nFirst widget's index\n\n\n\n\n\n\nspacing\n\u00b6\n\n\ninteger\n\n\n0\n\n\nAdds space between widgets\n\n\n\n\n\n\ntraversing\n\u00b6\n\n\nboolean\n\n\ntrue\n\n\nSet to \nfalse\n to disable traversing gestures\n\n\n\n\n\n\nborder\n\u00b6\n\n\nboolean\n\n\ntrue\n\n\nSet to \nfalse\n to disables the widgets' borders\n\n\n\n\n\n\nprops\n\u00b6\n\n\nobject\n\n\n{}\n\n\nDefines a set of property to override the widgets' defaults.\nFormulas in this field are resolved with an extra variable representing each widget's index: \n$\n\n\n\n\n\n\n\n\nmultifader\n\n\n\n\n\n\n\n\nproperty\n\n\ntype\n\n\ndefault\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nmatrix\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nstrips\n\u00b6\n\n\ninteger\n\n\n2\n\n\nNumber of faders in the row, each fader will inherit its parent's properties and the following ones (where i is the fader's index in the row)\n- \nid\n: same as the widget's with /i appended to it\n- \nlabel\n: i\n- \naddress\n: see split\n\n\n\n\n\n\nstart\n\u00b6\n\n\ninteger\n\n\n0\n\n\nFirst widget's index\n\n\n\n\n\n\ntraversing\n\u00b6\n\n\nboolean\n\n\ntrue\n\n\nSet to \nfalse\n to disable traversing gestures\n\n\n\n\n\n\nfader\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nrange\n\u00b6\n\n\nobject\n\n\n{\n\"min\": 0,\n\"max\": 1\n}\n\n\nSee fader's \nrange\n\n\n\n\n\n\nlogScale\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSee fader's \nlogScale\n\n\n\n\n\n\norigin\n\u00b6\n\n\nnumber\n\n\n\"auto\"\n\n\nSee fader's \norigin\n\n\n\n\n\n\nunit\n\u00b6\n\n\nstring\n\n\n\"auto\"\n\n\nSee fader's \nunit\n\n\n\n\n\n\nalignRight\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSee fader's \nalignRight\n\n\n\n\n\n\nhorizontal\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSee fader's \nhorizontal\n\n\n\n\n\n\npips\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSee fader's \npips\n\n\n\n\n\n\ndashed\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSee fader's \ndashed\n\n\n\n\n\n\nsnap\n\u00b6\n\n\nboolean\n\n\ntrue\n\n\nSee fader's \nsnap\n\n\n\n\n\n\nmeter\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSee fader's \nmeter\n\n\n\n\n\n\ninput\n\u00b6\n\n\nboolean\n\n\ntrue\n\n\nSee fader's \ninput\n\n\n\n\n\n\ncompact\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSee fader's \ncompact\n\n\n\n\n\n\nosc\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nsplit\n\u00b6\n\n\nboolean\n|\nstring\n\n\nfalse\n\n\n- \ntrue\n: the widget's index will be appended to the matrice's osc address\n- \nfalse\n: it will be prepended to the widget's preArgs\n- \nstring\n: will be used to define the widgets' addresses, replacing dollar signs (\n$\n) with their respective index (to insert the actual dollar sign, it must be escaped with a backslash (\n\\$\n))\n\n\n\n\n\n\n\n\nmultitoggle\n\n\n\n\n\n\n\n\nproperty\n\n\ntype\n\n\ndefault\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nmatrix\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nmatrix\n\u00b6\n\n\narray\n\n\n[\n2,\n2\n]\n\n\nDefines the number of columns and and rows in the matrix. Each cell will contain a toggle button that will inherit its parent's properties and the following ones (where i is the toggle's index)\n- \nid\n: same as the widget's with /i appended to it\n- \nlabel\n: i\n- \naddress\n: see split\n\n\n\n\n\n\nstart\n\u00b6\n\n\ninteger\n\n\n0\n\n\nFirst widget's index\n\n\n\n\n\n\nspacing\n\u00b6\n\n\ninteger\n\n\n0\n\n\nAdds space between widgets\n\n\n\n\n\n\ntraversing\n\u00b6\n\n\nboolean\n\n\ntrue\n\n\nSet to \nfalse\n to disable traversing gestures\n\n\n\n\n\n\ntoggle\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nled\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to display the toggle's state with a led\n\n\n\n\n\n\non\n\u00b6\n\n\n*\n\n\n1\n\n\nSet to \nnull\n to send send no argument in the osc message\nCan be an \nobject\n if the type needs to be specified (see preArgs)\n\n\n\n\n\n\noff\n\u00b6\n\n\n*\n\n\n0\n\n\nSet to \nnull\n to send send no argument in the osc message\nCan be an \nobject\n if the type needs to be specified (see \npreArgs\n)\n\n\n\n\n\n\nosc\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nsplit\n\u00b6\n\n\nboolean\n|\nstring\n\n\nfalse\n\n\ntrue\n: the widget's index will be appended to the matrice's osc address\nfalse\n: it will be prepended to the widget's \npreArgs\nstring\n: will be used to define the widgets' addresses, replacing dollar signs (\n$\n) with their respective index (to insert the actual dollar sign, it must be escaped with a backslash (\n\\$\n))\n\n\n\n\n\n\n\n\nmultipush\n\n\n\n\n\n\n\n\nproperty\n\n\ntype\n\n\ndefault\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nmatrix\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nmatrix\n\u00b6\n\n\narray\n\n\n[\n2,\n2\n]\n\n\nDefines the number of columns and and rows in the matrix. Each cell will contain a push button that will inherit its parent's properties and the following ones (where i is the push's index)\n- \nid\n: same as the widget's with /i appended to it\n- \nlabel\n: i\n- \naddress\n: see split\n\n\n\n\n\n\nstart\n\u00b6\n\n\ninteger\n\n\n0\n\n\nFirst widget's index\n\n\n\n\n\n\ntraversing\n\u00b6\n\n\nboolean\n\n\ntrue\n\n\nSet to \nfalse\n to disable traversing gestures\n\n\n\n\n\n\nspacing\n\u00b6\n\n\ninteger\n\n\n0\n\n\nAdds space between widgets\n\n\n\n\n\n\npush\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\non\n\u00b6\n\n\n*\n\n\n1\n\n\nSet to \nnull\n to send send no argument in the osc message\nCan be an \nobject\n if the type needs to be specified (see preArgs)\n\n\n\n\n\n\noff\n\u00b6\n\n\n*\n\n\n0\n\n\nSet to \nnull\n to send send no argument in the osc message\nCan be an \nobject\n if the type needs to be specified (see preArgs)\n\n\n\n\n\n\nnorelease\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to prevent sending any osc message when releasing the button\n\n\n\n\n\n\nosc\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nsplit\n\u00b6\n\n\nboolean\n|\nstring\n\n\nfalse\n\n\ntrue\n: the widget's index will be appended to the matrice's osc address\nfalse\n: it will be prepended to the widget's preArgs\nstring\n: will be used to define the widgets' addresses, replacing dollar signs (\n$\n) with their respective index (to insert the actual dollar sign, it must be escaped with a backslash (\n\\$\n))\n\n\n\n\n\n\n\n\nkeyboard\n\n\n\n\n\n\n\n\nproperty\n\n\ntype\n\n\ndefault\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nmatrix\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nkeys\n\u00b6\n\n\nnumber\n\n\n25\n\n\nDefines the number keys\n\n\n\n\n\n\nstart\n\u00b6\n\n\nnumber\n\n\n48\n\n\nMIDI note number to start with (default is C4)\nStandard keyboards settings are: \n[25, 48]\n, \n[49, 36]\n, \n[61, 36]\n, \n[88, 21]\n\n\n\n\n\n\ntraversing\n\u00b6\n\n\nboolean\n\n\ntrue\n\n\nSet to \nfalse\n to disable traversing gestures\n\n\n\n\n\n\non\n\u00b6\n\n\n*\n\n\n1\n\n\nSet to \nnull\n to send send no argument in the osc message\nCan be an \nobject\n if the type needs to be specified (see preArgs)\n\n\n\n\n\n\noff\n\u00b6\n\n\n*\n\n\n0\n\n\nSet to \nnull\n to send send no argument in the osc message\nCan be an \nobject\n if the type needs to be specified (see preArgs)\n\n\n\n\n\n\nosc\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nsplit\n\u00b6\n\n\nboolean\n|\nstring\n\n\nfalse\n\n\ntrue\n: the widget's index will be appended to the matrice's osc address\nfalse\n: it will be prepended to the widget's preArgs\nstring\n: will be used to define the widgets' addresses, replacing dollar signs (\n$\n) with their respective index (to insert the actual dollar sign, it must be escaped with a backslash (\n\\$\n))\n\n\n\n\n\n\n\n\nPlots\n\n\nplot\n\n\n\n\n\n\n\n\nproperty\n\n\ntype\n\n\ndefault\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nplot\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nrangeX\n\u00b6\n\n\nobject\n\n\n{\n\"min\": 0,\n\"max\": 1\n}\n\n\nDefines the min and max values for the x axis\n\n\n\n\n\n\nrangeY\n\u00b6\n\n\nobject\n\n\n{\n\"min\": 0,\n\"max\": 1\n}\n\n\nDefines the min and max values for the y axis\n\n\n\n\n\n\nlogScaleX\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to use logarithmic scale for the x axis (log10)\n\n\n\n\n\n\nlogScaleY\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to use logarithmic scale for the y axis (log10)\n\n\n\n\n\n\norigin\n\u00b6\n\n\nnumber\n\n\n\"auto\"\n\n\nDefines the y axis origin. Set to \nfalse\n to disable it.\n\n\n\n\n\n\ndots\n\u00b6\n\n\nboolean\n\n\ntrue\n\n\n\n\n\n\n\n\nbars\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to use draw bars instead (disables \nlogScaleX\n and forces \nx axis\n even spacing)\n\n\n\n\n\n\nsmooth\n\u00b6\n\n\nboolean\n|\nnumber\n\n\nfalse\n\n\nSet to \ntrue\n to make the line smooth. Float values are also acceptable (works fine between \n0\n and \n0.5\n)\n\n\n\n\n\n\npips\n\u00b6\n\n\nboolean\n\n\ntrue\n\n\nSet to \nfalse\n to hide the scale\n\n\n\n\n\n\nvalue\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nvalue\n\u00b6\n\n\narray\n|\nstring\n\n\n\n\n- \nArray\n of \ny\n values\n- \nArray\n of \n[x, y]\n \narray\n values\n- \nString\n \narray\n- \nString\n \nobject\n to update specific coordinates only: \n{0:1, 4:0}\n will change the 1\nst\n and 5\nth\n points' coordinates\n\n\n\n\n\n\n\n\neq\n\n\n\n\n\n\n\n\nproperty\n\n\ntype\n\n\ndefault\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\neq\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\npips\n\u00b6\n\n\nboolean\n\n\ntrue\n\n\nSet to false to hide the scale\n\n\n\n\n\n\nresolution\n\u00b6\n\n\nnumber\n\n\n128\n\n\nDefines the number of points used to compute the frequency response\n\n\n\n\n\n\nrangeY\n\u00b6\n\n\nobject\n\n\n{\n\"min\": 0,\n\"max\": 1\n}\n\n\nDefines the min and max values for the y axis\n\n\n\n\n\n\norigin\n\u00b6\n\n\nnumber\n|\nboolean\n\n\n\"auto\"\n\n\nDefines the y axis origin. Set to \nfalse\n to disable it\n\n\n\n\n\n\nlogScaleX\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to use logarithmic scale for the x axis (log10)\n\n\n\n\n\n\nsmooth\n\u00b6\n\n\nboolean\n|\nnumber\n\n\nfalse\n\n\nSet to \ntrue\n to make the line smooth. Float values are also acceptable (works fine between \n0\n and \n0.5\n)\n\n\n\n\n\n\n\n\nvisualizer\n\n\n\n\n\n\n\n\nproperty\n\n\ntype\n\n\ndefault\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nvisualizer\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nduration\n\u00b6\n\n\nnumber\n\n\n1\n\n\nDefines visualization duration in seconds\n\n\n\n\n\n\nrange\n\u00b6\n\n\nobject\n\n\n{\n\"min\": 0,\n\"max\": 1\n}\n\n\nDefines the min and max values for the y axis\n\n\n\n\n\n\norigin\n\u00b6\n\n\nnumber\n\n\n\"auto\"\n\n\nDefines the y axis origin. Set to \nfalse\n to disable it\n\n\n\n\n\n\nlogScale\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to use logarithmic scale for the y axis\n\n\n\n\n\n\nsmooth\n\u00b6\n\n\nboolean\n|\nnumber\n\n\nfalse\n\n\nSet to \ntrue\n to make the line smooth. Float values are also acceptable (works fine between \n0\n and \n0.5\n)\n\n\n\n\n\n\npips\n\u00b6\n\n\nboolean\n\n\ntrue\n\n\nSet to \nfalse\n to hide the scale\n\n\n\n\n\n\n\n\nled\n\n\n\n\n\n\n\n\nproperty\n\n\ntype\n\n\ndefault\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nled\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nrange\n\u00b6\n\n\nobject\n\n\n{\n\"min\": 0,\n\"max\": 1\n}\n\n\nValue to led intensity mapping range\n\n\n\n\n\n\nlogScale\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to use a logarithmic mapping scale)\n\n\n\n\n\n\n\n\nrgbled\n\n\n\n\n\n\n\n\nproperty\n\n\ntype\n\n\ndefault\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nvalue\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nvalue\n\u00b6\n\n\narray\n|\nstring\n\n\n\n\n- \nArray\n: \n[r, g, b]\n (\nr\n, \ng\n and \nb\n between \n0\n and \n255\n)\n- \nArray\n: \n[r, g, b, alpha]\n (\nalpha\n between \n0\n and \n255\n)\n- \nString\n: CSS color\n\n\n\n\n\n\n\n\nmeter\n\n\n\n\n\n\n\n\nproperty\n\n\ntype\n\n\ndefault\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nstyle\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\ncss\n\u00b6\n\n\nstring\n\n\n\"\"\n\n\nAvailable CSS variables:\n- \n--color-gauge: color;\n- \n--color-knob: color;\n- \n--color-pips: color;\n- \n--gauge-opacity: number;\n\n\n\n\n\n\nfader\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nhorizontal\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to display the fader horizontally\n\n\n\n\n\n\nalignRight\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to invert the pip's and fader's position\n\n\n\n\n\n\npips\n\u00b6\n\n\nboolean\n\n\ntrue\n\n\nSet to \nfalse\n to hide the scale\n\n\n\n\n\n\ninput\n\u00b6\n\n\nboolean\n\n\ntrue\n\n\nSet to \nfalse\n to hide the built-in input\n\n\n\n\n\n\nmeter\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to true to display a vu-meter next in the fader\n- the meter's \nid\n will be the same as the widget's with \n/meter\n appended to it\n- the meter's \nid\n will be the same as the widget's with \n/meter\n appended to it\n\n\n\n\n\n\ncompact\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to display a compact alternative for the widget. Disables default mouse/touch focusing on the value display.\n\n\n\n\n\n\ndashed\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to display a dashed gauge\n\n\n\n\n\n\nsnap\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nBy default, dragging the widget will modify it's value starting from its last value. Setting this to \ntrue\n will make it snap directly to the mouse/touch position\n\n\n\n\n\n\nspring\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nWhen set to \ntrue\n, the widget will go back to its \ndefault\n value when released\n\n\n\n\n\n\ndoubleTap\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to make the fader reset to its \ndefault\n value when receiving a double tap.\nCan also be an osc address, in which case the widget will just send an osc message (\n/\ndoubleTap\n \npreArgs\n)\n\n\n\n\n\n\nrange\n\u00b6\n\n\nobject\n\n\n{\n\"min\": 0,\n\"max\": 1\n}\n\n\nDefines the breakpoints of the fader's scale:\n- keys can be percentages and/or \nmin\n / \nmax\n- values can be \nnumber\n or \nobject\n if a custom label is needed\nExample: (\n{min:{\n-inf\n: 0}, \n50%\n: 0.25, max: {\n+inf\n: 1}}\n)\n\n\n\n\n\n\nlogScale\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to use logarithmic scale for the y axis\n\n\n\n\n\n\nunit\n\u00b6\n\n\nstring\n\n\n\"\"\n\n\nUnit will be appended to the displayed widget's value (it doesn't affect osc messages)\n\n\n\n\n\n\norigin\n\u00b6\n\n\nnumber\n\n\n\"auto\"\n\n\nDefines the starting point's value of the fader's gauge\n\n\n\n\n\n\nosc\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\ntouchAddress\n\u00b6\n\n\nstring\n\n\n\"\"\n\n\nOSC address for touched state messages: \n/touchAddress [preArgs] 0/1\n\n\n\n\n\n\nmeterAddress\n\u00b6\n\n\nstring\n\n\n\"\"\n\n\nOSC address for the built-in meter\n\n\n\n\n\n\n\n\ntext\n\n\n\n\n\n\n\n\nproperty\n\n\ntype\n\n\ndefault\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\ntext\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nvertical\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to display the text vertically\n\n\n\n\n\n\nwrap\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to wrap long lines automatically.\nThis will not break overflowing words by default, word-breaking can be enabled by adding \nword-break: break-all;\n to the \ncss\n property\n\n\n\n\n\n\nalign\n\u00b6\n\n\nstring\n\n\n\"\"\n\n\nSet to \nleft\n or \nright\n to change text alignment (otherwise center)\n\n\n\n\n\n\n\n\nimage\n\n\n\n\n\n\n\n\nproperty\n\n\ntype\n\n\ndefault\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nimage\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nsize\n\u00b6\n\n\nstring\n\n\n\"cover\"\n\n\nCSS background-size\n\n\n\n\n\n\nposition\n\u00b6\n\n\nstring\n\n\n\"center\"\n\n\nCSS background-position\n\n\n\n\n\n\nrepeat\n\u00b6\n\n\nstring\n\n\n\"no-repear\"\n\n\nCSS background-repeat\n\n\n\n\n\n\nborder\n\u00b6\n\n\nboolean\n\n\ntrue\n\n\nSet to \nfalse\n to disable the borders and background-color\n\n\n\n\n\n\ncache\n\u00b6\n\n\nboolean\n\n\ntrue\n\n\nSet to false to disable image caching (forces file reload when updating or editing the widget).\nWhen true, sending \nreload\n to the widget reloads its image without changing its value\n\n\n\n\n\n\nvalue\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nvalue\n\u00b6\n\n\nstring\n\n\n\"\"\n\n\n- File \nurl\n or \nabsolute path\n- Base64 encoded image : \ndata:image/...\n\n\n\n\n\n\n\n\nsvg\n\n\n\n\n\n\n\n\nproperty\n\n\ntype\n\n\ndefault\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nsvg\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nsvg\n\u00b6\n\n\nstring\n\n\n\"\"\n\n\nSvg xml definition:\n- will be wrapped in a \nsvg\n/svg\n element\n- \npath\n commands support a special percent notation (\n%x\n and \n%y\n)\n\n\n\n\n\n\n\n\nframe\n\n\n\n\n\n\n\n\nproperty\n\n\ntype\n\n\ndefault\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nframe\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nborder\n\u00b6\n\n\nboolean\n\n\ntrue\n\n\nSet to \nfalse\n to disable the borders and background-color\n\n\n\n\n\n\n\n\nContainers\n\n\npanel\n\n\n\n\n\n\n\n\nproperty\n\n\ntype\n\n\ndefault\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\npanel\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nscroll\n\u00b6\n\n\nboolean\n\n\ntrue\n\n\nSet to \nfalse\n to disable scrollbars\n\n\n\n\n\n\nborder\n\u00b6\n\n\nboolean\n\n\ntrue\n\n\nBy default, widgets in panels/strip have their border disabled, except for panels and strips. Set to \nfalse\n to apply this rule to the panel too\n\n\n\n\n\n\nvalue\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nvalue\n\u00b6\n\n\ninteger\n\n\n\"\"\n\n\nDefines currently opened tab in the widget\nA tab can be opened only by setting its parent's value\n\n\n\n\n\n\nchildren\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nvariables\n\u00b6\n\n\n*\n\n\n\"@{parent.variables}\"\n\n\nDefines one or more arbitrary variables that can be inherited by children widgets\n\n\n\n\n\n\nwidgets\n\u00b6\n\n\narray\n\n\n[]\n\n\nEach element of the array must be a widget object. A panel cannot contain widgets and tabs simultaneously.\n\n\n\n\n\n\ntabs\n\u00b6\n\n\narray\n\n\n[]\n\n\nEach element of the array must be a tab object. A panel cannot contain widgets and tabs simultaneously\n\n\n\n\n\n\n\n\nstrip\n\n\n\n\n\n\n\n\nproperty\n\n\ntype\n\n\ndefault\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nstrip\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nscroll\n\u00b6\n\n\nboolean\n\n\ntrue\n\n\nSet to \nfalse\n to disable scrollbars\n\n\n\n\n\n\nhorizontal\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to display widgets horizontally\n\n\n\n\n\n\nstretch\n\u00b6\n\n\nboolean\n\n\ntrue\n\n\nSet to \ntrue\n to stretch widgets evenly\n\n\n\n\n\n\nborder\n\u00b6\n\n\nboolean\n\n\ntrue\n\n\nBy default, widgets in panels/strip have their border disabled, except for panels and strips. Set to \nfalse\n to apply this rule to the panel too\n\n\n\n\n\n\nspacing\n\u00b6\n\n\ninteger\n|\npercentage\n\n\n0\n\n\nAdds space between widgets. Percents are always relative to the strips width\n\n\n\n\n\n\nchildren\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nvariables\n\u00b6\n\n\n*\n\n\n\"@{parent.variables}\"\n\n\nDefines one or more arbitrary variables that can be inherited by children widgets\n\n\n\n\n\n\nwidgets\n\u00b6\n\n\narray\n\n\n[]\n\n\nEach element of the array must be a widget object\n\n\n\n\n\n\n\n\nmodal\n\n\n\n\n\n\n\n\nproperty\n\n\ntype\n\n\ndefault\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nmodal\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\ndoubleTap\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to make the modal require a double tap to open instead of a single tap\n\n\n\n\n\n\npopupLabel\n\u00b6\n\n\nstring\n\n\n\"\"\n\n\nAlternative label for the modal popup\n\n\n\n\n\n\npopupWidth\n\u00b6\n\n\nnumber\n|\npercentage\n\n\n\"80%\"\n\n\nModal popup's size\n\n\n\n\n\n\npopupHeight\n\u00b6\n\n\nnumber\n|\npercentage\n\n\n\"80%\"\n\n\nModal popup's size\n\n\n\n\n\n\npopupLeft\n\u00b6\n\n\nnumber\n|\npercentage\n\n\n\"auto\"\n\n\nModal popup's position\n\n\n\n\n\n\npopupTop\n\u00b6\n\n\nnumber\n|\npercentage\n\n\n\"auto\"\n\n\nModal popup's position\n\n\n\n\n\n\nchildren\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nvariables\n\u00b6\n\n\n*\n\n\n\"@{parent.variables}\"\n\n\nDefines one or more arbitrary variables that can be inherited by children widgets\n\n\n\n\n\n\nwidgets\n\u00b6\n\n\narray\n\n\n[]\n\n\nEach element of the array must be a widget object\n\n\n\n\n\n\n\n\nclone\n\n\n\n\n\n\n\n\nproperty\n\n\ntype\n\n\ndefault\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nclone\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nwidgetId\n\u00b6\n\n\nstring\n\n\n\"\"\n\n\nid\n of the widget to clone\n\n\n\n\n\n\noverrides\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nprops\n\u00b6\n\n\nobject\n\n\n{}\n\n\nCloned widget's properties to override\n\n\n\n\n\n\n\n\nSwitchers\n\n\nswitcher\n\n\n\n\n\n\n\n\nproperty\n\n\ntype\n\n\ndefault\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nswitcher\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nlinkedWidgets\n\u00b6\n\n\nstring\n|\narray\n\n\n\"\"\n\n\n- \nString\n: a widget's \nid\n whose state changes will be stored\n- \nArray\n: a list of widget \nid\n string\n\n\n\n\n\n\nhorizontal\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to display values horizontally\n\n\n\n\n\n\nvalues\n\u00b6\n\n\narray\n|\nobject\n\n\n{\n\"Value 1\": 1,\n\"Value 2\": 2\n}\n\n\nArray\n of possible values to switch between : \n[1,2,3]\nObject\n of \nlabel\n:value\n pairs. Numeric labels must be prepended or appended with a white space (or any other non-numeric character) otherwise the order of the values won't be kept\n\n\n\n\n\n\n\n\ncrossfader\n\n\n\n\n\n\n\n\nproperty\n\n\ntype\n\n\ndefault\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\ncrossfader\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nlinkedWidgets\n\u00b6\n\n\nstring\n|\narray\n\n\n\"\"\n\n\n- \nString\n: a widget's \nid\n whose state changes will be stored\n- \nArray\n: a list of widget \nid\n string\n\n\n\n\n\n\nhorizontal\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to display values horizontally\n\n\n\n\n\n\nvalues\n\u00b6\n\n\narray\n|\nobject\n\n\n{\n\"Value 1\": 1,\n\"Value 2\": 2\n}\n\n\nArray\n of possible values to switch between : \n[1,2,3]\nObject\n of \nlabel\n:value\n pairs. Numeric labels must be prepended or appended with a white space (or any other non-numeric character) otherwise the order of the values won't be kept\n\n\n\n\n\n\n\n\nInputs\n\n\ninput\n\n\n\n\n\n\n\n\nproperty\n\n\ntype\n\n\ndefault\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\ninput\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nvertical\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to display the text vertically\n\n\n\n\n\n\nalign\n\u00b6\n\n\nstring\n\n\n\"\"\n\n\nSet to \nleft\n or \nright\n to change text alignment (otherwise center)\n\n\n\n\n\n\nunit\n\u00b6\n\n\nstring\n\n\n\"\"\n\n\nUnit will be appended to the displayed widget's value (it doesn't affect osc messages)\n\n\n\n\n\n\neditable\n\u00b6\n\n\nboolean\n\n\ntrue\n\n\nSet to \nfalse\n to make the input non-editable\n\n\n\n\n\n\n\n\nkeys\n\n\n\n\n\n\n\n\nproperty\n\n\ntype\n\n\ndefault\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nkeys\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nbinding\n\u00b6\n\n\nstring\n|\narray\n\n\n\"\"\n\n\nKey combo \nstring\n or \narray\n of strings (see \nKeyboardJS\n documentation)\n\n\n\n\n\n\nkeydown\n\u00b6\n\n\nstring\n\n\n\"\"\n\n\nThis property is evaluated each time the key combo is pressed. Formulas are given extras variables in this context:\n- \nkey\n: pressed key name (usefull for handling multiple keys with a single keys widget)\n- \nctrl\n: control key state\n- \nalt\n: alt key state\n- \nshift\n: shift key state\n- \nsuper\n: command/windows key state\n\n\n\n\n\n\nkeyup\n\u00b6\n\n\nstring\n\n\n\"\"\n\n\nSame as \nkeydown\n, but evaluated when releasing the key combo\n\n\n\n\n\n\nrepeat\n\u00b6\n\n\nboolean\n\n\ntrue\n\n\nSet to \nfalse\n to prevent keydown repeats when holding the key combo pressed\n\n\n\n\n\n\n\n\nscript\n\n\n\n\n\n\n\n\nproperty\n\n\ntype\n\n\ndefault\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nscript\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\ncondition\n\u00b6\n\n\nstring\n\n\n1\n\n\nWhen the widget receives a value, if this property return a falsy value, the script property won't be evaluated. If it's non-falsy, it will be evaluated normally. Formulas are given one extra variable in this context:\n- \nvalue\n: the value received by the widget\n\n\n\n\n\n\nscript\n\u00b6\n\n\nstring\n\n\n\"\"\n\n\nThis property is evaluated each time the widget receives a value if condition is non-falsy. Formulas are given extras variables in this context:\n- \nvalue\n: the value received by the widget\n- \nsend(target, address, arg1, arg2, ...)\n: function for sending osc messages (ignores the script's targets and the server's defaults unless \ntarget\n is \nfalse\n; ignores the script's \npreArgs\n)\n- \nset(id, value)\n: function for setting a widget's value\n\n\n\n\n\n\n\n\ngyroscope\n\n\n\n\n\n\n\n\nproperty\n\n\ntype\n\n\ndefault\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\ngyroscope\n\u00b6\n\n\n\n\n\n\n\n\n\n\n\n\nfrequency\n\u00b6\n\n\nnumber\n\n\n30\n\n\nValue update frequency (updates per seconds)\n\n\n\n\n\n\nnormalize\n\u00b6\n\n\nboolean\n\n\ntrue\n\n\nNormalize gravity related values\n\n\n\n\n\n\ncompass\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to return the orientation values with respect to the actual north direction of the world instead of the head direction of the device\n\n\n\n\n\n\nscreenAdjusted\n\u00b6\n\n\nboolean\n\n\nfalse\n\n\nSet to \ntrue\n to return screen adjusted values\n\n\n\n\n\n\n\n\n\ndocument.querySelectorAll('.thead2').forEach(function(item){\nitem.classList.remove('thead2')\nitem.closest('tr').classList.add('thead2')\n})", 
+            "title": "Widgets reference"
         }, 
         {
-            "location": "/widgets/widgets/#widgets-properties", 
-            "text": "All widgets share a set of generic properties described below.", 
-            "title": "Widgets properties"
+            "location": "/widgets-reference/#generic-properties", 
+            "text": "property  type  default  description", 
+            "title": "Generic properties"
         }, 
         {
-            "location": "/widgets/widgets/#basics", 
+            "location": "/widgets-reference/#sliders", 
             "text": "", 
-            "title": "Basics"
-        }, 
-        {
-            "location": "/widgets/widgets/#type", 
-            "text": "type:  string  default:  fader", 
-            "title": "type"
-        }, 
-        {
-            "location": "/widgets/widgets/#id", 
-            "text": "type:  string  default: generated unique 'widget_n'  usage: widgets sharing the same  id  will act as clones and update each other's value(s) without sending extra osc messages.", 
-            "title": "id"
-        }, 
-        {
-            "location": "/widgets/widgets/#linkid", 
-            "text": "type:  string|array  default:  empty  usage:  widgets sharing the same  linkId  update each other's value(s) AND send their respective osc messages.  when prefixed with  , the linkId will make the widget act as a master (sending but not receiving)  when prefixed with  , the linkId will make the widget act as a slave (receiving but not sending)", 
-            "title": "linkId"
-        }, 
-        {
-            "location": "/widgets/widgets/#style", 
-            "text": "", 
-            "title": "Style"
-        }, 
-        {
-            "location": "/widgets/widgets/#label", 
-            "text": "type:  string|false  default:  auto , which displays  id  usage:  set to  false  to hide completely  insert icons from  FontAwesome  using the prefix  ^  followed by the icon's name :  made with ^heart , etc", 
-            "title": "label"
-        }, 
-        {
-            "location": "/widgets/widgets/#top-left", 
-            "text": "type:  number|percentage  default:  auto  usage:  when both  top  and  left  are set to  auto , the widget is positioned according to the normal flow of the page (from left to right, by order of creation).  otherwise, the widget will be absolutely positioned", 
-            "title": "top / left"
-        }, 
-        {
-            "location": "/widgets/widgets/#width-height", 
-            "text": "type:  number|percentage  default:  auto", 
-            "title": "width / height"
-        }, 
-        {
-            "location": "/widgets/widgets/#color", 
-            "text": "type:  string  default:  auto , inherited accent color  usage: any valid  css  color code is valid, this will change the default accent color for the widget and all its children", 
-            "title": "color"
-        }, 
-        {
-            "location": "/widgets/widgets/#css", 
-            "text": "type:  string  default:  empty  usage: applies CSS rules to widget. See  css tips .", 
-            "title": "css"
-        }, 
-        {
-            "location": "/widgets/widgets/#value", 
-            "text": "", 
-            "title": "Value"
-        }, 
-        {
-            "location": "/widgets/widgets/#default", 
-            "text": "type:  *  default:  empty  usage: if set, the widget will be initialized with this  value  when the session is loaded. Some widgets use this property under specific conditions (see fader's  doubleTap  for example).", 
-            "title": "default"
-        }, 
-        {
-            "location": "/widgets/widgets/#value_1", 
-            "text": "type:  *  default:  empty  usage: set  value  to define a widget's value depending on other widget's values / properties using  property inheritance and property maths . When updated by an osc-sending event (e.g. dragging a slider), the widget will send its own osc message as well.    default  and  value  must match the widget's value type (ie a  number  for sliders, an  array  for pads, etc) and restrictions (equal to  on  or  off  for a push/toggle button)", 
-            "title": "value"
-        }, 
-        {
-            "location": "/widgets/widgets/#osc", 
-            "text": "", 
-            "title": "OSC"
-        }, 
-        {
-            "location": "/widgets/widgets/#precision", 
-            "text": "type:  integer|string  default:  2  usage: the  precision  property defines the number of decimals to display and to send.  set to  0  to send  integers  only.  a specific data type can be specified by appending a valid osc type tag to the precision value, for example :  3d  will make the widget send double precision numbers rounded to three decimals", 
-            "title": "precision"
-        }, 
-        {
-            "location": "/widgets/widgets/#target", 
-            "text": "type:  array|string  default:  []  usage:  this defines the targets of the widget's osc messages  each element of the  array  must be a string formatted as follows :  ip:port  multiple targets can be specified :  [ ip1:port1 , ip2:port2 ]  a single target can be set :  ip:port  if  midi  is enabled, targets can be  midi:device_name  special item  self  can be used to refer to the emitting client directly  if no target is set (empty array  [] ), messages can still be sent if the server has defaults targets ( -s / --send )  to disable the default global osc targets (set via the app's  --send  option), set one of the array's item as  null  (unquoted).", 
-            "title": "target"
-        }, 
-        {
-            "location": "/widgets/widgets/#address", 
-            "text": "type:  string  default:  /widgets_id  usage: this is the  address  of the osc messages sent by the widget, it must start with a  /", 
-            "title": "address"
-        }, 
-        {
-            "location": "/widgets/widgets/#touchaddress", 
-            "text": "type:  string  default:  empty  usage: sliders and pads can send special osc messages to inform weither they are currently touched or not. The osc message will be of the following form :     /touch/address [preArgs] 0/1", 
-            "title": "touchAddress"
-        }, 
-        {
-            "location": "/widgets/widgets/#preargs", 
-            "text": "type:  array|*  default:  []  usage:  each element of the  array  defines a constant value that will be prepended to the osc message  values can be defined as objects if the osc data type needs to be specified (ie different from the default implied by the  precision  option)  a single non-array value can be set    example: preArgs :   [ \n     1 ,          // this will always be sent as a string \n     0.5 ,          // this will be sent as an integer if precision equals 0 \n     1 ,            // this will be sent as float if precision is different from 0 \n     { \n         type : f , \n         value : 0.5 \n     }, \n     { \n         type : i , \n         value : 1 \n     }, \n     { \n         type : T , \n         value : true \n     }, \n     { \n         type : F , \n         value : false \n     }  ]", 
-            "title": "preArgs"
-        }, 
-        {
-            "location": "/widgets/widgets/#bypass", 
-            "text": "type:  boolean  default:  false  usage: set to  true  to prevent the widget from sending any osc message    Changing OSC properties dynamically using advanced property syntax is likely to break synchronisation between multiple clients.", 
-            "title": "bypass"
-        }, 
-        {
-            "location": "/widgets/containers/", 
-            "text": "Containers\n\n\nContainers can contain any widgets.\n\n\nPanel\n\n\nPanels can contains tabs or widgets. These can be absolutely positioned and can overflow their parent's size (which will then display scrollbars). When a panel contains tabs, it can send and receive its active tab's index through osc.\n\n\n{\n\n    \ntype\n:\npanel\n,\n\n    \n// etc\n\n\n}\n\n\n\n\n\nscroll\n\n\n\n\ntype: \nboolean\n\n\ndefault: \ntrue\n\n\nusage: set to \nfalse\n to disable scrollbars\n\n\n\n\nborder\n\n\n\n\ntype: \nboolean\n\n\ndefault: \ntrue\n\n\nusage: by default, widgets in panels/strip have their border disabled, except for panels and strips. Set to \nfalse\n to apply this rule to the panel too.\n\n\n\n\nwidgets\n\n\n\n\ntype: \narray\n\n\ndefault: \n[]\n\n\nusage: each element of the \narray\n must be a widget \nobject\n. A panel cannot contain widgets and tabs simultaneously.\n\n\n\n\ntabs\n\n\n\n\ntype: \narray\n\n\ndefault: \n[]\n\n\nusage: each element of the \narray\n must be a tab \nobject\n. A panel cannot contain widgets and tabs simultaneously.\n\n\n\n\nvariables\n\n\n\n\ntype: \n*\n\n\ndefault: \n@{parent.variables}\n\n\nusage: defines one or more arbitrary variables that can be inherited by children widgets.\n\n\nexamples:\n\n\n1\n (\n@{parent.variables}\n will return \n1\n)\n\n\n{a: [1, 2], b: 2}\n (\n@{parent.variables.a}\n will return \n[1, 2]\n)\n\n\n[1, 2]\n (\n@{parent.variables.0}\n will return \n1\n)\n\n\n@{parent.variables}\n useful when nesting containers\n\n\n\n\nlayout\n\n\n\n\ntype: \nstring\n\n\ndefault: \n''\n\n\nusage: \nlayout\n must be a valid \nVisual Format Language\n expression. It accepts the \nExtended Visual Format Language\n as well. Widgets are targeted using their \nid\n or their index prefixed with a \n$\n (\n$0, $1, etc\n), the latter method being incompatible with the \nrange spread operator\n. Expressions can be tested and debugged with the online \nVisual Format Editor\n.\n\n\nnote: this only applies when the panel contains widgets, not tabs\n\n\n\n\nspacing\n\n\n\n\ntype: \ninteger|array\n\n\ndefault: \n0\n\n\nusage: spacing size used in \nlayout\n expression, can be set as a \n[vertical,horizontal]\n array.\n\n\nnote: this only applies when the panel contains widgets, not tabs\n\n\n\n\ncss\n\n\n--nav-height\n:\n \nnumber\n[\nrem\n|%];\n\n\n\n\n\nStrip\n\n\nUnidirectionnal panel with stretching capability. By default, children widgets that don't have an explicit \nwidth\n/\nheight\n set will be shrinked to respect the sizes specified by others. Adding \nflex:1;\n to a children's \ncss\n will give it the ability the fill the remaining space. Multiple children can have a \nflex:x;\n css property (\nx\n will ponderate their expansion).\n\n\n{\n\n  \ntype\n:\nstrip\n,\n\n  \n// etc\n\n\n}\n\n\n\n\n\nhorizontal\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: set to \ntrue\n to display widgets horizontally\n\n\n\n\nstretch\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: set to \ntrue\n to stretch widgets evenly\n\n\n\n\nspacing\n\n\n\n\ntype: \ninteger|percentage\n\n\ndefault: \n0\n\n\nusage: adds space between widgets. Percents are always relative to the strips width.\n\n\n\n\nborder\n\n\n\n\ntype: \nboolean\n\n\ndefault: \ntrue\n\n\nusage: by default, widgets in panels/strip have their border disabled, except for panels and strips. Set to \nfalse\n to apply this rule to the strip too.\n\n\n\n\nwidgets\n\n\n\n\ntype: \narray\n\n\ndefault: \n[]\n\n\nusage: each element of the \narray\n must be a widget \nobject\n\n\n\n\nModal\n\n\nModals are buttons that turn into a centered popup panels when enabled. They can only contain widgets. They can send and receive their state via osc (1 to enable, 0 to disable).\n\n\n{\n\n    \ntype\n:\nmodal\n,\n\n    \n// etc\n\n\n}\n\n\n\n\n\ndoubleTap\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: set to \ntrue\n to make the modal require a double tap to open instead of a single tap\n\n\n\n\npopupWidth\n / \npopupHeight\n\n\n\n\ntype: \nnumber|percentage\n\n\ndefault: \n100%\n\n\nusage: sets the modal's size once opened\n\n\n\n\npopupLeft\n / \npopupTop\n\n\n\n\ntype: \nnumber|percentage\n\n\ndefault: \nauto\n\n\nusage: sets the modal's position once opened (centered by default)\n\n\n\n\npopupLabel\n\n\n\n\ntype: \nstring\n\n\ndefault: \nempty\n\n\nusage: alternative label for the popup\n\n\n\n\noptions\n\n\n\n\nsee panel's \noptions\n\n\n\n\nClone\n\n\n{\n\n    \ntype\n:\nclone\n,\n\n    \n// etc\n\n\n}\n\n\n\n\n\nwidgetId\n\n\n\n\ntype: \nstring\n\n\ndefault: \nempty\n\n\nusage: \nid\n of the widget to clone\n\n\n\n\nprops\n\n\n\n\ntype: \nobject\n\n\ndefault: \n{}\n\n\nusage: cloned widget's properties to override\n\n\nexample:\n\n{\n\n    \nvariables\n:\n \n{\n \nn\n:\n \n2\n \n},\n\n    \ncolor\n:\n \norange\n    \n\n}", 
-            "title": "Containers"
-        }, 
-        {
-            "location": "/widgets/containers/#containers", 
-            "text": "Containers can contain any widgets.", 
-            "title": "Containers"
-        }, 
-        {
-            "location": "/widgets/containers/#panel", 
-            "text": "Panels can contains tabs or widgets. These can be absolutely positioned and can overflow their parent's size (which will then display scrollbars). When a panel contains tabs, it can send and receive its active tab's index through osc.  { \n     type : panel , \n     // etc  }", 
-            "title": "Panel"
-        }, 
-        {
-            "location": "/widgets/containers/#scroll", 
-            "text": "type:  boolean  default:  true  usage: set to  false  to disable scrollbars", 
-            "title": "scroll"
-        }, 
-        {
-            "location": "/widgets/containers/#border", 
-            "text": "type:  boolean  default:  true  usage: by default, widgets in panels/strip have their border disabled, except for panels and strips. Set to  false  to apply this rule to the panel too.", 
-            "title": "border"
-        }, 
-        {
-            "location": "/widgets/containers/#widgets", 
-            "text": "type:  array  default:  []  usage: each element of the  array  must be a widget  object . A panel cannot contain widgets and tabs simultaneously.", 
-            "title": "widgets"
-        }, 
-        {
-            "location": "/widgets/containers/#tabs", 
-            "text": "type:  array  default:  []  usage: each element of the  array  must be a tab  object . A panel cannot contain widgets and tabs simultaneously.", 
-            "title": "tabs"
-        }, 
-        {
-            "location": "/widgets/containers/#variables", 
-            "text": "type:  *  default:  @{parent.variables}  usage: defines one or more arbitrary variables that can be inherited by children widgets.  examples:  1  ( @{parent.variables}  will return  1 )  {a: [1, 2], b: 2}  ( @{parent.variables.a}  will return  [1, 2] )  [1, 2]  ( @{parent.variables.0}  will return  1 )  @{parent.variables}  useful when nesting containers", 
-            "title": "variables"
-        }, 
-        {
-            "location": "/widgets/containers/#layout", 
-            "text": "type:  string  default:  ''  usage:  layout  must be a valid  Visual Format Language  expression. It accepts the  Extended Visual Format Language  as well. Widgets are targeted using their  id  or their index prefixed with a  $  ( $0, $1, etc ), the latter method being incompatible with the  range spread operator . Expressions can be tested and debugged with the online  Visual Format Editor .  note: this only applies when the panel contains widgets, not tabs", 
-            "title": "layout"
-        }, 
-        {
-            "location": "/widgets/containers/#spacing", 
-            "text": "type:  integer|array  default:  0  usage: spacing size used in  layout  expression, can be set as a  [vertical,horizontal]  array.  note: this only applies when the panel contains widgets, not tabs", 
-            "title": "spacing"
-        }, 
-        {
-            "location": "/widgets/containers/#css", 
-            "text": "--nav-height :   number [ rem |%];", 
-            "title": "css"
-        }, 
-        {
-            "location": "/widgets/containers/#strip", 
-            "text": "Unidirectionnal panel with stretching capability. By default, children widgets that don't have an explicit  width / height  set will be shrinked to respect the sizes specified by others. Adding  flex:1;  to a children's  css  will give it the ability the fill the remaining space. Multiple children can have a  flex:x;  css property ( x  will ponderate their expansion).  { \n   type : strip , \n   // etc  }", 
-            "title": "Strip"
-        }, 
-        {
-            "location": "/widgets/containers/#horizontal", 
-            "text": "type:  boolean  default:  false  usage: set to  true  to display widgets horizontally", 
-            "title": "horizontal"
-        }, 
-        {
-            "location": "/widgets/containers/#stretch", 
-            "text": "type:  boolean  default:  false  usage: set to  true  to stretch widgets evenly", 
-            "title": "stretch"
-        }, 
-        {
-            "location": "/widgets/containers/#spacing_1", 
-            "text": "type:  integer|percentage  default:  0  usage: adds space between widgets. Percents are always relative to the strips width.", 
-            "title": "spacing"
-        }, 
-        {
-            "location": "/widgets/containers/#border_1", 
-            "text": "type:  boolean  default:  true  usage: by default, widgets in panels/strip have their border disabled, except for panels and strips. Set to  false  to apply this rule to the strip too.", 
-            "title": "border"
-        }, 
-        {
-            "location": "/widgets/containers/#widgets_1", 
-            "text": "type:  array  default:  []  usage: each element of the  array  must be a widget  object", 
-            "title": "widgets"
-        }, 
-        {
-            "location": "/widgets/containers/#modal", 
-            "text": "Modals are buttons that turn into a centered popup panels when enabled. They can only contain widgets. They can send and receive their state via osc (1 to enable, 0 to disable).  { \n     type : modal , \n     // etc  }", 
-            "title": "Modal"
-        }, 
-        {
-            "location": "/widgets/containers/#doubletap", 
-            "text": "type:  boolean  default:  false  usage: set to  true  to make the modal require a double tap to open instead of a single tap", 
-            "title": "doubleTap"
-        }, 
-        {
-            "location": "/widgets/containers/#popupwidth-popupheight", 
-            "text": "type:  number|percentage  default:  100%  usage: sets the modal's size once opened", 
-            "title": "popupWidth / popupHeight"
-        }, 
-        {
-            "location": "/widgets/containers/#popupleft-popuptop", 
-            "text": "type:  number|percentage  default:  auto  usage: sets the modal's position once opened (centered by default)", 
-            "title": "popupLeft / popupTop"
-        }, 
-        {
-            "location": "/widgets/containers/#popuplabel", 
-            "text": "type:  string  default:  empty  usage: alternative label for the popup", 
-            "title": "popupLabel"
-        }, 
-        {
-            "location": "/widgets/containers/#options", 
-            "text": "see panel's  options", 
-            "title": "options"
-        }, 
-        {
-            "location": "/widgets/containers/#clone", 
-            "text": "{ \n     type : clone , \n     // etc  }", 
-            "title": "Clone"
-        }, 
-        {
-            "location": "/widgets/containers/#widgetid", 
-            "text": "type:  string  default:  empty  usage:  id  of the widget to clone", 
-            "title": "widgetId"
-        }, 
-        {
-            "location": "/widgets/containers/#props", 
-            "text": "type:  object  default:  {}  usage: cloned widget's properties to override  example: { \n     variables :   {   n :   2   }, \n     color :   orange      }", 
-            "title": "props"
-        }, 
-        {
-            "location": "/widgets/sliders/", 
-            "text": "Sliders\n\n\nSliders are unidimensional widgets that output one value at a time.\n\n\nFader\n\n\n{\n\n    \ntype\n:\nfader\n,\n\n    \n// etc\n\n\n}\n\n\n\n\n\nhorizontal\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: set to \ntrue\n to display the fader horizontally\n\n\n\n\nalignRight\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: set to \ntrue\n to invert the pip's and fader's position\n\n\n\n\npips\n\n\n\n\ntype: \nboolean\n\n\ndefault: \ntrue\n\n\nusage: set to \nfalse\n to hide the scale\n\n\n\n\ninput\n\n\n\n\ntype: \nboolean\n\n\ndefault: \ntrue\n\n\nusage: set to \nfalse\n to hide the built-in input\n\n\n\n\ncompact\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: set to \ntrue\n to display a compact alternative for the widget. Disables default mouse/touch focusing on the value display.\n\n\n\n\ndashed\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: set to \ntrue\n to display a dashed gauge\n\n\n\n\nrange\n\n\n\n\ntype: \nobject\n\n\ndefault: \n{\nmin\n:0,\nmax\n:1}\n\n\nusage: \nrange\n defines the breakpoints of the fader's scale\n\n\nkeys can be percentages and/or \nmin\n / \nmax\n\n\nvalues can be \nnumber\n or \nobject\n if a custom label is needed\n\n\n\n\n\n\nexample:\n\nrange\n:\n \n{\n\n    \nmin\n:\n0\n,\n\n    \n50%\n:\n1\n,\n        \n    \nmax\n:\n \n{\ninf\n:\n10\n}\n \n// \ninf\n will be used as a custom label on the scale\n\n\n}\n\n\n\n\n\n\norigin\n\n\n\n\ntype: \nnumber\n\n\ndefault: \nauto\n\n\nusage: \norigin\n defines the starting point's value of the fader's gauge\n\n\n\n\nlogScale\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: set to \ntrue\n use logarithmic scaling between breakpoints (log10)\n\n\n\n\nunit\n\n\n\n\ntype: \nstring\n\n\ndefault: \nempty\n\n\nusage: \nunit\n will be appended to the displayed widget's value (it doesn't affect osc messages)\n\n\n\n\nsnap\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: by default, dragging the widget will modify it's value starting from its last value. Setting this to \ntrue\n will make it snap directly to the mouse/touch position.\n\n\n\n\nspring\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: when set to \ntrue\n, the widget will go back to its \ndefault\n value when released.\n\n\n\n\ndoubleTap\n\n\n\n\ntype: \nboolean|string\n\n\ndefault: \nfalse\n\n\nusage: set to \ntrue\n to make the fader reset to its \ndefault\n value when receiving a double tap. \ndoubleTap\n can also be an osc address, which case the widget will just send an osc message (\n/\ndoubleTap\n \npreArgs\n),\n\n\n\n\nmeter\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: set to true to display a vu-meter next in the fader\n\n\nthe meter's \nid\n will be the same as the widget's with \n/meter\n appended to it\n\n\nthe meter's \naddress\nwill be the same as the widget's with \n/meter\n appended to it\n\n\n\n\n\n\n\n\nmeterAddress\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nempty\n\n\nusage: overrides the \nmeter\n's osc address\n\n\n\n\ncss\n\n\n--color-gauge\n:\ncolor\n;\n\n\n--color-knob\n:\ncolor\n;\n\n\n--color-pips\n:\ncolor\n;\n\n\n--gauge-opacity\n:\nnumber\n;\n \n/* compact mode only */\n\n\n\n\n\nKnob\n\n\n{\n\n    \ntype\n:\nknob\n,\n\n    \n// etc\n\n\n}\n\n\n\n\n\npips\n\n\n\n\ntype: \nboolean\n\n\ndefault: \ntrue\n\n\nusage: set to \nfalse\n to hide the scale\n\n\n\n\ninput\n\n\n\n\ntype: \nboolean\n\n\ndefault: \ntrue\n\n\nusage: set to \nfalse\n to hide the built-in input\n\n\n\n\nangle\n\n\n\n\ntype: \nnumber\n\n\ndefault: \n270\n\n\nusage: \nangle\n defines the angle's width of the knob, in degrees\n\n\n\n\nrange\n\n\n\n\ntype: \nobject\n\n\ndefault: \n{\nmin\n:0,\nmax\n:1}\n\n\nusage: \nrange\n defines the breakpoints of the fader's scale\n\n\nkeys can be percentages and/or \nmin\n / \nmax\n\n\nvalues can be \nnumber\n or \nobject\n if a custom label is needed\n\n\n\n\n\n\nexample:\n\nrange\n:\n \n{\n\n    \nmin\n:\n0\n,\n\n    \n50%\n:\n1\n,\n        \n    \nmax\n:\n \n{\ninf\n:\n10\n}\n \n// \ninf\n will be used as a custom label on the scale\n\n\n}\n\n\n\n\n\n\norigin\n\n\n\n\ntype: \nnumber\n\n\ndefault: \nauto\n\n\nusage: \norigin\n defines the starting point's value of the knob's gauge\n\n\n\n\nlogScale\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: set to \ntrue\n use logarithmic scaling between breakpoints\n\n\n\n\nunit\n\n\n\n\ntype: \nstring\n\n\ndefault: \nempty\n\n\nusage: \nunit\n will be appended to the displayed widget's value (it doesn't affect osc messages)\n\n\n\n\nsnap\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: by default, dragging the widget \nvertically\n will modify it's value starting from its last value. Setting this to \ntrue\n will make it snap directly to the mouse/touch position.\n\n\n\n\nspring\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: when set to \ntrue\n, the widget will go back to its \ndefault\n value when released.\n\n\n\n\ndoubleTap\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: set to \ntrue\n to make the knob reset to its \ndefault\n value when receiving a double tap\n\n\n\n\ncss\n\n\n--color-gauge:color;\n--color-knob:color;\n--color-pips:color;\n\n\n\n\nEncoder\n\n\nAn endless knob that only responds to rotative gestures.\n\n\n{\n\n    \ntype\n:\nencoder\n,\n\n    \n// etc\n\n\n}\n\n\n\n\n\nticks\n\n\n\n\ntype: \nnumber\n\n\ndefault: \n360\n\n\nusage: defines the granularity / verbosity of the encoder (number of step for a 360\u00b0 arc)\n\n\n\n\nback\n\n\n\n\ntype: \nstring|number|object\n\n\ndefault: \n-1\n\n\nusage: defines which value is sent when rotating the encoder anticlockwise\n\n\ncan be an \nobject\n if the type needs to be specified (see \npreArgs\n)\n\n\n\n\n\n\n\n\nforth\n\n\n\n\ntype: \nstring|number|object\n\n\ndefault: \n1\n\n\nusage: defines which value is sent when rotating the encoder clockwise\n\n\ncan be an \nobject\n if the type needs to be specified (see \npreArgs\n)\n\n\n\n\n\n\n\n\nrelease\n\n\n\n\ntype: \nstring|number|object\n\n\ndefault: \nempty\n\n\nusage: defines which value is sent when releasing the encoder\n\n\nset to \nnull\n to send send no argument in the osc message\n\n\ncan be an \nobject\n if the type needs to be specified (see \npreArgs\n)\n\n\n\n\n\n\n\n\nsnap\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: by default, dragging the widget will modify it's value starting from its last value. Setting this to \ntrue\n will make it snap directly to the mouse/touch position.\n\n\n\n\ndoubleTap\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: set to \ntrue\n to make the encoder reset to its initial value when receiving a double tap\n\n\n\n\ncss\n\n\n--color-knob:color;\n\n\n\n\nRange\n\n\nA range is a fader with two handles. To move the range (both handles at once), hold the \nshift\n key or use two fingers.\n\n\n{\n\n    \ntype\n:\nrange\n,\n\n    \n// etc\n\n\n}\n\n\n\n\n\nsplit\n\n\n\n\ntype: \nboolean|object\n\n\ndefault: \nfalse\n\n\nusage:\n\n\nset to \ntrue\n to send separate osc messages for \nlow\n and \nhigh\n handles. The \naddress\n will be the same as the widget's with \n/low\n or \n/high\n appended to it\n\n\ncan be set as an object to specify a different \naddress\n : \n['/osc_address_low', '/osc_address_high']\n\n\n\n\n\n\nnote: the widget will only respond to its original osc address, not to the splitted version\n\n\n\n\ncss\n\n\n--color-gauge\n:\ncolor\n;\n\n\n--color-knob\n:\ncolor\n;\n\n\n--color-pips\n:\ncolor\n;\n\n\n--gauge-opacity\n:\nnumber\n;\n \n/* compact mode only */", 
             "title": "Sliders"
         }, 
         {
-            "location": "/widgets/sliders/#sliders", 
-            "text": "Sliders are unidimensional widgets that output one value at a time.", 
-            "title": "Sliders"
+            "location": "/widgets-reference/#fader", 
+            "text": "property  type  default  description", 
+            "title": "fader"
         }, 
         {
-            "location": "/widgets/sliders/#fader", 
-            "text": "{ \n     type : fader , \n     // etc  }", 
-            "title": "Fader"
+            "location": "/widgets-reference/#knob", 
+            "text": "property  type  default  description", 
+            "title": "knob"
         }, 
         {
-            "location": "/widgets/sliders/#horizontal", 
-            "text": "type:  boolean  default:  false  usage: set to  true  to display the fader horizontally", 
-            "title": "horizontal"
+            "location": "/widgets-reference/#encoder", 
+            "text": "property  type  default  description", 
+            "title": "encoder"
         }, 
         {
-            "location": "/widgets/sliders/#alignright", 
-            "text": "type:  boolean  default:  false  usage: set to  true  to invert the pip's and fader's position", 
-            "title": "alignRight"
-        }, 
-        {
-            "location": "/widgets/sliders/#pips", 
-            "text": "type:  boolean  default:  true  usage: set to  false  to hide the scale", 
-            "title": "pips"
-        }, 
-        {
-            "location": "/widgets/sliders/#input", 
-            "text": "type:  boolean  default:  true  usage: set to  false  to hide the built-in input", 
-            "title": "input"
-        }, 
-        {
-            "location": "/widgets/sliders/#compact", 
-            "text": "type:  boolean  default:  false  usage: set to  true  to display a compact alternative for the widget. Disables default mouse/touch focusing on the value display.", 
-            "title": "compact"
-        }, 
-        {
-            "location": "/widgets/sliders/#dashed", 
-            "text": "type:  boolean  default:  false  usage: set to  true  to display a dashed gauge", 
-            "title": "dashed"
-        }, 
-        {
-            "location": "/widgets/sliders/#range", 
-            "text": "type:  object  default:  { min :0, max :1}  usage:  range  defines the breakpoints of the fader's scale  keys can be percentages and/or  min  /  max  values can be  number  or  object  if a custom label is needed    example: range :   { \n     min : 0 , \n     50% : 1 ,         \n     max :   { inf : 10 }   //  inf  will be used as a custom label on the scale  }", 
+            "location": "/widgets-reference/#range", 
+            "text": "property  type  default  description", 
             "title": "range"
         }, 
         {
-            "location": "/widgets/sliders/#origin", 
-            "text": "type:  number  default:  auto  usage:  origin  defines the starting point's value of the fader's gauge", 
-            "title": "origin"
-        }, 
-        {
-            "location": "/widgets/sliders/#logscale", 
-            "text": "type:  boolean  default:  false  usage: set to  true  use logarithmic scaling between breakpoints (log10)", 
-            "title": "logScale"
-        }, 
-        {
-            "location": "/widgets/sliders/#unit", 
-            "text": "type:  string  default:  empty  usage:  unit  will be appended to the displayed widget's value (it doesn't affect osc messages)", 
-            "title": "unit"
-        }, 
-        {
-            "location": "/widgets/sliders/#snap", 
-            "text": "type:  boolean  default:  false  usage: by default, dragging the widget will modify it's value starting from its last value. Setting this to  true  will make it snap directly to the mouse/touch position.", 
-            "title": "snap"
-        }, 
-        {
-            "location": "/widgets/sliders/#spring", 
-            "text": "type:  boolean  default:  false  usage: when set to  true , the widget will go back to its  default  value when released.", 
-            "title": "spring"
-        }, 
-        {
-            "location": "/widgets/sliders/#doubletap", 
-            "text": "type:  boolean|string  default:  false  usage: set to  true  to make the fader reset to its  default  value when receiving a double tap.  doubleTap  can also be an osc address, which case the widget will just send an osc message ( / doubleTap   preArgs ),", 
-            "title": "doubleTap"
-        }, 
-        {
-            "location": "/widgets/sliders/#meter", 
-            "text": "type:  boolean  default:  false  usage: set to true to display a vu-meter next in the fader  the meter's  id  will be the same as the widget's with  /meter  appended to it  the meter's  address will be the same as the widget's with  /meter  appended to it", 
-            "title": "meter"
-        }, 
-        {
-            "location": "/widgets/sliders/#meteraddress", 
-            "text": "type:  boolean  default:  empty  usage: overrides the  meter 's osc address", 
-            "title": "meterAddress"
-        }, 
-        {
-            "location": "/widgets/sliders/#css", 
-            "text": "--color-gauge : color ;  --color-knob : color ;  --color-pips : color ;  --gauge-opacity : number ;   /* compact mode only */", 
-            "title": "css"
-        }, 
-        {
-            "location": "/widgets/sliders/#knob", 
-            "text": "{ \n     type : knob , \n     // etc  }", 
-            "title": "Knob"
-        }, 
-        {
-            "location": "/widgets/sliders/#pips_1", 
-            "text": "type:  boolean  default:  true  usage: set to  false  to hide the scale", 
-            "title": "pips"
-        }, 
-        {
-            "location": "/widgets/sliders/#input_1", 
-            "text": "type:  boolean  default:  true  usage: set to  false  to hide the built-in input", 
-            "title": "input"
-        }, 
-        {
-            "location": "/widgets/sliders/#angle", 
-            "text": "type:  number  default:  270  usage:  angle  defines the angle's width of the knob, in degrees", 
-            "title": "angle"
-        }, 
-        {
-            "location": "/widgets/sliders/#range_1", 
-            "text": "type:  object  default:  { min :0, max :1}  usage:  range  defines the breakpoints of the fader's scale  keys can be percentages and/or  min  /  max  values can be  number  or  object  if a custom label is needed    example: range :   { \n     min : 0 , \n     50% : 1 ,         \n     max :   { inf : 10 }   //  inf  will be used as a custom label on the scale  }", 
-            "title": "range"
-        }, 
-        {
-            "location": "/widgets/sliders/#origin_1", 
-            "text": "type:  number  default:  auto  usage:  origin  defines the starting point's value of the knob's gauge", 
-            "title": "origin"
-        }, 
-        {
-            "location": "/widgets/sliders/#logscale_1", 
-            "text": "type:  boolean  default:  false  usage: set to  true  use logarithmic scaling between breakpoints", 
-            "title": "logScale"
-        }, 
-        {
-            "location": "/widgets/sliders/#unit_1", 
-            "text": "type:  string  default:  empty  usage:  unit  will be appended to the displayed widget's value (it doesn't affect osc messages)", 
-            "title": "unit"
-        }, 
-        {
-            "location": "/widgets/sliders/#snap_1", 
-            "text": "type:  boolean  default:  false  usage: by default, dragging the widget  vertically  will modify it's value starting from its last value. Setting this to  true  will make it snap directly to the mouse/touch position.", 
-            "title": "snap"
-        }, 
-        {
-            "location": "/widgets/sliders/#spring_1", 
-            "text": "type:  boolean  default:  false  usage: when set to  true , the widget will go back to its  default  value when released.", 
-            "title": "spring"
-        }, 
-        {
-            "location": "/widgets/sliders/#doubletap_1", 
-            "text": "type:  boolean  default:  false  usage: set to  true  to make the knob reset to its  default  value when receiving a double tap", 
-            "title": "doubleTap"
-        }, 
-        {
-            "location": "/widgets/sliders/#css_1", 
-            "text": "--color-gauge:color;\n--color-knob:color;\n--color-pips:color;", 
-            "title": "css"
-        }, 
-        {
-            "location": "/widgets/sliders/#encoder", 
-            "text": "An endless knob that only responds to rotative gestures.  { \n     type : encoder , \n     // etc  }", 
-            "title": "Encoder"
-        }, 
-        {
-            "location": "/widgets/sliders/#ticks", 
-            "text": "type:  number  default:  360  usage: defines the granularity / verbosity of the encoder (number of step for a 360\u00b0 arc)", 
-            "title": "ticks"
-        }, 
-        {
-            "location": "/widgets/sliders/#back", 
-            "text": "type:  string|number|object  default:  -1  usage: defines which value is sent when rotating the encoder anticlockwise  can be an  object  if the type needs to be specified (see  preArgs )", 
-            "title": "back"
-        }, 
-        {
-            "location": "/widgets/sliders/#forth", 
-            "text": "type:  string|number|object  default:  1  usage: defines which value is sent when rotating the encoder clockwise  can be an  object  if the type needs to be specified (see  preArgs )", 
-            "title": "forth"
-        }, 
-        {
-            "location": "/widgets/sliders/#release", 
-            "text": "type:  string|number|object  default:  empty  usage: defines which value is sent when releasing the encoder  set to  null  to send send no argument in the osc message  can be an  object  if the type needs to be specified (see  preArgs )", 
-            "title": "release"
-        }, 
-        {
-            "location": "/widgets/sliders/#snap_2", 
-            "text": "type:  boolean  default:  false  usage: by default, dragging the widget will modify it's value starting from its last value. Setting this to  true  will make it snap directly to the mouse/touch position.", 
-            "title": "snap"
-        }, 
-        {
-            "location": "/widgets/sliders/#doubletap_2", 
-            "text": "type:  boolean  default:  false  usage: set to  true  to make the encoder reset to its initial value when receiving a double tap", 
-            "title": "doubleTap"
-        }, 
-        {
-            "location": "/widgets/sliders/#css_2", 
-            "text": "--color-knob:color;", 
-            "title": "css"
-        }, 
-        {
-            "location": "/widgets/sliders/#range_2", 
-            "text": "A range is a fader with two handles. To move the range (both handles at once), hold the  shift  key or use two fingers.  { \n     type : range , \n     // etc  }", 
-            "title": "Range"
-        }, 
-        {
-            "location": "/widgets/sliders/#split", 
-            "text": "type:  boolean|object  default:  false  usage:  set to  true  to send separate osc messages for  low  and  high  handles. The  address  will be the same as the widget's with  /low  or  /high  appended to it  can be set as an object to specify a different  address  :  ['/osc_address_low', '/osc_address_high']    note: the widget will only respond to its original osc address, not to the splitted version", 
-            "title": "split"
-        }, 
-        {
-            "location": "/widgets/sliders/#css_3", 
-            "text": "--color-gauge : color ;  --color-knob : color ;  --color-pips : color ;  --gauge-opacity : number ;   /* compact mode only */", 
-            "title": "css"
-        }, 
-        {
-            "location": "/widgets/pads/", 
-            "text": "Pads\n\n\nPads are multidimensional widgets that output multiple values.\n\n\nXY\n\n\n{\n\n    \ntype\n:\nxy\n,\n\n    \n// etc\n\n\n}\n\n\n\n\n\ninput\n\n\n\n\ntype: \nboolean\n\n\ndefault: \ntrue\n\n\nusage: set to \nfalse\n to hide the built-in input\n\n\n\n\nrangeX\n\n\n\n\ntype: \nobject\n\n\ndefault:\n    \n{\nmin\n:0,\nmax\n:1}\n\n\nusage: defines the \nmin\n and \nmax\n values for the \nx\n axis. Same as fader's \nrange\n\n\n\n\nrangeY\n\n\n\n\ntype: \nobject\n\n\ndefault:\n    \n{\nmin\n:0,\nmax\n:1}\n\n\nusage: defines the \nmin\n and \nmax\n values for the \ny\n axis. Same as fader's \nrange\n\n\n\n\nlogScaleX\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: set to \ntrue\n to use logarithmic scale for the \nx\n axis (log10)\n\n\n\n\nlogScaleY\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: set to \ntrue\n to use logarithmic scale for the \ny\n axis (log10)\n\n\n\n\nsnap\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: by default, dragging the widget will modify it's value starting from its last value. Setting this to \ntrue\n will make it snap directly to the mouse/touch position.\n\n\n\n\nspring\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: when set to \ntrue\n, the widget will go back to its \ndefault\n value when released.\n\n\n\n\ndoubleTap\n\n\n\n\ntype: \nboolean|string\n\n\ndefault: \nfalse\n\n\nusage: set to \ntrue\n to make the fader reset to its \ndefault\n value when receiving a double tap. \ndoubleTap\n can also be an osc address, which case the widget will just send an osc message (\n/\ndoubleTap\n \npreArgs\n),\n\n\n\n\nsplit\n\n\n\n\ntype: \nboolean|object\n\n\ndefault: \nfalse\n\n\nusage:\n\n\nset to \ntrue\n to send separate osc messages for \nx\n and \ny\n axis. The \naddress\n will be the same as the widget's with \n/x\n or \n/y\n appended to it\n\n\ncan be set as an object to specify a different \naddress\n : \n['/osc_address_x', '/osc_address_y']\n\n\n\n\n\n\nnote: the widget will only respond to its original osc address, not to the splitted version\n\n\n\n\nMultiXy\n\n\n{\n\n    \ntype\n:\nmultixy\n,\n\n    \n// etc\n\n\n}\n\n\n\n\n\npoints\n\n\n\n\ntype: \ninteger|array\n\n\ndefault: \n2\n\n\nusage: defines the number of points on the pad. Can be an \narray\n of \nstrings\n that will be used as labels for the points (ex: \n['A', 'B']\n)\n\n\n\n\npointSize\n\n\n\n\ntype: \ninteger\n\n\ndefault: \n15\n\n\nusage: defines the points's size\n\n\n\n\nrangeX\n\n\n\n\ntype: \nobject\n\n\ndefault:\n    \n{\nmin\n:0,\nmax\n:1}\n\n\nusage: defines the \nmin\n and \nmax\n values for the \nx\n axis. Same as fader's \nrange\n\n\n\n\nrangeY\n\n\n\n\ntype: \nobject\n\n\ndefault:\n    \n{\nmin\n:0,\nmax\n:1}\n\n\nusage: defines the \nmin\n and \nmax\n values for the \ny\n axis. Same as fader's \nrange\n\n\n\n\nlogScaleX\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: set to \ntrue\n to use logarithmic scale for the \nx\n axis (log10)\n\n\n\n\nlogScaleY\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: set to \ntrue\n to use logarithmic scale for the \ny\n axis (log10)\n\n\n\n\nsplit\n\n\n\n\ntype: \nboolean|object\n\n\ndefault: \nfalse\n\n\nusage:\n\n\nset to \ntrue\n to send separate osc messages for each point's \nx\n and \ny\n axis. The \naddress\n will be the same as the widget's with \n/N/x\n or \n/N/y\n appended to it, where \nN\n is the point's id (or the point's label if \npoints\n is an \narray\n).\n\n\ncan be set as an object to specify a different \naddress\n : \n['/0/x', '/0/y', '/1/x', '/2/y']\n\n\n\n\n\n\nnote: the widget will only respond to its original osc address, not to the splitted version\n\n\n\n\nsnap\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: by default, the points are dragged from their initial position; if set to \ntrue\n, touching anywhere on the widget's surface will make them snap to the touching coordinates (one per touch).\n\n\n\n\nRGB\n\n\nRGB is a variant of XY, it outputs rgb values between 0 and 255.\n\n\n{\n\n    \ntype\n:\nrgb\n,\n\n    \n// etc\n\n\n}\n\n\n\n\n\ninput\n\n\n\n\ntype: \nboolean\n\n\ndefault: \ntrue\n\n\nusage: set to \nfalse\n to hide the built-in input\n\n\n\n\nprecision\n\n\n\n\ndefault:\n0\n\n\n\n\nsnap\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: by default, dragging the widget will modify it's value starting from its last value. Setting this to true will make it snap directly to the mouse/touch position.\n\n\n\n\nrange\n\n\n\n\ntype: \nobject\n\n\ndefault: \n{\nmin\n:0,\nmax\n:255}\n\n\nusage: \nrange\n defines the widget's output scale.\n\n\n\n\nsplit\n\n\n\n\ntype: \nboolean|object\n\n\ndefault: \nfalse\n\n\nusage:\n\n\nset to \ntrue\n to send separate osc messages for \nr\n and \ng\n \n \nb\n. The \naddress\n will be the same as the widget's with \n/r\n, \n/g\n or \n/b\n appended to it\n\n\ncan be set as an object to specify a different \naddress\n : \n['/r', '/b', '/b']\n\n\n\n\n\n\nnote: the widget will only respond to its original osc address, not to the splitted version", 
-            "title": "Pads"
-        }, 
-        {
-            "location": "/widgets/pads/#pads", 
-            "text": "Pads are multidimensional widgets that output multiple values.", 
-            "title": "Pads"
-        }, 
-        {
-            "location": "/widgets/pads/#xy", 
-            "text": "{ \n     type : xy , \n     // etc  }", 
-            "title": "XY"
-        }, 
-        {
-            "location": "/widgets/pads/#input", 
-            "text": "type:  boolean  default:  true  usage: set to  false  to hide the built-in input", 
-            "title": "input"
-        }, 
-        {
-            "location": "/widgets/pads/#rangex", 
-            "text": "type:  object  default:\n     { min :0, max :1}  usage: defines the  min  and  max  values for the  x  axis. Same as fader's  range", 
-            "title": "rangeX"
-        }, 
-        {
-            "location": "/widgets/pads/#rangey", 
-            "text": "type:  object  default:\n     { min :0, max :1}  usage: defines the  min  and  max  values for the  y  axis. Same as fader's  range", 
-            "title": "rangeY"
-        }, 
-        {
-            "location": "/widgets/pads/#logscalex", 
-            "text": "type:  boolean  default:  false  usage: set to  true  to use logarithmic scale for the  x  axis (log10)", 
-            "title": "logScaleX"
-        }, 
-        {
-            "location": "/widgets/pads/#logscaley", 
-            "text": "type:  boolean  default:  false  usage: set to  true  to use logarithmic scale for the  y  axis (log10)", 
-            "title": "logScaleY"
-        }, 
-        {
-            "location": "/widgets/pads/#snap", 
-            "text": "type:  boolean  default:  false  usage: by default, dragging the widget will modify it's value starting from its last value. Setting this to  true  will make it snap directly to the mouse/touch position.", 
-            "title": "snap"
-        }, 
-        {
-            "location": "/widgets/pads/#spring", 
-            "text": "type:  boolean  default:  false  usage: when set to  true , the widget will go back to its  default  value when released.", 
-            "title": "spring"
-        }, 
-        {
-            "location": "/widgets/pads/#doubletap", 
-            "text": "type:  boolean|string  default:  false  usage: set to  true  to make the fader reset to its  default  value when receiving a double tap.  doubleTap  can also be an osc address, which case the widget will just send an osc message ( / doubleTap   preArgs ),", 
-            "title": "doubleTap"
-        }, 
-        {
-            "location": "/widgets/pads/#split", 
-            "text": "type:  boolean|object  default:  false  usage:  set to  true  to send separate osc messages for  x  and  y  axis. The  address  will be the same as the widget's with  /x  or  /y  appended to it  can be set as an object to specify a different  address  :  ['/osc_address_x', '/osc_address_y']    note: the widget will only respond to its original osc address, not to the splitted version", 
-            "title": "split"
-        }, 
-        {
-            "location": "/widgets/pads/#multixy", 
-            "text": "{ \n     type : multixy , \n     // etc  }", 
-            "title": "MultiXy"
-        }, 
-        {
-            "location": "/widgets/pads/#points", 
-            "text": "type:  integer|array  default:  2  usage: defines the number of points on the pad. Can be an  array  of  strings  that will be used as labels for the points (ex:  ['A', 'B'] )", 
-            "title": "points"
-        }, 
-        {
-            "location": "/widgets/pads/#pointsize", 
-            "text": "type:  integer  default:  15  usage: defines the points's size", 
-            "title": "pointSize"
-        }, 
-        {
-            "location": "/widgets/pads/#rangex_1", 
-            "text": "type:  object  default:\n     { min :0, max :1}  usage: defines the  min  and  max  values for the  x  axis. Same as fader's  range", 
-            "title": "rangeX"
-        }, 
-        {
-            "location": "/widgets/pads/#rangey_1", 
-            "text": "type:  object  default:\n     { min :0, max :1}  usage: defines the  min  and  max  values for the  y  axis. Same as fader's  range", 
-            "title": "rangeY"
-        }, 
-        {
-            "location": "/widgets/pads/#logscalex_1", 
-            "text": "type:  boolean  default:  false  usage: set to  true  to use logarithmic scale for the  x  axis (log10)", 
-            "title": "logScaleX"
-        }, 
-        {
-            "location": "/widgets/pads/#logscaley_1", 
-            "text": "type:  boolean  default:  false  usage: set to  true  to use logarithmic scale for the  y  axis (log10)", 
-            "title": "logScaleY"
-        }, 
-        {
-            "location": "/widgets/pads/#split_1", 
-            "text": "type:  boolean|object  default:  false  usage:  set to  true  to send separate osc messages for each point's  x  and  y  axis. The  address  will be the same as the widget's with  /N/x  or  /N/y  appended to it, where  N  is the point's id (or the point's label if  points  is an  array ).  can be set as an object to specify a different  address  :  ['/0/x', '/0/y', '/1/x', '/2/y']    note: the widget will only respond to its original osc address, not to the splitted version", 
-            "title": "split"
-        }, 
-        {
-            "location": "/widgets/pads/#snap_1", 
-            "text": "type:  boolean  default:  false  usage: by default, the points are dragged from their initial position; if set to  true , touching anywhere on the widget's surface will make them snap to the touching coordinates (one per touch).", 
-            "title": "snap"
-        }, 
-        {
-            "location": "/widgets/pads/#rgb", 
-            "text": "RGB is a variant of XY, it outputs rgb values between 0 and 255.  { \n     type : rgb , \n     // etc  }", 
-            "title": "RGB"
-        }, 
-        {
-            "location": "/widgets/pads/#input_1", 
-            "text": "type:  boolean  default:  true  usage: set to  false  to hide the built-in input", 
-            "title": "input"
-        }, 
-        {
-            "location": "/widgets/pads/#precision", 
-            "text": "default: 0", 
-            "title": "precision"
-        }, 
-        {
-            "location": "/widgets/pads/#snap_2", 
-            "text": "type:  boolean  default:  false  usage: by default, dragging the widget will modify it's value starting from its last value. Setting this to true will make it snap directly to the mouse/touch position.", 
-            "title": "snap"
-        }, 
-        {
-            "location": "/widgets/pads/#range", 
-            "text": "type:  object  default:  { min :0, max :255}  usage:  range  defines the widget's output scale.", 
-            "title": "range"
-        }, 
-        {
-            "location": "/widgets/pads/#split_2", 
-            "text": "type:  boolean|object  default:  false  usage:  set to  true  to send separate osc messages for  r  and  g     b . The  address  will be the same as the widget's with  /r ,  /g  or  /b  appended to it  can be set as an object to specify a different  address  :  ['/r', '/b', '/b']    note: the widget will only respond to its original osc address, not to the splitted version", 
-            "title": "split"
-        }, 
-        {
-            "location": "/widgets/buttons/", 
-            "text": "Buttons\n\n\nButtons are exactly what you think they are.\n\n\nToggle\n\n\n{\n\n    \ntype\n:\ntoggle\n,\n\n    \n// etc\n\n\n}\n\n\n\n\n\ndoubleTap\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: set to \ntrue\n to make the button require a double tap to be toggled instead of a single tap\n\n\n\n\nled\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: set to \ntrue\n to display the toggle's state with a led\n\n\n\n\non\n\n\n\n\ntype: \nstring|number|object\n\n\ndefault: \n1\n\n\nusage: defines which value is sent on \non\n position\n\n\nset to \nnull\n to send send no argument in the osc message\n\n\ncan be an \nobject\n if the type needs to be specified (see \npreArgs\n)\n\n\n\n\n\n\n\n\noff\n\n\n\n\ntype: \nstring|number|object\n\n\ndefault: \n0\n\n\nusage: defines which value is sent on \noff\n position\n\n\nset to \nnull\n to send send no argument in the osc message\n\n\ncan be an \nobject\n if the type needs to be specified (see \npreArgs\n)\n\n\n\n\n\n\n\n\nPush\n\n\n{\n\n    \ntype\n:\npush\n,\n\n    \n// etc\n\n\n}\n\n\n\n\n\non\n\n\n\n\ntype: \nstring|number|object\n\n\ndefault: \n1\n\n\nusage: defines which value is sent when pushing the button\n\n\nset to \nnull\n to send send no argument in the osc message\n\n\ncan be an \nobject\n if the type needs to be specified (see \npreArgs\n)\n\n\n\n\n\n\n\n\noff\n\n\n\n\ntype: \nstring|number|object\n\n\ndefault: \n0\n\n\nusage: defines which value is sent when releasing the button\n\n\nset to \nnull\n to send send no argument in the osc message\n\n\ncan be an \nobject\n if the type needs to be specified (see \npreArgs\n)\n\n\n\n\n\n\n\n\nnorelease\n\n\n\n\ntype: \nbool\n\n\ndefault: \nfalse\n\n\nusage: set to true to prevent sending any osc message when releasing the button\n\n\n\n\nSetting the \npush\n's value externally (via osc) will toggle it's inner light.\n\n\nSwitch\n\n\n{\n\n    \ntype\n:\nswitch\n,\n\n    \n// etc\n\n\n}\n\n\n\n\n\nvalues\n\n\n\n\ntype: \narray|object\n\n\ndefault: \n{\nValue 1\n:1,\nValue 2\n:2}\n\n\nusage:\n\n\narray\n of possible values to switch between : \n[1,2,3]\n\n\nobject\n of \nlabel\n:value\n pairs. Numeric labels must be prepended or appended with a white space (or any other non-numeric character) otherwise the order of the values won't be kept.\n\n\n\n\n\n\n\n\nshowValues\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: if \nvalues\n is an \nobject\n, set to \ntrue\n to display both values and labels instead of labels only\n\n\n\n\nDropdown\n\n\n{\n\n    \ntype\n:\ndropdown\n,\n\n    \n// etc\n\n\n}\n\n\n\n\n\nvalues\n\n\n\n\ntype: \narray|object\n\n\ndefault: \n{\nValue 1\n:1,\nValue 2\n:2}\n\n\nusage:\n\n\narray\n of possible values to switch between : \n[1,2,3]\n\n\nobject\n of \nlabel\n:value\n pairs. Numeric labels must be prepended or appended with a white space (or any other non-numeric character) otherwise the order of the values won't be kept.\n\n\nan empty option will always be prepended to \nvalues\n (sends an osc message without any value); it can be hidden by adding \noption:first-child{display:none}\n to the widget's \ncss", 
+            "location": "/widgets-reference/#buttons", 
+            "text": "", 
             "title": "Buttons"
         }, 
         {
-            "location": "/widgets/buttons/#buttons", 
-            "text": "Buttons are exactly what you think they are.", 
-            "title": "Buttons"
+            "location": "/widgets-reference/#toggle", 
+            "text": "property  type  default  description", 
+            "title": "toggle"
         }, 
         {
-            "location": "/widgets/buttons/#toggle", 
-            "text": "{ \n     type : toggle , \n     // etc  }", 
-            "title": "Toggle"
+            "location": "/widgets-reference/#push", 
+            "text": "property  type  default  description", 
+            "title": "push"
         }, 
         {
-            "location": "/widgets/buttons/#doubletap", 
-            "text": "type:  boolean  default:  false  usage: set to  true  to make the button require a double tap to be toggled instead of a single tap", 
-            "title": "doubleTap"
+            "location": "/widgets-reference/#switch", 
+            "text": "property  type  default  description", 
+            "title": "switch"
         }, 
         {
-            "location": "/widgets/buttons/#led", 
-            "text": "type:  boolean  default:  false  usage: set to  true  to display the toggle's state with a led", 
+            "location": "/widgets-reference/#dropdown", 
+            "text": "property  type  default  description", 
+            "title": "dropdown"
+        }, 
+        {
+            "location": "/widgets-reference/#pads", 
+            "text": "", 
+            "title": "Pads"
+        }, 
+        {
+            "location": "/widgets-reference/#xy", 
+            "text": "property  type  default  description", 
+            "title": "xy"
+        }, 
+        {
+            "location": "/widgets-reference/#rgb", 
+            "text": "property  type  default  description", 
+            "title": "rgb"
+        }, 
+        {
+            "location": "/widgets-reference/#multixy", 
+            "text": "property  type  default  description", 
+            "title": "multixy"
+        }, 
+        {
+            "location": "/widgets-reference/#matrices", 
+            "text": "", 
+            "title": "Matrices"
+        }, 
+        {
+            "location": "/widgets-reference/#matrix", 
+            "text": "property  type  default  description", 
+            "title": "matrix"
+        }, 
+        {
+            "location": "/widgets-reference/#multifader", 
+            "text": "property  type  default  description", 
+            "title": "multifader"
+        }, 
+        {
+            "location": "/widgets-reference/#multitoggle", 
+            "text": "property  type  default  description", 
+            "title": "multitoggle"
+        }, 
+        {
+            "location": "/widgets-reference/#multipush", 
+            "text": "property  type  default  description", 
+            "title": "multipush"
+        }, 
+        {
+            "location": "/widgets-reference/#keyboard", 
+            "text": "property  type  default  description", 
+            "title": "keyboard"
+        }, 
+        {
+            "location": "/widgets-reference/#plots", 
+            "text": "", 
+            "title": "Plots"
+        }, 
+        {
+            "location": "/widgets-reference/#plot", 
+            "text": "property  type  default  description", 
+            "title": "plot"
+        }, 
+        {
+            "location": "/widgets-reference/#eq", 
+            "text": "property  type  default  description", 
+            "title": "eq"
+        }, 
+        {
+            "location": "/widgets-reference/#visualizer", 
+            "text": "property  type  default  description", 
+            "title": "visualizer"
+        }, 
+        {
+            "location": "/widgets-reference/#led", 
+            "text": "property  type  default  description", 
             "title": "led"
         }, 
         {
-            "location": "/widgets/buttons/#on", 
-            "text": "type:  string|number|object  default:  1  usage: defines which value is sent on  on  position  set to  null  to send send no argument in the osc message  can be an  object  if the type needs to be specified (see  preArgs )", 
-            "title": "on"
+            "location": "/widgets-reference/#rgbled", 
+            "text": "property  type  default  description", 
+            "title": "rgbled"
         }, 
         {
-            "location": "/widgets/buttons/#off", 
-            "text": "type:  string|number|object  default:  0  usage: defines which value is sent on  off  position  set to  null  to send send no argument in the osc message  can be an  object  if the type needs to be specified (see  preArgs )", 
-            "title": "off"
+            "location": "/widgets-reference/#meter", 
+            "text": "property  type  default  description", 
+            "title": "meter"
         }, 
         {
-            "location": "/widgets/buttons/#push", 
-            "text": "{ \n     type : push , \n     // etc  }", 
-            "title": "Push"
+            "location": "/widgets-reference/#text", 
+            "text": "property  type  default  description", 
+            "title": "text"
         }, 
         {
-            "location": "/widgets/buttons/#on_1", 
-            "text": "type:  string|number|object  default:  1  usage: defines which value is sent when pushing the button  set to  null  to send send no argument in the osc message  can be an  object  if the type needs to be specified (see  preArgs )", 
-            "title": "on"
+            "location": "/widgets-reference/#image", 
+            "text": "property  type  default  description", 
+            "title": "image"
         }, 
         {
-            "location": "/widgets/buttons/#off_1", 
-            "text": "type:  string|number|object  default:  0  usage: defines which value is sent when releasing the button  set to  null  to send send no argument in the osc message  can be an  object  if the type needs to be specified (see  preArgs )", 
-            "title": "off"
-        }, 
-        {
-            "location": "/widgets/buttons/#norelease", 
-            "text": "type:  bool  default:  false  usage: set to true to prevent sending any osc message when releasing the button   Setting the  push 's value externally (via osc) will toggle it's inner light.", 
-            "title": "norelease"
-        }, 
-        {
-            "location": "/widgets/buttons/#switch", 
-            "text": "{ \n     type : switch , \n     // etc  }", 
-            "title": "Switch"
-        }, 
-        {
-            "location": "/widgets/buttons/#values", 
-            "text": "type:  array|object  default:  { Value 1 :1, Value 2 :2}  usage:  array  of possible values to switch between :  [1,2,3]  object  of  label :value  pairs. Numeric labels must be prepended or appended with a white space (or any other non-numeric character) otherwise the order of the values won't be kept.", 
-            "title": "values"
-        }, 
-        {
-            "location": "/widgets/buttons/#showvalues", 
-            "text": "type:  boolean  default:  false  usage: if  values  is an  object , set to  true  to display both values and labels instead of labels only", 
-            "title": "showValues"
-        }, 
-        {
-            "location": "/widgets/buttons/#dropdown", 
-            "text": "{ \n     type : dropdown , \n     // etc  }", 
-            "title": "Dropdown"
-        }, 
-        {
-            "location": "/widgets/buttons/#values_1", 
-            "text": "type:  array|object  default:  { Value 1 :1, Value 2 :2}  usage:  array  of possible values to switch between :  [1,2,3]  object  of  label :value  pairs. Numeric labels must be prepended or appended with a white space (or any other non-numeric character) otherwise the order of the values won't be kept.  an empty option will always be prepended to  values  (sends an osc message without any value); it can be hidden by adding  option:first-child{display:none}  to the widget's  css", 
-            "title": "values"
-        }, 
-        {
-            "location": "/widgets/switchers/", 
-            "text": "Switchers\n\n\nSwitcher can store and recall the state of other widgets.\n\n\nSwitcher\n\n\nThe switcher looks like the \nswitch\n. Each of its possible values represent a bank that stores the values from the widgets listed in its \nlinkedWidgets\n attribute.  \n\n\n{\n\n    \ntype\n:\nswitcher\n,\n\n    \n// etc\n\n\n}\n\n\n\n\n\nlinkedWidgets\n\n\n\n\ntype: \narray|string\n\n\ndefault:\n    \nempty\n\n\nusage:\n\n\nas a \nstring\n: a widget's \nid\n whose state changes will be stored\n\n\nas an \narray\n: a list of widget \nid\n \nstrings\n\n\n\n\n\n\n\n\nvalues\n\n\n\n\ntype: \narray|object\n\n\ndefault: \n[\nA\n, \nB\n]\n\n\nusage:\n\n\narray\n of possible values to switch between : \n[1,2,3]\n\n\nobject\n of \nlabel\n:value\n pairs\n\n\n\n\n\n\n\n\nCrossfader\n\n\nThe crossfader is a 2-states-only switcher that comes with a slider allowing to fade from one state to the other by interpolating the values.", 
-            "title": "Switchers"
-        }, 
-        {
-            "location": "/widgets/switchers/#switchers", 
-            "text": "Switcher can store and recall the state of other widgets.", 
-            "title": "Switchers"
-        }, 
-        {
-            "location": "/widgets/switchers/#switcher", 
-            "text": "The switcher looks like the  switch . Each of its possible values represent a bank that stores the values from the widgets listed in its  linkedWidgets  attribute.    { \n     type : switcher , \n     // etc  }", 
-            "title": "Switcher"
-        }, 
-        {
-            "location": "/widgets/switchers/#linkedwidgets", 
-            "text": "type:  array|string  default:\n     empty  usage:  as a  string : a widget's  id  whose state changes will be stored  as an  array : a list of widget  id   strings", 
-            "title": "linkedWidgets"
-        }, 
-        {
-            "location": "/widgets/switchers/#values", 
-            "text": "type:  array|object  default:  [ A ,  B ]  usage:  array  of possible values to switch between :  [1,2,3]  object  of  label :value  pairs", 
-            "title": "values"
-        }, 
-        {
-            "location": "/widgets/switchers/#crossfader", 
-            "text": "The crossfader is a 2-states-only switcher that comes with a slider allowing to fade from one state to the other by interpolating the values.", 
-            "title": "Crossfader"
-        }, 
-        {
-            "location": "/widgets/plots/", 
-            "text": "Plots\n\n\nPlots are tools that display other widgets' state or incomming osc messages. They are not sensitive to mouse and touch interactions.\n\n\nLed\n\n\n{\n\n    \ntype\n:\nled\n,\n\n    \n// etc\n\n\n}\n\n\n\n\n\nrange\n\n\n\n\ntype: \nobject\n\n\ndefault: \n{\nmin\n:0,\nmax\n:1}\n\n\nusage: defines the \nmin\n and \nmax\n value the led's intensity will be mapped to\n\n\n\n\nlogScale\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: set to true to use logarithmic scaling\n\n\n\n\nRgbLed\n\n\n{\n\n    \ntype\n:\nrgbled\n,\n\n    \n// etc\n\n\n}\n\n\n\n\n\nThis one is like the \nled\n except it takes either three arguments (red, green and blue values between 0 and 255) with an optionnal forth argument (alpha, between 0 and 1), or one argument (a valid css color name).\n\n\nPlot\n\n\nThe plot receives an array of coordinates and draws them on a chart. Coordinates can be :\n- \ny\n values evenly spaced on the \nx\n axis\n- \n[x, y]\n coordinates arrays\n\n\n\n\nInfo\n\n\nCoordinates also can be sent as a stringified array (\n[]\n). A stringified object can also be sent to change specific points' coordinates (e.g. \n{0:1, 4:0}\n will change the 1\nst\n and 5\nth\n points' coordinates) .\n\n\n\n\n{\n\n    \ntype\n:\nplot\n,\n\n    \n// etc\n\n\n}\n\n\n\n\n\nvalue\n\n\n\n\ntype: \narray|string\n\n\ndefault: \n['']\n\n\nusage:\n\n\nas an \narray\n: where items can be\n\n\nnumber\n\n\nstring\n (widget's \nid\n)\n\n\n[x, y]\n: array of \nnumber\n or \nstring\n\n\n\n\n\n\n\n\n\n\n\n\nrange\n\n\n\n\ntype: \nobject\n\n\ndefault:\n    \n{\n        x:{\nmin\n:0,\nmax\n:1},\n        y:{\nmin\n:0,\nmax\n:1}\n    }\n\n\nusage: defines the \nmin\n and \nmax\n values for the \nx\n and \ny\n axis\n\n\n\n\nbars\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: set to \ntrue\n to use draw bars instead (disables \nlogScaleX\n and forces \nx-axis\n even spacing)\n\n\n\n\nlogScaleX\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: set to \ntrue\n to use logarithmic scale for the \nx\n axis (log10)\n\n\n\n\nlogScaleY\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: set to \ntrue\n to use logarithmic scale for the \ny\n axis (log10)\n\n\n\n\nsmooth\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: set to \ntrue\n to make the line smooth. Float values are also acceptable (works fine between 0 and 0.5)\n\n\n\n\norigin\n\n\n\n\ntype: \nnumber\n\n\ndefault: \nauto\n\n\nusage: defines the y-axis origin. Set to \nfalse\n to disable it.\n\n\n\n\nEq\n\n\nThe Eq receives an array of filter objects and draws their frequency response between 20Hz and 22050Hz.\n\n\n{\n\n    \ntype\n:\neq\n,\n\n    \n// etc\n\n\n}\n\n\n\n\n\nvalue\n\n\n\n\ntype: \narray\n\n\ndefault: \n[]\n\n\nusage:\n\n\neach item must be an object of the form below\n\n\nall filters parameters can be filled with widget ids, whose value will be used\n\n\n\n\n\n\n\n\n{\n    type:[string],   // \nhighpass\n, \nhighshelf\n, \nlowpass\n, \nlowshelf\n, \npeak\n, \nnotch\n\n    freq:[number],   //\n    q:[number],      //\n    gain:[number],   //\n    on:[bool]        // 1 or true = active, 0 or false = bypassed\n}\n\n\n\n\nresolution\n\n\n\n\ntype: \nnumber\n\n\ndefault: \n128\n\n\nusage: defines the number of points used to compute the frequency response\n\n\n\n\nrangeY\n\n\n\n\ntype: \nobject\n\n\ndefault:\n    \n{\nmin\n:-20,\nmax\n:20}\n\n\nusage: defines the \nmin\n and \nmax\n values for the \ny\n axis (dB level)\n\n\n\n\nlogScaleX\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: set to \ntrue\n to use logarithmic scale for the \nx\n axis (log10)\n\n\n\n\nsmooth\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: set to true to make the line smooth. Float values are also acceptable (works fine between 0 and 0.5)\n\n\n\n\norigin\n\n\n\n\ntype: \nnumber\n\n\ndefault: \nauto\n\n\nusage: defines the y-axis origin. Set to \nfalse\n to disable it.\n\n\n\n\nVisualizer\n\n\nThe visualizer displays the evolution in time of a received value (through osc) \nor\n another widget's value.\n\n\n{\n\n    \ntype\n:\nvisualizer\n,\n\n    \n// etc\n\n\n}\n\n\n\n\n\nduration\n\n\n\n\ntype: \nnumber\n\n\ndefault: \n1\n\n\nusage: window size in seconds\n\n\n\n\nrange\n\n\n\n\ntype: \nobject\n\n\ndefault: \n{\nmin\n:0,\nmax\n:1}\n\n\nusage: defines the \nmin\n and \nmax\n values for the \ny\n axis\n\n\n\n\nlogScale\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: set to \ntrue\n use logarithmic scaling (log10)\n\n\n\n\nsmooth\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: set to true to make the line smooth. Float values are also acceptable (works fine between 0 and 0.5)\n\n\n\n\norigin\n\n\n\n\ntype: \nnumber\n\n\ndefault: \nauto\n\n\nusage: defines the y-axis origin. Set to \nfalse\n to disable it.\n\n\n\n\nText\n\n\nText displays incoming values (via osc) as text. Sending a message with no argument to the widget will reset it to its default text.\n\n\n{\n\n    \ntype\n:\ntext\n,\n\n    \n// etc\n\n\n}\n\n\n\n\n\nvertical\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: set to \ntrue\n display vertically\n\n\n\n\nwrap\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: set to \ntrue\n to wrap long lines automatically. This will not break overflowing words by default, word-breaking can be enabled by adding \nword-break: break-all;\n to the \ncss\n property.\n\n\n\n\nalign\n\n\n\n\ntype: \nstring\n\n\ndefault: \n''\n\n\nusage: set to \nleft\n or \nright\n to change text alignment (otherwise \ncenter\n)\n\n\n\n\nMeter\n\n\nMeter displays incoming numerical values (via osc) as a gauge level\n\n\n{\n\n    \ntype\n:\nmeter\n,\n\n    \n// etc\n\n\n}\n\n\n\n\n\nhorizontal\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: set to \ntrue\n to display the meter horizontally\n\n\n\n\nrange\n\n\n\n\nsee fader's \nrange\n\n\n\n\nlogScale\n\n\n\n\nsee fader's \nlogScale\n\n\n\n\ngradient\n\n\n\n\ntype: \narray\n\n\ndefault: \n[]\n\n\nusage: when set, the meter's gauge will be filled with a linear color gradient : each item must be a color string. Example: \n[\nblue\n, \nred\n]\n\n\n\n\ncss\n\n\n--color-gauge\n:\ncolor\n;\n\n\n--color-knob\n:\ncolor\n;\n \n/* transparent by default */\n\n\n--color-pips\n:\ncolor\n;\n\n\n--gauge-opacity\n:\nnumber\n;\n\n\n\n\n\nImage\n\n\nImage displays an image from a file path/url or from a base64 encoded image string. Sending an empty message resets the widget to its initial \nvalue\n.\n\n\n{\n\n    \ntype\n:\nimage\n,\n\n    \n// etc\n\n\n}\n\n\n\n\n\nsize\n\n\n\n\ntype: \nstring\n\n\ndefault: \ncover\n\n\nusage: css \nbackground-size\n\n\n\n\nposition\n\n\n\n\ntype: \nstring\n\n\ndefault: \ncover\n\n\nusage: css \nbackground-position\n\n\n\n\nrepeat\n\n\n\n\ntype: \nstring\n\n\ndefault: \nno-repeat\n\n\nusage: css \nbackground-repeat\n\n\n\n\nborder\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: set to \ntrue\n to disable the image's borders and background-color.\n\n\n\n\ncache\n\n\n\n\ntype: \nboolean\n\n\ndefault: \ntrue\n\n\nusage: set to \nfalse\n to disable image caching (forces file reload when updating or editing the widget). When \ntrue\n, sending \n'reload'\n to the widget reloads its image without changing its value.\n\n\n\n\nvalue\n\n\n\n\ntype: \nstring\n\n\ndefault: \n''\n\n\nusage : initial image\n\n\nfile url or absolute path\n\n\nbase64 encoded image\n : \ndata:image/...\n\n\n\n\nSvg\n\n\n{\n\n    \ntype\n:\nsvg\n,\n\n    \n// etc\n\n\n}\n\n\n\n\n\nsvg\n\n\n\n\ntype: \nstring\n\n\ndefault: \n''\n\n\nusage : svg xml definition\n\n\nwill be wrapped in a \nsvg\n/svg\n element\n\n\npath\n commands support a special percent notation (\n%x\n and \n%y\n)\n\n\n\n\n\n\nAn exemple session called \nsvg.json\n is shipped with the app.", 
-            "title": "Plots"
-        }, 
-        {
-            "location": "/widgets/plots/#plots", 
-            "text": "Plots are tools that display other widgets' state or incomming osc messages. They are not sensitive to mouse and touch interactions.", 
-            "title": "Plots"
-        }, 
-        {
-            "location": "/widgets/plots/#led", 
-            "text": "{ \n     type : led , \n     // etc  }", 
-            "title": "Led"
-        }, 
-        {
-            "location": "/widgets/plots/#range", 
-            "text": "type:  object  default:  { min :0, max :1}  usage: defines the  min  and  max  value the led's intensity will be mapped to", 
-            "title": "range"
-        }, 
-        {
-            "location": "/widgets/plots/#logscale", 
-            "text": "type:  boolean  default:  false  usage: set to true to use logarithmic scaling", 
-            "title": "logScale"
-        }, 
-        {
-            "location": "/widgets/plots/#rgbled", 
-            "text": "{ \n     type : rgbled , \n     // etc  }   This one is like the  led  except it takes either three arguments (red, green and blue values between 0 and 255) with an optionnal forth argument (alpha, between 0 and 1), or one argument (a valid css color name).", 
-            "title": "RgbLed"
-        }, 
-        {
-            "location": "/widgets/plots/#plot", 
-            "text": "The plot receives an array of coordinates and draws them on a chart. Coordinates can be :\n-  y  values evenly spaced on the  x  axis\n-  [x, y]  coordinates arrays   Info  Coordinates also can be sent as a stringified array ( [] ). A stringified object can also be sent to change specific points' coordinates (e.g.  {0:1, 4:0}  will change the 1 st  and 5 th  points' coordinates) .   { \n     type : plot , \n     // etc  }", 
-            "title": "Plot"
-        }, 
-        {
-            "location": "/widgets/plots/#value", 
-            "text": "type:  array|string  default:  ['']  usage:  as an  array : where items can be  number  string  (widget's  id )  [x, y] : array of  number  or  string", 
-            "title": "value"
-        }, 
-        {
-            "location": "/widgets/plots/#range_1", 
-            "text": "type:  object  default:\n     {\n        x:{ min :0, max :1},\n        y:{ min :0, max :1}\n    }  usage: defines the  min  and  max  values for the  x  and  y  axis", 
-            "title": "range"
-        }, 
-        {
-            "location": "/widgets/plots/#bars", 
-            "text": "type:  boolean  default:  false  usage: set to  true  to use draw bars instead (disables  logScaleX  and forces  x-axis  even spacing)", 
-            "title": "bars"
-        }, 
-        {
-            "location": "/widgets/plots/#logscalex", 
-            "text": "type:  boolean  default:  false  usage: set to  true  to use logarithmic scale for the  x  axis (log10)", 
-            "title": "logScaleX"
-        }, 
-        {
-            "location": "/widgets/plots/#logscaley", 
-            "text": "type:  boolean  default:  false  usage: set to  true  to use logarithmic scale for the  y  axis (log10)", 
-            "title": "logScaleY"
-        }, 
-        {
-            "location": "/widgets/plots/#smooth", 
-            "text": "type:  boolean  default:  false  usage: set to  true  to make the line smooth. Float values are also acceptable (works fine between 0 and 0.5)", 
-            "title": "smooth"
-        }, 
-        {
-            "location": "/widgets/plots/#origin", 
-            "text": "type:  number  default:  auto  usage: defines the y-axis origin. Set to  false  to disable it.", 
-            "title": "origin"
-        }, 
-        {
-            "location": "/widgets/plots/#eq", 
-            "text": "The Eq receives an array of filter objects and draws their frequency response between 20Hz and 22050Hz.  { \n     type : eq , \n     // etc  }", 
-            "title": "Eq"
-        }, 
-        {
-            "location": "/widgets/plots/#value_1", 
-            "text": "type:  array  default:  []  usage:  each item must be an object of the form below  all filters parameters can be filled with widget ids, whose value will be used     {\n    type:[string],   //  highpass ,  highshelf ,  lowpass ,  lowshelf ,  peak ,  notch \n    freq:[number],   //\n    q:[number],      //\n    gain:[number],   //\n    on:[bool]        // 1 or true = active, 0 or false = bypassed\n}", 
-            "title": "value"
-        }, 
-        {
-            "location": "/widgets/plots/#resolution", 
-            "text": "type:  number  default:  128  usage: defines the number of points used to compute the frequency response", 
-            "title": "resolution"
-        }, 
-        {
-            "location": "/widgets/plots/#rangey", 
-            "text": "type:  object  default:\n     { min :-20, max :20}  usage: defines the  min  and  max  values for the  y  axis (dB level)", 
-            "title": "rangeY"
-        }, 
-        {
-            "location": "/widgets/plots/#logscalex_1", 
-            "text": "type:  boolean  default:  false  usage: set to  true  to use logarithmic scale for the  x  axis (log10)", 
-            "title": "logScaleX"
-        }, 
-        {
-            "location": "/widgets/plots/#smooth_1", 
-            "text": "type:  boolean  default:  false  usage: set to true to make the line smooth. Float values are also acceptable (works fine between 0 and 0.5)", 
-            "title": "smooth"
-        }, 
-        {
-            "location": "/widgets/plots/#origin_1", 
-            "text": "type:  number  default:  auto  usage: defines the y-axis origin. Set to  false  to disable it.", 
-            "title": "origin"
-        }, 
-        {
-            "location": "/widgets/plots/#visualizer", 
-            "text": "The visualizer displays the evolution in time of a received value (through osc)  or  another widget's value.  { \n     type : visualizer , \n     // etc  }", 
-            "title": "Visualizer"
-        }, 
-        {
-            "location": "/widgets/plots/#duration", 
-            "text": "type:  number  default:  1  usage: window size in seconds", 
-            "title": "duration"
-        }, 
-        {
-            "location": "/widgets/plots/#range_2", 
-            "text": "type:  object  default:  { min :0, max :1}  usage: defines the  min  and  max  values for the  y  axis", 
-            "title": "range"
-        }, 
-        {
-            "location": "/widgets/plots/#logscale_1", 
-            "text": "type:  boolean  default:  false  usage: set to  true  use logarithmic scaling (log10)", 
-            "title": "logScale"
-        }, 
-        {
-            "location": "/widgets/plots/#smooth_2", 
-            "text": "type:  boolean  default:  false  usage: set to true to make the line smooth. Float values are also acceptable (works fine between 0 and 0.5)", 
-            "title": "smooth"
-        }, 
-        {
-            "location": "/widgets/plots/#origin_2", 
-            "text": "type:  number  default:  auto  usage: defines the y-axis origin. Set to  false  to disable it.", 
-            "title": "origin"
-        }, 
-        {
-            "location": "/widgets/plots/#text", 
-            "text": "Text displays incoming values (via osc) as text. Sending a message with no argument to the widget will reset it to its default text.  { \n     type : text , \n     // etc  }", 
-            "title": "Text"
-        }, 
-        {
-            "location": "/widgets/plots/#vertical", 
-            "text": "type:  boolean  default:  false  usage: set to  true  display vertically", 
-            "title": "vertical"
-        }, 
-        {
-            "location": "/widgets/plots/#wrap", 
-            "text": "type:  boolean  default:  false  usage: set to  true  to wrap long lines automatically. This will not break overflowing words by default, word-breaking can be enabled by adding  word-break: break-all;  to the  css  property.", 
-            "title": "wrap"
-        }, 
-        {
-            "location": "/widgets/plots/#align", 
-            "text": "type:  string  default:  ''  usage: set to  left  or  right  to change text alignment (otherwise  center )", 
-            "title": "align"
-        }, 
-        {
-            "location": "/widgets/plots/#meter", 
-            "text": "Meter displays incoming numerical values (via osc) as a gauge level  { \n     type : meter , \n     // etc  }", 
-            "title": "Meter"
-        }, 
-        {
-            "location": "/widgets/plots/#horizontal", 
-            "text": "type:  boolean  default:  false  usage: set to  true  to display the meter horizontally", 
-            "title": "horizontal"
-        }, 
-        {
-            "location": "/widgets/plots/#range_3", 
-            "text": "see fader's  range", 
-            "title": "range"
-        }, 
-        {
-            "location": "/widgets/plots/#logscale_2", 
-            "text": "see fader's  logScale", 
-            "title": "logScale"
-        }, 
-        {
-            "location": "/widgets/plots/#gradient", 
-            "text": "type:  array  default:  []  usage: when set, the meter's gauge will be filled with a linear color gradient : each item must be a color string. Example:  [ blue ,  red ]", 
-            "title": "gradient"
-        }, 
-        {
-            "location": "/widgets/plots/#css", 
-            "text": "--color-gauge : color ;  --color-knob : color ;   /* transparent by default */  --color-pips : color ;  --gauge-opacity : number ;", 
-            "title": "css"
-        }, 
-        {
-            "location": "/widgets/plots/#image", 
-            "text": "Image displays an image from a file path/url or from a base64 encoded image string. Sending an empty message resets the widget to its initial  value .  { \n     type : image , \n     // etc  }", 
-            "title": "Image"
-        }, 
-        {
-            "location": "/widgets/plots/#size", 
-            "text": "type:  string  default:  cover  usage: css  background-size", 
-            "title": "size"
-        }, 
-        {
-            "location": "/widgets/plots/#position", 
-            "text": "type:  string  default:  cover  usage: css  background-position", 
-            "title": "position"
-        }, 
-        {
-            "location": "/widgets/plots/#repeat", 
-            "text": "type:  string  default:  no-repeat  usage: css  background-repeat", 
-            "title": "repeat"
-        }, 
-        {
-            "location": "/widgets/plots/#border", 
-            "text": "type:  boolean  default:  false  usage: set to  true  to disable the image's borders and background-color.", 
-            "title": "border"
-        }, 
-        {
-            "location": "/widgets/plots/#cache", 
-            "text": "type:  boolean  default:  true  usage: set to  false  to disable image caching (forces file reload when updating or editing the widget). When  true , sending  'reload'  to the widget reloads its image without changing its value.", 
-            "title": "cache"
-        }, 
-        {
-            "location": "/widgets/plots/#value_2", 
-            "text": "type:  string  default:  ''  usage : initial image  file url or absolute path  base64 encoded image  :  data:image/...", 
-            "title": "value"
-        }, 
-        {
-            "location": "/widgets/plots/#svg", 
-            "text": "{ \n     type : svg , \n     // etc  }", 
-            "title": "Svg"
-        }, 
-        {
-            "location": "/widgets/plots/#svg_1", 
-            "text": "type:  string  default:  ''  usage : svg xml definition  will be wrapped in a  svg /svg  element  path  commands support a special percent notation ( %x  and  %y )    An exemple session called  svg.json  is shipped with the app.", 
+            "location": "/widgets-reference/#svg", 
+            "text": "property  type  default  description", 
             "title": "svg"
         }, 
         {
-            "location": "/widgets/matrices/", 
-            "text": "Matrices\n\n\nMatrices are special containers that only contain one type of widget. All contained widgets will be traversed by single dragging gestures.\n\n\n\n\nWhen using the \nproperty inheritance syntax\n to retreive a matrix' value, the returned value is an array containing all it's children's values.\n\n\n\n\nMatrix\n\n\nCreates grid of widgets of a given type\n\n\n{\n\n    \ntype\n:\nmatrix\n,\n\n    \n// etc\n\n\n}\n\n\n\n\n\nwidgetType\n\n\n\n\ntype: \nstring\n\n\ndefault: \ntoggle\n\n\nusage: set the type of the widgets in the matrix\n\n\n\n\nmatrix\n\n\n\n\ntype: \narray\n\n\ndefault: \n[2,2]\n\n\nusage: defines the number of columns and and rows in the matrix\n\n\n\n\nstart\n\n\n\n\ntype: \ninteger\n\n\ndefault: \n0\n\n\nusage: first widget's index\n\n\n\n\ntraversing\n\n\n\n\ntype: \nboolean\n\n\ndefault: \ntrue\n\n\nusage: set to false to disable traversing gestures\n\n\n\n\nprops\n\n\n\n\ntype: \nobject\n\n\ndefault: \n{}\n\n\nusage: define a set of property to override the widgets' defaults. \nFormulas\n in this field are resolved with an extra variable \n$\n representing each widget's index\n\n\n\n\nMultifader\n\n\nMultifader creates a row of vertical faders that respond to the same gestures.\n\n\n{\n\n    \ntype\n:\nmultifader\n,\n\n    \n// etc\n\n\n}\n\n\n\n\n\nstrips\n\n\n\n\ntype: \ninteger\n\n\ndefault: \n2\n\n\nusage: number of faders in the row, each fader will inherit its parent's properties and the following ones (where \ni\n is the fader's index in the row)\n\n\nid\n: same as the widget's with \n/i\n appended to it\n\n\nlabel\n: \ni\n\n\naddress\n: see \nsplit\n\n\n\n\n\n\n\n\nstart\n\n\n\n\ntype: \ninteger\n\n\ndefault: \n0\n\n\nusage: first faders's index\n\n\n\n\ntraversing\n\n\n\n\ntype: \nboolean\n\n\ndefault: \ntrue\n\n\nusage: set to false to disable traversing gestures\n\n\n\n\nborders\n\n\n\n\ntype: \nboolean\n\n\ndefault: \ntrue\n\n\nusage: set to false to disable widgets borders\n\n\n\n\nsplit\n\n\n\n\ntype: \nboolean|string\n\n\ndefault: \nfalse\n\n\nusage:\n\n\ntrue\n: the widget's index will be appended to the matrice's osc \naddress\n\n\nfalse\n: it will be prepended to the widget's \npreArgs\n\n\nstring\n: will be used to define the widgets' addresses, replacing dollar signs (\n$\n) with  their respective index (to insert the actual dollar sign, it must be escaped with a backslash (\n\\$\n)).\n\n\n\n\n\n\n\n\noptions\n\n\n\n\nsee fader's \noptions\n\n\n\n\nMultitoggle\n\n\n{\n\n    \ntype\n:\nmultitoggle\n,\n\n    \n// etc\n\n\n}\n\n\n\n\n\nmatrix\n\n\n\n\ntype: \narray\n\n\ndefault: \n[2,2]\n\n\nusage: defines the number of columns and and rows. Each cell will contain a toggle button that will inherit its parent's properties and the following ones (where \ni\n is the fader's index in the row)\n\n\nid\n: same as the widget's with \n/i\n appended to it\n\n\nlabel\n: \ni\n\n\naddress\n: see \nsplit\n\n\n\n\n\n\n\n\nstart\n\n\n\n\ntype: \ninteger\n\n\ndefault: \n0\n\n\nusage: first toggle's index\n\n\n\n\nspacing\n\n\n\n\ntype: \ninteger\n\n\ndefault: \n0\n\n\nusage: adds space between widgets\n\n\n\n\ntraversing\n\n\n\n\ntype: \nboolean\n\n\ndefault: \ntrue\n\n\nusage: set to false to disable traversing gestures\n\n\n\n\nsplit\n\n\n\n\ntype: \nboolean|string\n\n\ndefault: \nfalse\n\n\nusage:\n\n\ntrue\n: the widget's index will be appended to the matrice's osc \naddress\n\n\nfalse\n: it will be prepended to the widget's \npreArgs\n\n\nstring\n: will be used to define the widgets' addresses, replacing dollar signs (\n$\n) with  their respective index (to insert the actual dollar sign, it must be escaped with a backslash (\n\\$\n)).\n\n\n\n\n\n\n\n\noptions\n\n\n\n\nsee toggle's \noptions\n\n\n\n\nMultipush\n\n\n{\n\n    \ntype\n:\nmultipush\n,\n\n    \n// etc\n\n\n}\n\n\n\n\n\nmatrix\n\n\n\n\ntype: \narray\n\n\ndefault: \n[2,2]\n\n\nusage: defines the number of columns and and rows. Each cell will contain a push button that will inherit its parent's properties and the following ones (where \ni\n is the fader's index in the row)\n\n\nid\n: same as the widget's with \n/i\n appended to it\n\n\nlabel\n: \ni\n\n\naddress\n: see \nsplit\n\n\n\n\n\n\n\n\nstart\n\n\n\n\ntype: \ninteger\n\n\ndefault: \n0\n\n\nusage: first push's index\n\n\n\n\nspacing\n\n\n\n\ntype: \ninteger\n\n\ndefault: \n0\n\n\nusage: adds space between widgets\n\n\n\n\ntraversing\n\n\n\n\ntype: \nboolean\n\n\ndefault: \ntrue\n\n\nusage: set to false to disable traversing gestures\n\n\n\n\nsplit\n\n\n\n\ntype: \nboolean|string\n\n\ndefault: \nfalse\n\n\nusage:\n\n\ntrue\n: the widget's index will be appended to the matrice's osc \naddress\n\n\nfalse\n: it will be prepended to the widget's \npreArgs\n\n\nstring\n: will be used to define the widgets' addresses, replacing dollar signs (\n$\n) with  their respective index (to insert the actual dollar sign, it must be escaped with a backslash (\n\\$\n)).\n\n\n\n\n\n\n\n\noptions\n\n\n\n\nsee push's \noptions\n\n\n\n\nKeyboard\n\n\nThis one works pretty much like the multipush, excepts it looks like a piano keyboard.\n\n\n{\n\n    \ntype\n:\nkeyboard\n,\n\n    \n// etc\n\n\n}\n\n\n\n\n\nkeys\n\n\n\n\ntype: \ninteger\n\n\ndefault: \n24\n\n\nusage: defines the number keys\n\n\n\n\nstart\n\n\n\n\ntype: \ninteger\n\n\ndefault: \n60\n\n\nusage: MIDI note number to start with (default is C4)\n\n\n\n\n\n\nStandard keyboards settings are:\n25 keys - start 48\n49 keys - start 36\n61 keys - start 36\n88 keys - start 21\n\n\n\n\ntraversing\n\n\n\n\ntype: \nboolean\n\n\ndefault: \ntrue\n\n\nusage: set to false to disable traversing gestures\n\n\n\n\nsplit\n\n\n\n\ntype: \nboolean|string\n\n\ndefault: \nfalse\n\n\nusage:\n\n\ntrue\n: the widget's index will be appended to the matrice's osc \naddress\n\n\nfalse\n: it will be prepended to the widget's \npreArgs\n\n\nstring\n: will be used to define the widgets' addresses, replacing dollar signs (\n$\n) with  their respective index (to insert the actual dollar sign, it must be escaped with a backslash (\n\\$\n)).\n\n\n\n\n\n\n\n\noptions\n\n\n\n\nsee push's \noptions\n\n\n\n\ncss\n\n\n--color-white\n:\ncolor\n;\n \n/* white keys color */\n\n\n--color-black\n:\ncolor\n;\n \n/* black keys color */", 
-            "title": "Matrices"
+            "location": "/widgets-reference/#frame", 
+            "text": "property  type  default  description", 
+            "title": "frame"
         }, 
         {
-            "location": "/widgets/matrices/#matrices", 
-            "text": "Matrices are special containers that only contain one type of widget. All contained widgets will be traversed by single dragging gestures.   When using the  property inheritance syntax  to retreive a matrix' value, the returned value is an array containing all it's children's values.", 
-            "title": "Matrices"
+            "location": "/widgets-reference/#containers", 
+            "text": "", 
+            "title": "Containers"
         }, 
         {
-            "location": "/widgets/matrices/#matrix", 
-            "text": "Creates grid of widgets of a given type  { \n     type : matrix , \n     // etc  }", 
-            "title": "Matrix"
+            "location": "/widgets-reference/#panel", 
+            "text": "property  type  default  description", 
+            "title": "panel"
         }, 
         {
-            "location": "/widgets/matrices/#widgettype", 
-            "text": "type:  string  default:  toggle  usage: set the type of the widgets in the matrix", 
-            "title": "widgetType"
+            "location": "/widgets-reference/#strip", 
+            "text": "property  type  default  description", 
+            "title": "strip"
         }, 
         {
-            "location": "/widgets/matrices/#matrix_1", 
-            "text": "type:  array  default:  [2,2]  usage: defines the number of columns and and rows in the matrix", 
-            "title": "matrix"
+            "location": "/widgets-reference/#modal", 
+            "text": "property  type  default  description", 
+            "title": "modal"
         }, 
         {
-            "location": "/widgets/matrices/#start", 
-            "text": "type:  integer  default:  0  usage: first widget's index", 
-            "title": "start"
+            "location": "/widgets-reference/#clone", 
+            "text": "property  type  default  description", 
+            "title": "clone"
         }, 
         {
-            "location": "/widgets/matrices/#traversing", 
-            "text": "type:  boolean  default:  true  usage: set to false to disable traversing gestures", 
-            "title": "traversing"
+            "location": "/widgets-reference/#switchers", 
+            "text": "", 
+            "title": "Switchers"
         }, 
         {
-            "location": "/widgets/matrices/#props", 
-            "text": "type:  object  default:  {}  usage: define a set of property to override the widgets' defaults.  Formulas  in this field are resolved with an extra variable  $  representing each widget's index", 
-            "title": "props"
+            "location": "/widgets-reference/#switcher", 
+            "text": "property  type  default  description", 
+            "title": "switcher"
         }, 
         {
-            "location": "/widgets/matrices/#multifader", 
-            "text": "Multifader creates a row of vertical faders that respond to the same gestures.  { \n     type : multifader , \n     // etc  }", 
-            "title": "Multifader"
+            "location": "/widgets-reference/#crossfader", 
+            "text": "property  type  default  description", 
+            "title": "crossfader"
         }, 
         {
-            "location": "/widgets/matrices/#strips", 
-            "text": "type:  integer  default:  2  usage: number of faders in the row, each fader will inherit its parent's properties and the following ones (where  i  is the fader's index in the row)  id : same as the widget's with  /i  appended to it  label :  i  address : see  split", 
-            "title": "strips"
-        }, 
-        {
-            "location": "/widgets/matrices/#start_1", 
-            "text": "type:  integer  default:  0  usage: first faders's index", 
-            "title": "start"
-        }, 
-        {
-            "location": "/widgets/matrices/#traversing_1", 
-            "text": "type:  boolean  default:  true  usage: set to false to disable traversing gestures", 
-            "title": "traversing"
-        }, 
-        {
-            "location": "/widgets/matrices/#borders", 
-            "text": "type:  boolean  default:  true  usage: set to false to disable widgets borders", 
-            "title": "borders"
-        }, 
-        {
-            "location": "/widgets/matrices/#split", 
-            "text": "type:  boolean|string  default:  false  usage:  true : the widget's index will be appended to the matrice's osc  address  false : it will be prepended to the widget's  preArgs  string : will be used to define the widgets' addresses, replacing dollar signs ( $ ) with  their respective index (to insert the actual dollar sign, it must be escaped with a backslash ( \\$ )).", 
-            "title": "split"
-        }, 
-        {
-            "location": "/widgets/matrices/#options", 
-            "text": "see fader's  options", 
-            "title": "options"
-        }, 
-        {
-            "location": "/widgets/matrices/#multitoggle", 
-            "text": "{ \n     type : multitoggle , \n     // etc  }", 
-            "title": "Multitoggle"
-        }, 
-        {
-            "location": "/widgets/matrices/#matrix_2", 
-            "text": "type:  array  default:  [2,2]  usage: defines the number of columns and and rows. Each cell will contain a toggle button that will inherit its parent's properties and the following ones (where  i  is the fader's index in the row)  id : same as the widget's with  /i  appended to it  label :  i  address : see  split", 
-            "title": "matrix"
-        }, 
-        {
-            "location": "/widgets/matrices/#start_2", 
-            "text": "type:  integer  default:  0  usage: first toggle's index", 
-            "title": "start"
-        }, 
-        {
-            "location": "/widgets/matrices/#spacing", 
-            "text": "type:  integer  default:  0  usage: adds space between widgets", 
-            "title": "spacing"
-        }, 
-        {
-            "location": "/widgets/matrices/#traversing_2", 
-            "text": "type:  boolean  default:  true  usage: set to false to disable traversing gestures", 
-            "title": "traversing"
-        }, 
-        {
-            "location": "/widgets/matrices/#split_1", 
-            "text": "type:  boolean|string  default:  false  usage:  true : the widget's index will be appended to the matrice's osc  address  false : it will be prepended to the widget's  preArgs  string : will be used to define the widgets' addresses, replacing dollar signs ( $ ) with  their respective index (to insert the actual dollar sign, it must be escaped with a backslash ( \\$ )).", 
-            "title": "split"
-        }, 
-        {
-            "location": "/widgets/matrices/#options_1", 
-            "text": "see toggle's  options", 
-            "title": "options"
-        }, 
-        {
-            "location": "/widgets/matrices/#multipush", 
-            "text": "{ \n     type : multipush , \n     // etc  }", 
-            "title": "Multipush"
-        }, 
-        {
-            "location": "/widgets/matrices/#matrix_3", 
-            "text": "type:  array  default:  [2,2]  usage: defines the number of columns and and rows. Each cell will contain a push button that will inherit its parent's properties and the following ones (where  i  is the fader's index in the row)  id : same as the widget's with  /i  appended to it  label :  i  address : see  split", 
-            "title": "matrix"
-        }, 
-        {
-            "location": "/widgets/matrices/#start_3", 
-            "text": "type:  integer  default:  0  usage: first push's index", 
-            "title": "start"
-        }, 
-        {
-            "location": "/widgets/matrices/#spacing_1", 
-            "text": "type:  integer  default:  0  usage: adds space between widgets", 
-            "title": "spacing"
-        }, 
-        {
-            "location": "/widgets/matrices/#traversing_3", 
-            "text": "type:  boolean  default:  true  usage: set to false to disable traversing gestures", 
-            "title": "traversing"
-        }, 
-        {
-            "location": "/widgets/matrices/#split_2", 
-            "text": "type:  boolean|string  default:  false  usage:  true : the widget's index will be appended to the matrice's osc  address  false : it will be prepended to the widget's  preArgs  string : will be used to define the widgets' addresses, replacing dollar signs ( $ ) with  their respective index (to insert the actual dollar sign, it must be escaped with a backslash ( \\$ )).", 
-            "title": "split"
-        }, 
-        {
-            "location": "/widgets/matrices/#options_2", 
-            "text": "see push's  options", 
-            "title": "options"
-        }, 
-        {
-            "location": "/widgets/matrices/#keyboard", 
-            "text": "This one works pretty much like the multipush, excepts it looks like a piano keyboard.  { \n     type : keyboard , \n     // etc  }", 
-            "title": "Keyboard"
-        }, 
-        {
-            "location": "/widgets/matrices/#keys", 
-            "text": "type:  integer  default:  24  usage: defines the number keys", 
-            "title": "keys"
-        }, 
-        {
-            "location": "/widgets/matrices/#start_4", 
-            "text": "type:  integer  default:  60  usage: MIDI note number to start with (default is C4)    Standard keyboards settings are:\n25 keys - start 48\n49 keys - start 36\n61 keys - start 36\n88 keys - start 21", 
-            "title": "start"
-        }, 
-        {
-            "location": "/widgets/matrices/#traversing_4", 
-            "text": "type:  boolean  default:  true  usage: set to false to disable traversing gestures", 
-            "title": "traversing"
-        }, 
-        {
-            "location": "/widgets/matrices/#split_3", 
-            "text": "type:  boolean|string  default:  false  usage:  true : the widget's index will be appended to the matrice's osc  address  false : it will be prepended to the widget's  preArgs  string : will be used to define the widgets' addresses, replacing dollar signs ( $ ) with  their respective index (to insert the actual dollar sign, it must be escaped with a backslash ( \\$ )).", 
-            "title": "split"
-        }, 
-        {
-            "location": "/widgets/matrices/#options_3", 
-            "text": "see push's  options", 
-            "title": "options"
-        }, 
-        {
-            "location": "/widgets/matrices/#css", 
-            "text": "--color-white : color ;   /* white keys color */  --color-black : color ;   /* black keys color */", 
-            "title": "css"
-        }, 
-        {
-            "location": "/widgets/inputs/", 
-            "text": "inputs\n\n\nInput\n\n\n{\n\n    \ntype\n:\ninput\n,\n\n    \n// etc\n\n\n}\n\n\n\n\n\neditable\n\n\n\n\ntype: \nboolean\n\n\ndefault: \ntrue\n\n\nusage: set to \nfalse\n to make the input non-editable\n\n\n\n\nhorizontal\n\n\n\n\ntype: \nboolean\n\n\ndefault: \nfalse\n\n\nusage: set to \ntrue\n to display the input horizontally\n\n\n\n\nalign\n\n\n\n\ntype: \nstring\n\n\ndefault: \n''\n\n\nusage: set to \nleft\n or \nright\n to change text alignment (otherwise \ncenter\n)\n\n\n\n\nunit\n\n\n\n\ntype: \nstring\n\n\ndefault: \nempty\n\n\nusage: \nunit\n will be appended to the displayed widget's value (it doesn't affect osc messages)\n\n\n\n\nKeys\n\n\n{\n\n    \ntype\n:\nkeys\n,\n\n    \n// etc\n\n\n}\n\n\n\n\n\nbinding\n\n\n\n\ntype: \nstring|array\n\n\ndefault: \n''\n\n\nusage: \nkeyboardjs\n key combo string or array of strings.\n\n\n\n\nkeydown\n\n\n\n\ntype: \nstring\n\n\ndefault: \n''\n\n\nusage: this property is evaluated each time the key combo is pressed. \nFormulas\n are given extras variables in this context:\n\n\nkey\n: pressed key name (usefull for handling multiple keys with a single \nkeys\n widget)\n\n\nctrl\n: control key state\n\n\nalt\n: alt key state    \n\n\nshift\n: shift key state   \n\n\nsuper\n: command/windows key state   \n\n\n\n\nkeyup\n\n\n\n\ntype: \nstring\n\n\ndefault: \n''\n\n\nusage: same as \nkeydown\n, but evaluated when releasing the key combo.\n\n\n\n\nrepeat\n\n\n\n\ntype: \nboolean\n\n\ndefault: \ntrue\n\n\nusage: set to \nfalse\n to prevent \nkeydown\n repeats when holding the key combo pressed.\n\n\n\n\nScript\n\n\n{\n\n    \ntype\n:\nscript\n,\n\n    \n// etc\n\n\n}\n\n\n\n\n\ncondition\n\n\n\n\ntype: \nstring\n\n\ndefault: \n''\n\n\nusage: when the widget receives a value, if this property return a falsy value, the \nscript\n property won't be evaluated. If it's non-falsy, it will be evaluated normally. \nFormulas\n are given 1 extra variable in this context:\n\n\nvalue\n: the value received by the widget\n\n\n\n\nscript\n\n\n\n\ntype: \nstring\n\n\ndefault: \n''\n\n\nusage: this property is evaluated each time the widget receives a value if \ncondition\n is non-falsy. \nFormulas\n are given extras variables in this context:\n\n\nvalue\n: the value received by the widget\n\n\nsend\n: \nfunction\n for sending osc messages\n\n\nset\n: \nfunction\n for setting a widget's value\n\n\n\n\nsend(target, address, arg1, arg2, ...)\n\n\n\n\ntarget\n (\nstring\n or \narray\n or \nfalse\n): one or several osc targets. Default targets (\n--send\n and the script's \ntarget\n property) are ignored unless \ntarget\n is \nfalse\n\n\naddress\n (\nstring\n): a valid osc address\n\n\narg\n: one or several osc arguments to be sent. The script's \npreArgs\n property is ignored\n\n\n\n\nset(id, value)\n\n\n\n\nid\n (\nstring\n): a widget's id\n\n\nvalue\n: the widget's new value", 
+            "location": "/widgets-reference/#inputs", 
+            "text": "", 
             "title": "Inputs"
         }, 
         {
-            "location": "/widgets/inputs/#inputs", 
-            "text": "", 
-            "title": "inputs"
+            "location": "/widgets-reference/#input", 
+            "text": "property  type  default  description", 
+            "title": "input"
         }, 
         {
-            "location": "/widgets/inputs/#input", 
-            "text": "{ \n     type : input , \n     // etc  }", 
-            "title": "Input"
+            "location": "/widgets-reference/#keys", 
+            "text": "property  type  default  description", 
+            "title": "keys"
         }, 
         {
-            "location": "/widgets/inputs/#editable", 
-            "text": "type:  boolean  default:  true  usage: set to  false  to make the input non-editable", 
-            "title": "editable"
-        }, 
-        {
-            "location": "/widgets/inputs/#horizontal", 
-            "text": "type:  boolean  default:  false  usage: set to  true  to display the input horizontally", 
-            "title": "horizontal"
-        }, 
-        {
-            "location": "/widgets/inputs/#align", 
-            "text": "type:  string  default:  ''  usage: set to  left  or  right  to change text alignment (otherwise  center )", 
-            "title": "align"
-        }, 
-        {
-            "location": "/widgets/inputs/#unit", 
-            "text": "type:  string  default:  empty  usage:  unit  will be appended to the displayed widget's value (it doesn't affect osc messages)", 
-            "title": "unit"
-        }, 
-        {
-            "location": "/widgets/inputs/#keys", 
-            "text": "{ \n     type : keys , \n     // etc  }", 
-            "title": "Keys"
-        }, 
-        {
-            "location": "/widgets/inputs/#binding", 
-            "text": "type:  string|array  default:  ''  usage:  keyboardjs  key combo string or array of strings.", 
-            "title": "binding"
-        }, 
-        {
-            "location": "/widgets/inputs/#keydown", 
-            "text": "type:  string  default:  ''  usage: this property is evaluated each time the key combo is pressed.  Formulas  are given extras variables in this context:  key : pressed key name (usefull for handling multiple keys with a single  keys  widget)  ctrl : control key state  alt : alt key state      shift : shift key state     super : command/windows key state", 
-            "title": "keydown"
-        }, 
-        {
-            "location": "/widgets/inputs/#keyup", 
-            "text": "type:  string  default:  ''  usage: same as  keydown , but evaluated when releasing the key combo.", 
-            "title": "keyup"
-        }, 
-        {
-            "location": "/widgets/inputs/#repeat", 
-            "text": "type:  boolean  default:  true  usage: set to  false  to prevent  keydown  repeats when holding the key combo pressed.", 
-            "title": "repeat"
-        }, 
-        {
-            "location": "/widgets/inputs/#script", 
-            "text": "{ \n     type : script , \n     // etc  }", 
-            "title": "Script"
-        }, 
-        {
-            "location": "/widgets/inputs/#condition", 
-            "text": "type:  string  default:  ''  usage: when the widget receives a value, if this property return a falsy value, the  script  property won't be evaluated. If it's non-falsy, it will be evaluated normally.  Formulas  are given 1 extra variable in this context:  value : the value received by the widget", 
-            "title": "condition"
-        }, 
-        {
-            "location": "/widgets/inputs/#script_1", 
-            "text": "type:  string  default:  ''  usage: this property is evaluated each time the widget receives a value if  condition  is non-falsy.  Formulas  are given extras variables in this context:  value : the value received by the widget  send :  function  for sending osc messages  set :  function  for setting a widget's value", 
+            "location": "/widgets-reference/#script", 
+            "text": "property  type  default  description", 
             "title": "script"
         }, 
         {
-            "location": "/widgets/inputs/#sendtarget-address-arg1-arg2", 
-            "text": "target  ( string  or  array  or  false ): one or several osc targets. Default targets ( --send  and the script's  target  property) are ignored unless  target  is  false  address  ( string ): a valid osc address  arg : one or several osc arguments to be sent. The script's  preArgs  property is ignored", 
-            "title": "send(target, address, arg1, arg2, ...)"
-        }, 
-        {
-            "location": "/widgets/inputs/#setid-value", 
-            "text": "id  ( string ): a widget's id  value : the widget's new value", 
-            "title": "set(id, value)"
-        }, 
-        {
-            "location": "/widgets/maths/", 
-            "text": "Maths\n\n\nMaths do the maths !\n\n\nFormula\n\n\n\n\nDeprecated\n\n\nSince \nv0.24.0\n, any widget property can be defined using math expressions. Formula widget is deprecated and will be removed in a future release.\n\n\n\n\nFormula evaluates mathematical expressions over other widgets' values each one of these widgets changes.\n\n\n{\n\n    \ntype\n:\nformula\n,\n\n    \n// etc\n\n\n}\n\n\n\n\n\nformula\n\n\n\n\ntype: \nstring\n\n\ndefault: \n''\n\n\nusage: a \nmathjs\n expression in which\n\n\n${id}\n will be replaced the \nid\n's value  \n\n\nexample: \n${fader_1} * 2 + ${fader_2}\n\n\n\n\n\n\nimportant note\n: contrary to what is stated in \nmathjs\n' documentation, \nmatrix indexes are zero-based\n here\n\n\n\n\ncondition\n\n\n\n\ntype: \nstring\n\n\ndefault: \n''\n\n\nusage:\n\n\na \nmathjs\n comparison expression that bypasses widget's osc sending when returning\nfalse\n\n\nexample: \n${fader_1} \n 0.5\n\n\n\n\n\n\n\n\nunit\n\n\n\n\ntype: \nstring\n\n\ndefault: \nempty\n\n\nusage: \nunit\n will be appended to the displayed widget's value (it doesn't affect osc messages)\n\n\n\n\nsplit\n\n\n\n\ntype: \nobject\n\n\ndefault: \n[]\n\n\nusage: specify a different \naddress\n for each item of the widget's value : \n['/a', '/b']\n\n\nnote: only use this is the formula return an \narray", 
-            "title": "Maths"
-        }, 
-        {
-            "location": "/widgets/maths/#maths", 
-            "text": "Maths do the maths !", 
-            "title": "Maths"
-        }, 
-        {
-            "location": "/widgets/maths/#formula", 
-            "text": "Deprecated  Since  v0.24.0 , any widget property can be defined using math expressions. Formula widget is deprecated and will be removed in a future release.   Formula evaluates mathematical expressions over other widgets' values each one of these widgets changes.  { \n     type : formula , \n     // etc  }", 
-            "title": "Formula"
-        }, 
-        {
-            "location": "/widgets/maths/#formula_1", 
-            "text": "type:  string  default:  ''  usage: a  mathjs  expression in which  ${id}  will be replaced the  id 's value    example:  ${fader_1} * 2 + ${fader_2}    important note : contrary to what is stated in  mathjs ' documentation,  matrix indexes are zero-based  here", 
-            "title": "formula"
-        }, 
-        {
-            "location": "/widgets/maths/#condition", 
-            "text": "type:  string  default:  ''  usage:  a  mathjs  comparison expression that bypasses widget's osc sending when returning false  example:  ${fader_1}   0.5", 
-            "title": "condition"
-        }, 
-        {
-            "location": "/widgets/maths/#unit", 
-            "text": "type:  string  default:  empty  usage:  unit  will be appended to the displayed widget's value (it doesn't affect osc messages)", 
-            "title": "unit"
-        }, 
-        {
-            "location": "/widgets/maths/#split", 
-            "text": "type:  object  default:  []  usage: specify a different  address  for each item of the widget's value :  ['/a', '/b']  note: only use this is the formula return an  array", 
-            "title": "split"
+            "location": "/widgets-reference/#gyroscope", 
+            "text": "property  type  default  description", 
+            "title": "gyroscope"
         }, 
         {
             "location": "/extras/advanced-property-syntax/", 
@@ -1512,12 +517,12 @@
         }, 
         {
             "location": "/extras/url-options/", 
-            "text": "URL Options\n\n\nClient specific options can be set by adding query parameters to the server's url. One must prepend the url with a question mark (\n?\n) followed by \nparameter=value\n pairs separated with ampersands (\n).\n\n\n\n\n\n\n\n\nOption\n\n\nValue\n\n\nDefault\n\n\nDescription\n\n\n\n\n\n\n\n\n\n\nhdpi\n\n\n1 / 0\n\n\n0\n\n\nenable high resolution canvas\n\n\n\n\n\n\nforceHdpi\n\n\nnumber\n\n\n0\n\n\nforce canvas scaling (ignore \nhdpi\n)\n\n\n\n\n\n\ndoubletab\n\n\nnumber\n\n\n375\n\n\nsets the double tap/click time thershold in milliseconds\n\n\n\n\n\n\nzoom\n\n\nnumber\n\n\n1\n\n\nsets the initial zoom\n\n\n\n\n\n\nframerate\n\n\nnumber\n\n\n60\n\n\nlimit canvas drawing framerate\n\n\n\n\n\n\n\n\nExample:\n\n\nhttp://server-ip:port?hdpi=1\n\n\n\n\nWhen using the built-in client, url options can be set through the \n--url-options\n switch.\n\n\nExample: \nopen-stage-control --url-options zoom=2 doubletap=200", 
+            "text": "URL Options\n\n\nClient specific options can be set by adding query parameters to the server's url. One must prepend the url with a question mark (\n?\n) followed by \nparameter=value\n pairs separated with ampersands (\n).\n\n\n\n\n\n\n\n\nOption\n\n\nValue\n\n\nDefault\n\n\nDescription\n\n\n\n\n\n\n\n\n\n\nhdpi\n\n\n1 / 0\n\n\n0\n\n\nenable high resolution canvas\n\n\n\n\n\n\nforceHdpi\n\n\nnumber\n\n\n0\n\n\nforce canvas scaling (ignore \nhdpi\n)\n\n\n\n\n\n\ndoubletab\n\n\nnumber\n\n\n375\n\n\nsets the double tap/click time thershold in milliseconds\n\n\n\n\n\n\nzoom\n\n\nnumber\n\n\n1\n\n\nsets the initial zoom\n\n\n\n\n\n\nframerate\n\n\nnumber\n\n\n60\n\n\nlimit canvas drawing framerate\n\n\n\n\n\n\nlang\n\n\nstring\n\n\nsystem_default\n\n\nuse a different language than the default if available (2-letters code such as \"en\")\n\n\n\n\n\n\n\n\nExample:\n\n\nhttp://server-ip:port?hdpi=1\n\n\n\n\nWhen using the built-in client, url options can be set through the \n--url-options\n switch.\n\n\nExample: \nopen-stage-control --url-options zoom=2 doubletap=200", 
             "title": "URL options"
         }, 
         {
             "location": "/extras/url-options/#url-options", 
-            "text": "Client specific options can be set by adding query parameters to the server's url. One must prepend the url with a question mark ( ? ) followed by  parameter=value  pairs separated with ampersands ( ).     Option  Value  Default  Description      hdpi  1 / 0  0  enable high resolution canvas    forceHdpi  number  0  force canvas scaling (ignore  hdpi )    doubletab  number  375  sets the double tap/click time thershold in milliseconds    zoom  number  1  sets the initial zoom    framerate  number  60  limit canvas drawing framerate     Example:  http://server-ip:port?hdpi=1   When using the built-in client, url options can be set through the  --url-options  switch.  Example:  open-stage-control --url-options zoom=2 doubletap=200", 
+            "text": "Client specific options can be set by adding query parameters to the server's url. One must prepend the url with a question mark ( ? ) followed by  parameter=value  pairs separated with ampersands ( ).     Option  Value  Default  Description      hdpi  1 / 0  0  enable high resolution canvas    forceHdpi  number  0  force canvas scaling (ignore  hdpi )    doubletab  number  375  sets the double tap/click time thershold in milliseconds    zoom  number  1  sets the initial zoom    framerate  number  60  limit canvas drawing framerate    lang  string  system_default  use a different language than the default if available (2-letters code such as \"en\")     Example:  http://server-ip:port?hdpi=1   When using the built-in client, url options can be set through the  --url-options  switch.  Example:  open-stage-control --url-options zoom=2 doubletap=200", 
             "title": "URL Options"
         }, 
         {
