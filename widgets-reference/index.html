@@ -2543,6 +2543,18 @@
 </thead>
 <tbody>
 <tr>
+<td><h4 class="thead2" id="keyboard_style">style<a class="headerlink" href="#keyboard_style" title="Permanent link">¶</a></h4></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><h4 id="keyboard_css">css<a class="headerlink" href="#keyboard_css" title="Permanent link">¶</a></h4></td>
+<td><code>string</code></td>
+<td><code>""</code></td>
+<td>Available CSS variables:<br/>- <code>--color-white:color;</code> (white keys color)<br/>- <code>--color-black:color;</code> (black keys color)</td>
+</tr>
+<tr>
 <td><h4 class="thead2" id="keyboard_matrix">matrix<a class="headerlink" href="#keyboard_matrix" title="Permanent link">¶</a></h4></td>
 <td></td>
 <td></td>
@@ -3256,7 +3268,7 @@
 <td><h4 id="strip_widgets">widgets<a class="headerlink" href="#strip_widgets" title="Permanent link">¶</a></h4></td>
 <td><code>array</code></td>
 <td><code>[]</code></td>
-<td>Each element of the array must be a widget object</td>
+<td>Each element of the array must be a widget object<br/>- By default, children widgets that don't have an explicit <code>width</code>/<code>height</code> set will be shrinked to respect the sizes specified by others<br/>- Adding <code>flex:1;</code> to a children's <code>css</code> will give it the ability the fill the remaining space<br/>- Multiple children can have a <code>flex:x;</code> css property (<code>x</code> will ponderate their expansion)</td>
 </tr>
 </tbody>
 </table>
@@ -3312,6 +3324,18 @@
 <td><code>number</code>|<br/><code>percentage</code></td>
 <td><code>"auto"</code></td>
 <td>Modal popup's position</td>
+</tr>
+<tr>
+<td><h4 class="thead2" id="modal_value">value<a class="headerlink" href="#modal_value" title="Permanent link">¶</a></h4></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><h4 id="modal_value">value<a class="headerlink" href="#modal_value" title="Permanent link">¶</a></h4></td>
+<td><code>integer</code></td>
+<td><code>""</code></td>
+<td>Defines the modal's state:<code>0</code> for closed, <code>1</code> for opened</td>
 </tr>
 <tr>
 <td><h4 class="thead2" id="modal_children">children<a class="headerlink" href="#modal_children" title="Permanent link">¶</a></h4></td>
@@ -3404,7 +3428,7 @@
 <td><h4 id="switcher_values">values<a class="headerlink" href="#switcher_values" title="Permanent link">¶</a></h4></td>
 <td><code>array</code>|<br/><code>object</code></td>
 <td><code>{<br/>&nbsp;"Value 1": 1,<br/>&nbsp;"Value 2": 2<br/>}</code></td>
-<td><code>Array</code> of possible values to switch between : <code>[1,2,3]</code><br/><br/><code>Object</code> of <code>&quot;label&quot;:value</code> pairs. Numeric labels must be prepended or appended with a white space (or any other non-numeric character) otherwise the order of the values won't be kept</td>
+<td>Each item represents a bank that stores the values from the widgets listed in <code>linkedWidgets</code><br/>- <code>Array</code> of possible values to switch between : <code>[1,2,3]</code><br/>- <code>Object</code> of <code>&quot;label&quot;:value</code> pairs. Numeric labels must be prepended or appended with a white space (or any other non-numeric character) otherwise the order of the values won't be kept</td>
 </tr>
 </tbody>
 </table>
@@ -3436,12 +3460,6 @@
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 <td>Set to <code>true</code> to display values horizontally</td>
-</tr>
-<tr>
-<td><h4 id="crossfader_values">values<a class="headerlink" href="#crossfader_values" title="Permanent link">¶</a></h4></td>
-<td><code>array</code>|<br/><code>object</code></td>
-<td><code>{<br/>&nbsp;"Value 1": 1,<br/>&nbsp;"Value 2": 2<br/>}</code></td>
-<td><code>Array</code> of possible values to switch between : <code>[1,2,3]</code><br/><br/><code>Object</code> of <code>&quot;label&quot;:value</code> pairs. Numeric labels must be prepended or appended with a white space (or any other non-numeric character) otherwise the order of the values won't be kept</td>
 </tr>
 </tbody>
 </table>
@@ -3603,6 +3621,18 @@
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 <td>Set to <code>true</code> to return screen adjusted values</td>
+</tr>
+<tr>
+<td><h4 class="thead2" id="gyroscope_value">value<a class="headerlink" href="#gyroscope_value" title="Permanent link">¶</a></h4></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><h4 id="gyroscope_value">value<a class="headerlink" href="#gyroscope_value" title="Permanent link">¶</a></h4></td>
+<td><code>object</code></td>
+<td><code>""</code></td>
+<td>The gyroscope's value is an object containing multiple values, which can be used by other widgets via the property maths syntax<br/>- <code>value.do.alpha</code>: deviceorientation event alpha<br/>- <code>value.do.beta</code>: deviceorientation event beta<br/>- <code>value.do.gamma</code>: deviceorientation event gamma<br/>- <code>value.do.absolute</code>: deviceorientation event absolute<br/>- <code>value.dm.x</code>: devicemotion event acceleration x<br/>- <code>value.dm.y</code>: devicemotion event acceleration y<br/>- <code>value.dm.z</code>: devicemotion event acceleration z<br/>- <code>value.dm.gx</code>: devicemotion event accelerationIncludingGravity x<br/>- <code>value.dm.gy</code>: devicemotion event accelerationIncludingGravity y<br/>- <code>value.dm.gz</code>: devicemotion event accelerationIncludingGravity z<br/>- <code>value.dm.alpha</code>: devicemotion event rotationRate alpha<br/>- <code>value.dm.beta</code>: devicemotion event rotationRate beta<br/>- <code>value.dm.gamma</code>: devicemotion event rotationRate gamma</td>
 </tr>
 </tbody>
 </table>
