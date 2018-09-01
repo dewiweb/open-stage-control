@@ -2685,7 +2685,7 @@
 <tr>
 <td><h4 id="plot_value">value<a class="headerlink" href="#plot_value" title="Permanent link">¶</a></h4></td>
 <td><code>array</code>|<br/><code>string</code></td>
-<td><code></code></td>
+<td><code>""</code></td>
 <td>- <code>Array</code> of <code>y</code> values<br/>- <code>Array</code> of <code>[x, y]</code> <code>array</code> values<br/>- <code>String</code> <code>array</code><br/>- <code>String</code> <code>object</code> to update specific coordinates only: <code>{0:1, 4:0}</code> will change the 1<sup>st</sup> and 5<sup>th</sup> points' coordinates</td>
 </tr>
 </tbody>
@@ -2851,7 +2851,7 @@
 <tr>
 <td><h4 id="rgbled_value">value<a class="headerlink" href="#rgbled_value" title="Permanent link">¶</a></h4></td>
 <td><code>array</code>|<br/><code>string</code></td>
-<td><code></code></td>
+<td><code>""</code></td>
 <td>- <code>Array</code>: <code>[r, g, b]</code> (<code>r</code>, <code>g</code> and <code>b</code> between <code>0</code> and <code>255</code>)<br/>- <code>Array</code>: <code>[r, g, b, alpha]</code> (<code>alpha</code> between <code>0</code> and <code>255</code>)<br/>- <code>String</code>: CSS color</td>
 </tr>
 </tbody>
@@ -3124,6 +3124,18 @@
 </thead>
 <tbody>
 <tr>
+<td><h4 class="thead2" id="frame_style">style<a class="headerlink" href="#frame_style" title="Permanent link">¶</a></h4></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><h4 id="frame_label">label<a class="headerlink" href="#frame_label" title="Permanent link">¶</a></h4></td>
+<td><code>string</code>|<br/><code>boolean</code></td>
+<td><code>"auto"</code></td>
+<td>Set to <code>false</code> to hide completely<br/><br/>Insert icons using the prefix ^ followed by the icon's name : ^play, ^pause, etc<br/><br/>If set to <code>false</code>, all pointer-events will be disabled on the frame as long as the editor is enabled to ensure it can be selected</td>
+</tr>
+<tr>
 <td><h4 class="thead2" id="frame_frame">frame<a class="headerlink" href="#frame_frame" title="Permanent link">¶</a></h4></td>
 <td></td>
 <td></td>
@@ -3134,6 +3146,18 @@
 <td><code>boolean</code></td>
 <td><code>true</code></td>
 <td>Set to <code>false</code> to disable the borders and background-color</td>
+</tr>
+<tr>
+<td><h4 class="thead2" id="frame_value">value<a class="headerlink" href="#frame_value" title="Permanent link">¶</a></h4></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><h4 id="frame_value">value<a class="headerlink" href="#frame_value" title="Permanent link">¶</a></h4></td>
+<td><code>string</code></td>
+<td><code>""</code></td>
+<td>External web page URL. Only local URLs are allowed (starting with <code>http://127.0.0.1/</code>, <code>http://10.x.x.x/</code>, <code>http://192.168.x.x/</code>, etc)</td>
 </tr>
 </tbody>
 </table>
