@@ -1397,7 +1397,7 @@
 <td></td>
 </tr>
 <tr>
-<td><h4 id="fader_css">css<a class="headerlink" href="#fader_css" title="Permanent link">¶</a></h4></td>
+<td><h4 id="fader_css">css<i class="dynamic-prop-icon" title="dynamic"></i><a class="headerlink" href="#fader_css" title="Permanent link">¶</a></h4></td>
 <td><code>string</code></td>
 <td><code>""</code></td>
 <td>Available CSS variables:<br/>- <code>--color-gauge: color;</code><br/>- <code>--color-knob: color;</code><br/>- <code>--color-pips: color;</code><br/>- <code>--gauge-opacity: number;</code></td>
@@ -1530,7 +1530,7 @@
 <td></td>
 </tr>
 <tr>
-<td><h4 id="knob_css">css<a class="headerlink" href="#knob_css" title="Permanent link">¶</a></h4></td>
+<td><h4 id="knob_css">css<i class="dynamic-prop-icon" title="dynamic"></i><a class="headerlink" href="#knob_css" title="Permanent link">¶</a></h4></td>
 <td><code>string</code></td>
 <td><code>""</code></td>
 <td>Available CSS variables:<br/>- <code>--color-gauge: color;</code><br/>- <code>--color-knob: color;</code><br/>- <code>--color-pips: color;</code></td>
@@ -1706,7 +1706,7 @@
 <td></td>
 </tr>
 <tr>
-<td><h4 id="range_css">css<a class="headerlink" href="#range_css" title="Permanent link">¶</a></h4></td>
+<td><h4 id="range_css">css<i class="dynamic-prop-icon" title="dynamic"></i><a class="headerlink" href="#range_css" title="Permanent link">¶</a></h4></td>
 <td><code>string</code></td>
 <td><code>""</code></td>
 <td>Available CSS variables:<br/>- <code>--color-gauge: color;</code><br/>- <code>--color-knob: color;</code><br/>- <code>--color-pips: color;</code><br/>- <code>--gauge-opacity: number;</code></td>
@@ -1822,13 +1822,13 @@
 <td>Set to <code>true</code> to display the toggle's state with a led</td>
 </tr>
 <tr>
-<td><h4 id="toggle_on">on<a class="headerlink" href="#toggle_on" title="Permanent link">¶</a></h4></td>
+<td><h4 id="toggle_on">on<i class="dynamic-prop-icon" title="dynamic"></i><a class="headerlink" href="#toggle_on" title="Permanent link">¶</a></h4></td>
 <td><code>*</code></td>
 <td><code>1</code></td>
 <td>Set to <code>null</code> to send send no argument in the osc message<br/><br/>Can be an <code>object</code> if the type needs to be specified (see preArgs)</td>
 </tr>
 <tr>
-<td><h4 id="toggle_off">off<a class="headerlink" href="#toggle_off" title="Permanent link">¶</a></h4></td>
+<td><h4 id="toggle_off">off<i class="dynamic-prop-icon" title="dynamic"></i><a class="headerlink" href="#toggle_off" title="Permanent link">¶</a></h4></td>
 <td><code>*</code></td>
 <td><code>0</code></td>
 <td>Set to <code>null</code> to send send no argument in the osc message<br/><br/>Can be an <code>object</code> if the type needs to be specified (see preArgs)</td>
@@ -1853,19 +1853,19 @@
 <td></td>
 </tr>
 <tr>
-<td><h4 id="push_on">on<a class="headerlink" href="#push_on" title="Permanent link">¶</a></h4></td>
+<td><h4 id="push_on">on<i class="dynamic-prop-icon" title="dynamic"></i><a class="headerlink" href="#push_on" title="Permanent link">¶</a></h4></td>
 <td><code>*</code></td>
 <td><code>1</code></td>
 <td>Set to <code>null</code> to send send no argument in the osc message<br/><br/>Can be an <code>object</code> if the type needs to be specified (see preArgs)</td>
 </tr>
 <tr>
-<td><h4 id="push_off">off<a class="headerlink" href="#push_off" title="Permanent link">¶</a></h4></td>
+<td><h4 id="push_off">off<i class="dynamic-prop-icon" title="dynamic"></i><a class="headerlink" href="#push_off" title="Permanent link">¶</a></h4></td>
 <td><code>*</code></td>
 <td><code>0</code></td>
 <td>Set to <code>null</code> to send send no argument in the osc message<br/><br/>Can be an <code>object</code> if the type needs to be specified (see preArgs)</td>
 </tr>
 <tr>
-<td><h4 id="push_norelease">norelease<a class="headerlink" href="#push_norelease" title="Permanent link">¶</a></h4></td>
+<td><h4 id="push_norelease">norelease<i class="dynamic-prop-icon" title="dynamic"></i><a class="headerlink" href="#push_norelease" title="Permanent link">¶</a></h4></td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 <td>Set to <code>true</code> to prevent sending any osc message when releasing the button</td>
@@ -1927,7 +1927,7 @@
 <td></td>
 </tr>
 <tr>
-<td><h4 id="dropdown_values">values<a class="headerlink" href="#dropdown_values" title="Permanent link">¶</a></h4></td>
+<td><h4 id="dropdown_values">values<i class="dynamic-prop-icon" title="dynamic"></i><a class="headerlink" href="#dropdown_values" title="Permanent link">¶</a></h4></td>
 <td><code>array</code>|<br/><code>object</code></td>
 <td><code>{<br/>&nbsp;"Value 1": 1,<br/>&nbsp;"Value 2": 2<br/>}</code></td>
 <td><code>Array</code> of possible values to switch between : <code>[1,2,3]</code><br/><br/><code>Object</code> of label:value pairs. Numeric labels must be prepended or appended with a white space (or any other non-numeric character) otherwise the order of the values won't be kept<br/><br/>An empty option will always be prepended to values (sends an osc message without any value); it can be hidden by adding <code>option:first-child{display:none}</code> to the widget's <code>css</code></td>
@@ -2239,7 +2239,7 @@
 <td>Set to <code>false</code> to disables the widgets' borders</td>
 </tr>
 <tr>
-<td><h4 id="matrix_props">props<a class="headerlink" href="#matrix_props" title="Permanent link">¶</a></h4></td>
+<td><h4 id="matrix_props">props<i class="dynamic-prop-icon" title="dynamic"></i><a class="headerlink" href="#matrix_props" title="Permanent link">¶</a></h4></td>
 <td><code>object</code></td>
 <td><code>{}</code></td>
 <td>Defines a set of property to override the widgets' defaults.<br/><br/>Formulas in this field are resolved with an extra variable representing each widget's index: <code>$</code></td>
@@ -2549,7 +2549,7 @@
 <td></td>
 </tr>
 <tr>
-<td><h4 id="keyboard_css">css<a class="headerlink" href="#keyboard_css" title="Permanent link">¶</a></h4></td>
+<td><h4 id="keyboard_css">css<i class="dynamic-prop-icon" title="dynamic"></i><a class="headerlink" href="#keyboard_css" title="Permanent link">¶</a></h4></td>
 <td><code>string</code></td>
 <td><code>""</code></td>
 <td>Available CSS variables:<br/>- <code>--color-white:color;</code> (white keys color)<br/>- <code>--color-black:color;</code> (black keys color)</td>
@@ -2683,7 +2683,7 @@
 <td></td>
 </tr>
 <tr>
-<td><h4 id="plot_value">value<a class="headerlink" href="#plot_value" title="Permanent link">¶</a></h4></td>
+<td><h4 id="plot_value">value<i class="dynamic-prop-icon" title="dynamic"></i><a class="headerlink" href="#plot_value" title="Permanent link">¶</a></h4></td>
 <td><code>array</code>|<br/><code>string</code></td>
 <td><code>""</code></td>
 <td>- <code>Array</code> of <code>y</code> values<br/>- <code>Array</code> of <code>[x, y]</code> <code>array</code> values<br/>- <code>String</code> <code>array</code><br/>- <code>String</code> <code>object</code> to update specific coordinates only: <code>{0:1, 4:0}</code> will change the 1<sup>st</sup> and 5<sup>th</sup> points' coordinates</td>
@@ -2849,7 +2849,7 @@
 <td></td>
 </tr>
 <tr>
-<td><h4 id="rgbled_value">value<a class="headerlink" href="#rgbled_value" title="Permanent link">¶</a></h4></td>
+<td><h4 id="rgbled_value">value<i class="dynamic-prop-icon" title="dynamic"></i><a class="headerlink" href="#rgbled_value" title="Permanent link">¶</a></h4></td>
 <td><code>array</code>|<br/><code>string</code></td>
 <td><code>""</code></td>
 <td>- <code>Array</code>: <code>[r, g, b]</code> (<code>r</code>, <code>g</code> and <code>b</code> between <code>0</code> and <code>255</code>)<br/>- <code>Array</code>: <code>[r, g, b, alpha]</code> (<code>alpha</code> between <code>0</code> and <code>255</code>)<br/>- <code>String</code>: CSS color</td>
@@ -2874,7 +2874,7 @@
 <td></td>
 </tr>
 <tr>
-<td><h4 id="meter_css">css<a class="headerlink" href="#meter_css" title="Permanent link">¶</a></h4></td>
+<td><h4 id="meter_css">css<i class="dynamic-prop-icon" title="dynamic"></i><a class="headerlink" href="#meter_css" title="Permanent link">¶</a></h4></td>
 <td><code>string</code></td>
 <td><code>""</code></td>
 <td>Available CSS variables:<br/>- <code>--color-gauge: color;</code><br/>- <code>--color-knob: color;</code><br/>- <code>--color-pips: color;</code><br/>- <code>--gauge-opacity: number;</code></td>
@@ -3080,7 +3080,7 @@
 <td></td>
 </tr>
 <tr>
-<td><h4 id="image_value">value<a class="headerlink" href="#image_value" title="Permanent link">¶</a></h4></td>
+<td><h4 id="image_value">value<i class="dynamic-prop-icon" title="dynamic"></i><a class="headerlink" href="#image_value" title="Permanent link">¶</a></h4></td>
 <td><code>string</code></td>
 <td><code>""</code></td>
 <td>- File <code>url</code> or <code>absolute path</code><br/>- Base64 encoded image : <code>data:image/...</code></td>
@@ -3105,7 +3105,7 @@
 <td></td>
 </tr>
 <tr>
-<td><h4 id="svg_svg">svg<a class="headerlink" href="#svg_svg" title="Permanent link">¶</a></h4></td>
+<td><h4 id="svg_svg">svg<i class="dynamic-prop-icon" title="dynamic"></i><a class="headerlink" href="#svg_svg" title="Permanent link">¶</a></h4></td>
 <td><code>string</code></td>
 <td><code>""</code></td>
 <td>Svg xml definition:<br/>- will be wrapped in a <code>&lt;svg&gt;&lt;/svg&gt;</code> element<br/>- <code>&lt;path&gt;</code> commands support a special percent notation (<code>%x</code> and <code>%y</code>)</td>
@@ -3130,7 +3130,7 @@
 <td></td>
 </tr>
 <tr>
-<td><h4 id="frame_label">label<a class="headerlink" href="#frame_label" title="Permanent link">¶</a></h4></td>
+<td><h4 id="frame_label">label<i class="dynamic-prop-icon" title="dynamic"></i><a class="headerlink" href="#frame_label" title="Permanent link">¶</a></h4></td>
 <td><code>string</code>|<br/><code>boolean</code></td>
 <td><code>"auto"</code></td>
 <td>Set to <code>false</code> to hide completely<br/><br/>Insert icons using the prefix ^ followed by the icon's name : ^play, ^pause, etc<br/><br/>If set to <code>false</code>, all pointer-events will be disabled on the frame as long as the editor is enabled to ensure it can be selected</td>
@@ -3154,7 +3154,7 @@
 <td></td>
 </tr>
 <tr>
-<td><h4 id="frame_value">value<a class="headerlink" href="#frame_value" title="Permanent link">¶</a></h4></td>
+<td><h4 id="frame_value">value<i class="dynamic-prop-icon" title="dynamic"></i><a class="headerlink" href="#frame_value" title="Permanent link">¶</a></h4></td>
 <td><code>string</code></td>
 <td><code>""</code></td>
 <td>External web page URL. Only local URLs are allowed (starting with <code>http://127.0.0.1/</code>, <code>http://10.x.x.x/</code>, <code>http://192.168.x.x/</code>, etc)</td>
@@ -3198,7 +3198,7 @@
 <td></td>
 </tr>
 <tr>
-<td><h4 id="panel_value">value<a class="headerlink" href="#panel_value" title="Permanent link">¶</a></h4></td>
+<td><h4 id="panel_value">value<i class="dynamic-prop-icon" title="dynamic"></i><a class="headerlink" href="#panel_value" title="Permanent link">¶</a></h4></td>
 <td><code>integer</code></td>
 <td><code>""</code></td>
 <td>Defines currently opened tab in the widget<br/><br/>A tab can be opened only by setting its parent's value</td>
@@ -3210,7 +3210,7 @@
 <td></td>
 </tr>
 <tr>
-<td><h4 id="panel_variables">variables<a class="headerlink" href="#panel_variables" title="Permanent link">¶</a></h4></td>
+<td><h4 id="panel_variables">variables<i class="dynamic-prop-icon" title="dynamic"></i><a class="headerlink" href="#panel_variables" title="Permanent link">¶</a></h4></td>
 <td><code>*</code></td>
 <td><code>"@{parent.variables}"</code></td>
 <td>Defines one or more arbitrary variables that can be inherited by children widgets</td>
@@ -3283,7 +3283,7 @@
 <td></td>
 </tr>
 <tr>
-<td><h4 id="strip_variables">variables<a class="headerlink" href="#strip_variables" title="Permanent link">¶</a></h4></td>
+<td><h4 id="strip_variables">variables<i class="dynamic-prop-icon" title="dynamic"></i><a class="headerlink" href="#strip_variables" title="Permanent link">¶</a></h4></td>
 <td><code>*</code></td>
 <td><code>"@{parent.variables}"</code></td>
 <td>Defines one or more arbitrary variables that can be inherited by children widgets</td>
@@ -3356,7 +3356,7 @@
 <td></td>
 </tr>
 <tr>
-<td><h4 id="modal_value">value<a class="headerlink" href="#modal_value" title="Permanent link">¶</a></h4></td>
+<td><h4 id="modal_value">value<i class="dynamic-prop-icon" title="dynamic"></i><a class="headerlink" href="#modal_value" title="Permanent link">¶</a></h4></td>
 <td><code>integer</code></td>
 <td><code>""</code></td>
 <td>Defines the modal's state:<code>0</code> for closed, <code>1</code> for opened</td>
@@ -3368,7 +3368,7 @@
 <td></td>
 </tr>
 <tr>
-<td><h4 id="modal_variables">variables<a class="headerlink" href="#modal_variables" title="Permanent link">¶</a></h4></td>
+<td><h4 id="modal_variables">variables<i class="dynamic-prop-icon" title="dynamic"></i><a class="headerlink" href="#modal_variables" title="Permanent link">¶</a></h4></td>
 <td><code>*</code></td>
 <td><code>"@{parent.variables}"</code></td>
 <td>Defines one or more arbitrary variables that can be inherited by children widgets</td>
@@ -3399,7 +3399,7 @@
 <td></td>
 </tr>
 <tr>
-<td><h4 id="clone_widgetId">widgetId<a class="headerlink" href="#clone_widgetId" title="Permanent link">¶</a></h4></td>
+<td><h4 id="clone_widgetId">widgetId<i class="dynamic-prop-icon" title="dynamic"></i><a class="headerlink" href="#clone_widgetId" title="Permanent link">¶</a></h4></td>
 <td><code>string</code></td>
 <td><code>""</code></td>
 <td><code>id</code> of the widget to clone</td>
@@ -3555,19 +3555,19 @@
 <td>Key combo <code>string</code> or <code>array</code> of strings (see <a href="https://github.com/RobertWHurst/KeyboardJS">KeyboardJS</a> documentation)</td>
 </tr>
 <tr>
-<td><h4 id="keys_keydown">keydown<a class="headerlink" href="#keys_keydown" title="Permanent link">¶</a></h4></td>
+<td><h4 id="keys_keydown">keydown<i class="dynamic-prop-icon" title="dynamic"></i><a class="headerlink" href="#keys_keydown" title="Permanent link">¶</a></h4></td>
 <td><code>string</code></td>
 <td><code>""</code></td>
 <td>This property is evaluated each time the key combo is pressed. Formulas are given extras variables in this context:<br/>- <code>key</code>: pressed key name (usefull for handling multiple keys with a single keys widget)<br/>- <code>ctrl</code>: control key state<br/>- <code>alt</code>: alt key state<br/>- <code>shift</code>: shift key state<br/>- <code>super</code>: command/windows key state</td>
 </tr>
 <tr>
-<td><h4 id="keys_keyup">keyup<a class="headerlink" href="#keys_keyup" title="Permanent link">¶</a></h4></td>
+<td><h4 id="keys_keyup">keyup<i class="dynamic-prop-icon" title="dynamic"></i><a class="headerlink" href="#keys_keyup" title="Permanent link">¶</a></h4></td>
 <td><code>string</code></td>
 <td><code>""</code></td>
 <td>Same as <code>keydown</code>, but evaluated when releasing the key combo</td>
 </tr>
 <tr>
-<td><h4 id="keys_repeat">repeat<a class="headerlink" href="#keys_repeat" title="Permanent link">¶</a></h4></td>
+<td><h4 id="keys_repeat">repeat<i class="dynamic-prop-icon" title="dynamic"></i><a class="headerlink" href="#keys_repeat" title="Permanent link">¶</a></h4></td>
 <td><code>boolean</code></td>
 <td><code>true</code></td>
 <td>Set to <code>false</code> to prevent keydown repeats when holding the key combo pressed</td>
@@ -3592,13 +3592,13 @@
 <td></td>
 </tr>
 <tr>
-<td><h4 id="script_condition">condition<a class="headerlink" href="#script_condition" title="Permanent link">¶</a></h4></td>
+<td><h4 id="script_condition">condition<i class="dynamic-prop-icon" title="dynamic"></i><a class="headerlink" href="#script_condition" title="Permanent link">¶</a></h4></td>
 <td><code>string</code></td>
 <td><code>1</code></td>
 <td>When the widget receives a value, if this property return a falsy value, the script property won't be evaluated. If it's non-falsy, it will be evaluated normally. Formulas are given one extra variable in this context:<br/>- <code>value</code>: the value received by the widget</td>
 </tr>
 <tr>
-<td><h4 id="script_script">script<a class="headerlink" href="#script_script" title="Permanent link">¶</a></h4></td>
+<td><h4 id="script_script">script<i class="dynamic-prop-icon" title="dynamic"></i><a class="headerlink" href="#script_script" title="Permanent link">¶</a></h4></td>
 <td><code>string</code></td>
 <td><code>""</code></td>
 <td>This property is evaluated each time the widget receives a value if condition is non-falsy. Formulas are given extras variables in this context:<br/>- <code>value</code>: the value received by the widget<br/>- <code>send(target, address, arg1, arg2, ...)</code>: function for sending osc messages (ignores the script's targets and the server's defaults unless <code>target</code> is <code>false</code>; ignores the script's <code>preArgs</code>)<br/>- <code>set(id, value)</code>: function for setting a widget's value</td>
@@ -3653,7 +3653,7 @@
 <td></td>
 </tr>
 <tr>
-<td><h4 id="gyroscope_value">value<a class="headerlink" href="#gyroscope_value" title="Permanent link">¶</a></h4></td>
+<td><h4 id="gyroscope_value">value<i class="dynamic-prop-icon" title="dynamic"></i><a class="headerlink" href="#gyroscope_value" title="Permanent link">¶</a></h4></td>
 <td><code>object</code></td>
 <td><code>""</code></td>
 <td>The gyroscope's value is an object containing multiple values, which can be used by other widgets via the property maths syntax<br/>- <code>value.do.alpha</code>: deviceorientation event alpha<br/>- <code>value.do.beta</code>: deviceorientation event beta<br/>- <code>value.do.gamma</code>: deviceorientation event gamma<br/>- <code>value.do.absolute</code>: deviceorientation event absolute<br/>- <code>value.dm.x</code>: devicemotion event acceleration x<br/>- <code>value.dm.y</code>: devicemotion event acceleration y<br/>- <code>value.dm.z</code>: devicemotion event acceleration z<br/>- <code>value.dm.gx</code>: devicemotion event accelerationIncludingGravity x<br/>- <code>value.dm.gy</code>: devicemotion event accelerationIncludingGravity y<br/>- <code>value.dm.gz</code>: devicemotion event accelerationIncludingGravity z<br/>- <code>value.dm.alpha</code>: devicemotion event rotationRate alpha<br/>- <code>value.dm.beta</code>: devicemotion event rotationRate beta<br/>- <code>value.dm.gamma</code>: devicemotion event rotationRate gamma</td>

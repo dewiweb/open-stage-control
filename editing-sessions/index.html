@@ -377,13 +377,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#bulk-editing" title="Bulk editing" class="md-nav__link">
-    Bulk editing
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#keyboard-shortcuts" title="Keyboard shortcuts" class="md-nav__link">
     Keyboard shortcuts
   </a>
@@ -613,13 +606,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#bulk-editing" title="Bulk editing" class="md-nav__link">
-    Bulk editing
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#keyboard-shortcuts" title="Keyboard shortcuts" class="md-nav__link">
     Keyboard shortcuts
   </a>
@@ -673,14 +659,8 @@
 <p>Properties are written in JSON, with some flexibility brought by the <a href="https://github.com/json5/json5">JSON5</a> format. For example, doubles quotes around object keys are not mandatory. All input will be converted to standard JSON.</p>
 <h2 id="widget-resizing-dragging">Widget resizing / dragging<a class="headerlink" href="#widget-resizing-dragging" title="Permanent link">&para;</a></h2>
 <p>Selected widget can be resized using its south, south-east and east handles. It can be dragged with its north-west handle. Using this feature will convert position and size values to plain number values, thus breaking previously set percent or inherited values.</p>
-<h2 id="bulk-editing">Bulk editing<a class="headerlink" href="#bulk-editing" title="Permanent link">&para;</a></h2>
-<p>When holding the <code>ctrl</code> key (or <code>command</code> on Mac), multiple widgets can be selected for edition:</p>
-<ul>
-<li>they must share the same parent widget</li>
-<li>context-menu actions and properties changes apply to all selected widgets</li>
-<li>resizing / dragging will affect all selected widgets, relatively to the first selected widget</li>
-</ul>
 <h2 id="keyboard-shortcuts">Keyboard shortcuts<a class="headerlink" href="#keyboard-shortcuts" title="Permanent link">&para;</a></h2>
+<p>The following shortcuts are always available:</p>
 <table>
 <thead>
 <tr>
@@ -690,44 +670,107 @@
 </thead>
 <tbody>
 <tr>
+<td><code>mod + e</code></td>
+<td>enable/disable editor</td>
+</tr>
+<tr>
+<td><code>mod + s</code></td>
+<td>save session as...</td>
+</tr>
+</tbody>
+</table>
+<p>The following shortcuts are available only when the editor is enabled:</p>
+<table>
+<thead>
+<tr>
+<th>Shortcut</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mod + click</code>*</td>
+<td>Multi-widget selection. Widgets can be toggled from selection by clicking on them individually.</td>
+</tr>
+<tr>
+<td><code>shift + click + drag</code>*</td>
+<td>Draw a selection rectangle and attempt to select widgets in it (starts by selecting the widget under the cursor). If <code>mod</code> is pressed too, current selection is kept and will be merged with the new one if possible.</td>
+</tr>
+<tr>
+<td><code>f2</code></td>
+<td>Edit selected widget's label</td>
+</tr>
+<tr>
 <td><code>mod + z</code></td>
-<td>undo</td>
+<td>Undo</td>
 </tr>
 <tr>
 <td><code>mod + y / mod + shift + z</code></td>
-<td>redo</td>
+<td>Redo</td>
 </tr>
 <tr>
-<td><code>delete</code></td>
-<td>delete selected widgets</td>
+<td><code>delete</code> (<code>backspace</code> on Mac)</td>
+<td>Delete selected widgets</td>
 </tr>
 <tr>
 <td><code>mod + c</code></td>
-<td>copy selected widgets</td>
+<td>Copy selected widgets</td>
 </tr>
 <tr>
 <td><code>mod + x</code></td>
-<td>cut selected widgets</td>
+<td>Cut selected widgets</td>
 </tr>
 <tr>
 <td><code>mod + v</code></td>
-<td>paste clipboard in selected widget</td>
+<td>Paste clipboard in selected widget</td>
 </tr>
 <tr>
 <td><code>mod + shift + v</code></td>
-<td>paste and increment id</td>
+<td>Paste and increment id</td>
 </tr>
 <tr>
 <td><code>up, down, left, right</code></td>
-<td>move selected widgets (1 grid unit, hold <code>shift</code> for 5 grid units)</td>
+<td>Move selected widgets (1 grid unit, hold <code>shift</code> for 5 grid units)</td>
 </tr>
 <tr>
 <td><code>alt + [up, down, left, right]</code></td>
-<td>resize selected widgets (1 grid unit, hold <code>shift</code> for 5 grid units)</td>
+<td>Resize selected widgets (1 grid unit, hold <code>shift</code> for 5 grid units)</td>
+</tr>
+<tr>
+<td><code>mod + a</code></td>
+<td>Select current widget's siblings and itself</td>
+</tr>
+<tr>
+<td><code>mod + shift + a</code></td>
+<td>Cancel current widget selection</td>
+</tr>
+<tr>
+<td><code>mod + up</code></td>
+<td>Select current widget's parent</td>
+</tr>
+<tr>
+<td><code>mod + down</code></td>
+<td>Select current widget's first child</td>
+</tr>
+<tr>
+<td><code>mod + right</code></td>
+<td>Select current widget's next sibling</td>
+</tr>
+<tr>
+<td><code>mod + left</code></td>
+<td>Select current widget's previous sibling</td>
 </tr>
 </tbody>
 </table>
 <p>Where <code>mod</code> is <code>ctrl</code> except on MacOs (<code>command</code>)</p>
+<div class="admonition note">
+<p class="admonition-title">* Multi-widgets editing</p>
+<ul>
+<li>selection can only contain sibling widgets (same direct parent)</li>
+<li>context-menu actions and properties changes apply to all selected widgets</li>
+<li>resizing / dragging will affect all selected widgets, relatively to the first selected widget</li>
+</ul>
+</div>
                 
                   
                 
