@@ -687,7 +687,6 @@ Will return <code>1</code> at first and listen for osc messages on address <code
 <li>property inheritance calls (<code>@{...}</code>) are always resolved before formulas</li>
 <li>arrays / matrices indexes are <strong>zero-based</strong> (ie <code>[&quot;a&quot;,&quot;b&quot;][0]</code> returns <code>&quot;a&quot;</code>)</li>
 <li>strings can be multiline when enclosed in backticks instead of double quotes (<code>` `</code>)</li>
-<li>inner closing brackets (<code>}</code>) must be escaped with a backslash (<code>\}</code>) except for <code>@{}</code> and <code>OSC{}</code> calls which are always resolved before formulas</li>
 </ul>
 <p>Additionnal functions:</p>
 <ul>
@@ -696,6 +695,7 @@ Will return <code>1</code> at first and listen for osc messages on address <code
 <li><code>length(x)</code>: returns the length of an array or string</li>
 <li><code>keys(x)</code>: returns an array of a given object's property names (from <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys">MDN</a>)</li>
 <li><code>values(x)</code>: returns an array of a given object's own enumerable property values (from <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/values">MDN</a>)</li>
+<li><code>extend(x, y)</code>: merges two objects into one</li>
 </ul>
 <div class="admonition tip">
 <p>A single widget property can contain multiple formulas. Variables and functions declared in a formula are available to subsequent formulas in the same property definition.</p>
