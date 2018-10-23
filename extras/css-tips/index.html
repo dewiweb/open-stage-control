@@ -401,6 +401,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#extra-css-classes-class" title="Extra css classes: class" class="md-nav__link">
+    Extra css classes: class
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#layering-z-index" title="Layering: z-index" class="md-nav__link">
     Layering: z-index
   </a>
@@ -595,6 +602,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#extra-css-classes-class" title="Extra css classes: class" class="md-nav__link">
+    Extra css classes: class
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#layering-z-index" title="Layering: z-index" class="md-nav__link">
     Layering: z-index
   </a>
@@ -699,6 +713,12 @@
 
 <div class="admonition tip">
 <p>Mixing Inline and Selector syntaxes doesn't work, once you use selectors, you have to use the <code>:host</code> selector to target the widget element.</p>
+</div>
+<h2 id="extra-css-classes-class">Extra css classes: <code>class</code><a class="headerlink" href="#extra-css-classes-class" title="Permanent link">&para;</a></h2>
+<p>This non-standard css property can be used to add custom css classes to the widget element: <code>class: my-custom-class;</code>
+Multiple classes can be added (one per <code>class</code> statement).</p>
+<div class="admonition warning">
+<p>Using class names that are already used in the app can be hazardous. In order to avoid that, custom class names should be prefixed with something uncommon and preferably cool, such as <code>xxx-myclass</code> or <code>crispy-seitan-myclass</code>.</p>
 </div>
 <h2 id="layering-z-index">Layering: <code>z-index</code><a class="headerlink" href="#layering-z-index" title="Permanent link">&para;</a></h2>
 <p>Z-Axis ordering can be set using the <code>z-index</code> rule. Absolutely positionned widgets (when <code>top</code> or <code>left</code> is different from <code>auto</code>) have <code>z-index:10;</code> by default.</p>
