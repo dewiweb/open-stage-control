@@ -1475,10 +1475,16 @@
 <td>Defines the breakpoints of the fader's scale:<br/>- keys can be percentages and/or <code>min</code> / <code>max</code><br/>- values can be <code>number</code> or <code>object</code> if a custom label is needed<br/><br/>Example: (<code>{min:{&quot;-inf&quot;: 0}, &quot;50%&quot;: 0.25, max: {&quot;+inf&quot;: 1}}</code>)</td>
 </tr>
 <tr>
+<td><h4 id="fader_steps">steps<a class="headerlink" href="#fader_steps" title="Permanent link">¶</a></h4></td>
+<td><code>string</code>|<br/><code>number</code>|<br/><code>array</code></td>
+<td><code>""</code></td>
+<td>Restricts the widget's value:<br/>- <code>auto</code>: use values defined in <code>range</code><br/>- <code>number</code>: define a number of evenly spaced steps<br/>- <code>array</code>: use arbitrary values</td>
+</tr>
+<tr>
 <td><h4 id="fader_logScale">logScale<a class="headerlink" href="#fader_logScale" title="Permanent link">¶</a></h4></td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
-<td>Set to <code>true</code> to use logarithmic scale for the y axis</td>
+<td>Set to <code>true</code> to use logarithmic scale</td>
 </tr>
 <tr>
 <td><h4 id="fader_unit">unit<a class="headerlink" href="#fader_unit" title="Permanent link">¶</a></h4></td>
@@ -1590,10 +1596,16 @@
 <td>Defines the breakpoints of the fader's scale:<br/>- keys can be percentages and/or <code>min</code> / <code>max</code><br/>- values can be <code>number</code> or <code>object</code> if a custom label is needed<br/><br/>Example: (<code>{min:{&quot;-inf&quot;: 0}, &quot;50%&quot;: 0.25, max: {&quot;+inf&quot;: 1}}</code>)</td>
 </tr>
 <tr>
+<td><h4 id="knob_steps">steps<a class="headerlink" href="#knob_steps" title="Permanent link">¶</a></h4></td>
+<td><code>string</code>|<br/><code>number</code>|<br/><code>array</code></td>
+<td><code>""</code></td>
+<td>Restricts the widget's value:<br/>- <code>auto</code>: use values defined in <code>range</code><br/>- <code>number</code>: define a number of evenly spaced steps<br/>- <code>array</code>: use arbitrary values</td>
+</tr>
+<tr>
 <td><h4 id="knob_logScale">logScale<a class="headerlink" href="#knob_logScale" title="Permanent link">¶</a></h4></td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
-<td>Set to <code>true</code> to use logarithmic scale for the y axis</td>
+<td>Set to <code>true</code> to use logarithmic scale</td>
 </tr>
 <tr>
 <td><h4 id="knob_unit">unit<a class="headerlink" href="#knob_unit" title="Permanent link">¶</a></h4></td>
@@ -1947,6 +1959,18 @@
 </thead>
 <tbody>
 <tr>
+<td><h4 class="thead2" id="xy_style">style<a class="headerlink" href="#xy_style" title="Permanent link">¶</a></h4></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><h4 id="xy_css">css<i class="dynamic-prop-icon" title="dynamic"></i><a class="headerlink" href="#xy_css" title="Permanent link">¶</a></h4></td>
+<td><code>string</code></td>
+<td><code>""</code></td>
+<td>Available CSS variables:<br/>- <code>--background: background;</code>: sets the dragging area's background<br/>- <code>--pips-color: color;</code><br/>- <code>--pips-opacity: number;</code><br/>- <code>--point-opacity: number;</code></td>
+</tr>
+<tr>
 <td><h4 class="thead2" id="xy_xy">xy<a class="headerlink" href="#xy_xy" title="Permanent link">¶</a></h4></td>
 <td></td>
 <td></td>
@@ -2074,6 +2098,12 @@
 <td>Set to <code>false</code> to hide the built-in input widget</td>
 </tr>
 <tr>
+<td><h4 id="rgb_alpha">alpha<a class="headerlink" href="#rgb_alpha" title="Permanent link">¶</a></h4></td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+<td>Set to <code>true</code> to enable alpha channel</td>
+</tr>
+<tr>
 <td><h4 class="thead2" id="rgb_osc">osc<a class="headerlink" href="#rgb_osc" title="Permanent link">¶</a></h4></td>
 <td></td>
 <td></td>
@@ -2098,6 +2128,18 @@
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><h4 class="thead2" id="multixy_style">style<a class="headerlink" href="#multixy_style" title="Permanent link">¶</a></h4></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><h4 id="multixy_css">css<i class="dynamic-prop-icon" title="dynamic"></i><a class="headerlink" href="#multixy_css" title="Permanent link">¶</a></h4></td>
+<td><code>string</code></td>
+<td><code>""</code></td>
+<td>Available CSS variables:<br/>- <code>--background: background;</code>: sets the dragging area's background<br/>- <code>--pips-color: color;</code><br/>- <code>--pips-opacity: number;</code><br/>- <code>--color-text: point-color;</code><br/><br/>Pads can be targetted individually with the .pad-X selector (where X is the pad's index)</td>
+</tr>
 <tr>
 <td><h4 class="thead2" id="multixy_multi xy">multi xy<a class="headerlink" href="#multixy_multi xy" title="Permanent link">¶</a></h4></td>
 <td></td>
@@ -2952,10 +2994,16 @@
 <td>Defines the breakpoints of the fader's scale:<br/>- keys can be percentages and/or <code>min</code> / <code>max</code><br/>- values can be <code>number</code> or <code>object</code> if a custom label is needed<br/><br/>Example: (<code>{min:{&quot;-inf&quot;: 0}, &quot;50%&quot;: 0.25, max: {&quot;+inf&quot;: 1}}</code>)</td>
 </tr>
 <tr>
+<td><h4 id="meter_steps">steps<a class="headerlink" href="#meter_steps" title="Permanent link">¶</a></h4></td>
+<td><code>string</code>|<br/><code>number</code>|<br/><code>array</code></td>
+<td><code>""</code></td>
+<td>Restricts the widget's value:<br/>- <code>auto</code>: use values defined in <code>range</code><br/>- <code>number</code>: define a number of evenly spaced steps<br/>- <code>array</code>: use arbitrary values</td>
+</tr>
+<tr>
 <td><h4 id="meter_logScale">logScale<a class="headerlink" href="#meter_logScale" title="Permanent link">¶</a></h4></td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
-<td>Set to <code>true</code> to use logarithmic scale for the y axis</td>
+<td>Set to <code>true</code> to use logarithmic scale</td>
 </tr>
 <tr>
 <td><h4 id="meter_unit">unit<a class="headerlink" href="#meter_unit" title="Permanent link">¶</a></h4></td>
