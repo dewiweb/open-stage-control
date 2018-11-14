@@ -2922,118 +2922,64 @@
 <td>Available CSS variables:<br/>- <code>--color-gauge: color;</code><br/>- <code>--color-knob: color;</code><br/>- <code>--color-pips: color;</code><br/>- <code>--gauge-opacity: number;</code></td>
 </tr>
 <tr>
-<td><h4 class="thead2" id="meter_fader">fader<a class="headerlink" href="#meter_fader" title="Permanent link">¶</a></h4></td>
+<td><h4 class="thead2" id="meter_meter">meter<a class="headerlink" href="#meter_meter" title="Permanent link">¶</a></h4></td>
 <td></td>
 <td></td>
 <td></td>
-</tr>
-<tr>
-<td><h4 id="meter_horizontal">horizontal<a class="headerlink" href="#meter_horizontal" title="Permanent link">¶</a></h4></td>
-<td><code>boolean</code></td>
-<td><code>false</code></td>
-<td>Set to <code>true</code> to display the fader horizontally</td>
-</tr>
-<tr>
-<td><h4 id="meter_alignRight">alignRight<a class="headerlink" href="#meter_alignRight" title="Permanent link">¶</a></h4></td>
-<td><code>boolean</code></td>
-<td><code>false</code></td>
-<td>Set to <code>true</code> to invert the pip's and fader's position</td>
-</tr>
-<tr>
-<td><h4 id="meter_pips">pips<a class="headerlink" href="#meter_pips" title="Permanent link">¶</a></h4></td>
-<td><code>boolean</code></td>
-<td><code>true</code></td>
-<td>Set to <code>false</code> to hide the scale</td>
-</tr>
-<tr>
-<td><h4 id="meter_input">input<a class="headerlink" href="#meter_input" title="Permanent link">¶</a></h4></td>
-<td><code>boolean</code></td>
-<td><code>true</code></td>
-<td>Set to <code>false</code> to hide the built-in input</td>
-</tr>
-<tr>
-<td><h4 id="meter_meter">meter<a class="headerlink" href="#meter_meter" title="Permanent link">¶</a></h4></td>
-<td><code>boolean</code></td>
-<td><code>false</code></td>
-<td>Set to true to display a vu-meter next in the fader<br/>- the meter's <code>id</code> will be the same as the widget's with <code>/meter</code> appended to it<br/>- the meter's <code>id</code> will be the same as the widget's with <code>/meter</code> appended to it</td>
-</tr>
-<tr>
-<td><h4 id="meter_compact">compact<a class="headerlink" href="#meter_compact" title="Permanent link">¶</a></h4></td>
-<td><code>boolean</code></td>
-<td><code>false</code></td>
-<td>Set to <code>true</code> to display a compact alternative for the widget. Disables default mouse/touch focusing on the value display.</td>
-</tr>
-<tr>
-<td><h4 id="meter_dashed">dashed<a class="headerlink" href="#meter_dashed" title="Permanent link">¶</a></h4></td>
-<td><code>boolean</code></td>
-<td><code>false</code></td>
-<td>Set to <code>true</code> to display a dashed gauge</td>
-</tr>
-<tr>
-<td><h4 id="meter_snap">snap<a class="headerlink" href="#meter_snap" title="Permanent link">¶</a></h4></td>
-<td><code>boolean</code></td>
-<td><code>false</code></td>
-<td>By default, dragging the widget will modify it's value starting from its last value. Setting this to <code>true</code> will make it snap directly to the mouse/touch position</td>
-</tr>
-<tr>
-<td><h4 id="meter_spring">spring<a class="headerlink" href="#meter_spring" title="Permanent link">¶</a></h4></td>
-<td><code>boolean</code></td>
-<td><code>false</code></td>
-<td>When set to <code>true</code>, the widget will go back to its <code>default</code> value when released</td>
-</tr>
-<tr>
-<td><h4 id="meter_doubleTap">doubleTap<a class="headerlink" href="#meter_doubleTap" title="Permanent link">¶</a></h4></td>
-<td><code>boolean</code></td>
-<td><code>false</code></td>
-<td>Set to <code>true</code> to make the fader reset to its <code>default</code> value when receiving a double tap.<br/><br/>Can also be an osc address, in which case the widget will just send an osc message (<code>/&lt;doubleTap&gt; &lt;preArgs&gt;</code>)</td>
 </tr>
 <tr>
 <td><h4 id="meter_range">range<a class="headerlink" href="#meter_range" title="Permanent link">¶</a></h4></td>
 <td><code>object</code></td>
 <td><code>{<br/>&nbsp;"min": 0,<br/>&nbsp;"max": 1<br/>}</code></td>
-<td>Defines the breakpoints of the fader's scale:<br/>- keys can be percentages and/or <code>min</code> / <code>max</code><br/>- values can be <code>number</code> or <code>object</code> if a custom label is needed<br/><br/>Example: (<code>{min:{&quot;-inf&quot;: 0}, &quot;50%&quot;: 0.25, max: {&quot;+inf&quot;: 1}}</code>)</td>
-</tr>
-<tr>
-<td><h4 id="meter_steps">steps<i class="dynamic-prop-icon" title="dynamic"></i><a class="headerlink" href="#meter_steps" title="Permanent link">¶</a></h4></td>
-<td><code>string</code>|<br/><code>number</code>|<br/><code>array</code></td>
-<td><code>""</code></td>
-<td>Restricts the widget's value:<br/>- <code>auto</code>: use values defined in <code>range</code><br/>- <code>number</code>: define a number of evenly spaced steps<br/>- <code>array</code>: use arbitrary values</td>
+<td>See fader's <code>range</code></td>
 </tr>
 <tr>
 <td><h4 id="meter_logScale">logScale<a class="headerlink" href="#meter_logScale" title="Permanent link">¶</a></h4></td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
-<td>Set to <code>true</code> to use logarithmic scale</td>
-</tr>
-<tr>
-<td><h4 id="meter_unit">unit<a class="headerlink" href="#meter_unit" title="Permanent link">¶</a></h4></td>
-<td><code>string</code></td>
-<td><code>""</code></td>
-<td>Unit will be appended to the displayed widget's value (it doesn't affect osc messages)</td>
+<td>See fader's <code>logScale</code></td>
 </tr>
 <tr>
 <td><h4 id="meter_origin">origin<a class="headerlink" href="#meter_origin" title="Permanent link">¶</a></h4></td>
 <td><code>number</code></td>
 <td><code>"auto"</code></td>
-<td>Defines the starting point's value of the fader's gauge</td>
+<td>See fader's <code>origin</code></td>
 </tr>
 <tr>
-<td><h4 class="thead2" id="meter_osc">osc<a class="headerlink" href="#meter_osc" title="Permanent link">¶</a></h4></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><h4 id="meter_touchAddress">touchAddress<a class="headerlink" href="#meter_touchAddress" title="Permanent link">¶</a></h4></td>
+<td><h4 id="meter_unit">unit<a class="headerlink" href="#meter_unit" title="Permanent link">¶</a></h4></td>
 <td><code>string</code></td>
-<td><code>""</code></td>
-<td>OSC address for touched state messages: <code>/touchAddress [preArgs] 0/1</code></td>
+<td><code>"auto"</code></td>
+<td>See fader's <code>unit</code></td>
 </tr>
 <tr>
-<td><h4 id="meter_meterAddress">meterAddress<a class="headerlink" href="#meter_meterAddress" title="Permanent link">¶</a></h4></td>
-<td><code>string</code></td>
-<td><code>""</code></td>
-<td>OSC address for the built-in meter</td>
+<td><h4 id="meter_alignRight">alignRight<a class="headerlink" href="#meter_alignRight" title="Permanent link">¶</a></h4></td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+<td>See fader's <code>alignRight</code></td>
+</tr>
+<tr>
+<td><h4 id="meter_horizontal">horizontal<a class="headerlink" href="#meter_horizontal" title="Permanent link">¶</a></h4></td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+<td>See fader's <code>horizontal</code></td>
+</tr>
+<tr>
+<td><h4 id="meter_pips">pips<a class="headerlink" href="#meter_pips" title="Permanent link">¶</a></h4></td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+<td>See fader's <code>pips</code></td>
+</tr>
+<tr>
+<td><h4 id="meter_dashed">dashed<a class="headerlink" href="#meter_dashed" title="Permanent link">¶</a></h4></td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+<td>See fader's <code>dashed</code></td>
+</tr>
+<tr>
+<td><h4 id="meter_gradient">gradient<a class="headerlink" href="#meter_gradient" title="Permanent link">¶</a></h4></td>
+<td><code>array</code></td>
+<td><code>[]</code></td>
+<td>When set, the meter's gauge will be filled with a linear color gradient : each item must be a CSS color string. Example: <code>['blue', 'red']</code></td>
 </tr>
 </tbody>
 </table>
