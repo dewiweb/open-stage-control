@@ -3268,7 +3268,7 @@
 <td><h4 id="script_script">script<i class="dynamic-prop-icon" title="dynamic"></i><a class="headerlink" href="#script_script" title="Permanent link">¶</a></h4></td>
 <td><code>string</code></td>
 <td><code>""</code></td>
-<td>This property is evaluated each time the widget receives a value if condition is non-falsy. Formulas are given extras variables in this context:<br/>- <code>value</code>: the value received by the widget<br/>- <code>send(target, address, arg1, arg2, ...)</code>: function for sending osc messages (ignores the script's targets and the server's defaults unless <code>target</code> is <code>false</code>; ignores the script's <code>preArgs</code>)<br/>- <code>set(id, value)</code>: function for setting a widget's value</td>
+<td>This property is evaluated each time the widget receives a value* if condition is non-falsy. Formulas are given extras variables in this context:<br/>- <code>value</code>: the value received by the widget<br/>- <code>send(target, address, arg1, arg2, ...)</code>: function for sending osc messages (ignores the script's targets and the server's defaults unless <code>target</code> is <code>false</code>; ignores the script's <code>preArgs</code>)<br/>- <code>set(id, value)</code>: function for setting a widget's value<br/><br/><br/><br/>* Note: <code>value</code> or <code>linkId</code> can be used to receive other widgets' values</td>
 </tr>
 </tbody>
 </table>
