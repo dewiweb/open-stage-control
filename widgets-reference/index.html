@@ -474,27 +474,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#multifader" title="multifader" class="md-nav__link">
-    multifader
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#multitoggle" title="multitoggle" class="md-nav__link">
-    multitoggle
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#multipush" title="multipush" class="md-nav__link">
-    multipush
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#keyboard" title="keyboard" class="md-nav__link">
     keyboard
   </a>
@@ -991,27 +970,6 @@
           <li class="md-nav__item">
   <a href="#matrix" title="matrix" class="md-nav__link">
     matrix
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#multifader" title="multifader" class="md-nav__link">
-    multifader
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#multitoggle" title="multitoggle" class="md-nav__link">
-    multitoggle
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#multipush" title="multipush" class="md-nav__link">
-    multipush
   </a>
   
 </li>
@@ -2288,291 +2246,6 @@
 </tr>
 </tbody>
 </table>
-<h3 id="multifader">multifader<a class="headerlink" href="#multifader" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>property</th>
-<th>type</th>
-<th>default</th>
-<th>description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><h4 class="thead2" id="multifader_matrix">matrix<a class="headerlink" href="#multifader_matrix" title="Permanent link">¶</a></h4></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><h4 id="multifader_strips">strips<a class="headerlink" href="#multifader_strips" title="Permanent link">¶</a></h4></td>
-<td><code>integer</code></td>
-<td><code>2</code></td>
-<td>Number of faders in the row, each fader will inherit its parent's properties and the following ones (where i is the fader's index in the row)<br/>- <code>id</code>: same as the widget's with /i appended to it<br/>- <code>label</code>: i<br/>- <code>address</code>: see split</td>
-</tr>
-<tr>
-<td><h4 id="multifader_start">start<a class="headerlink" href="#multifader_start" title="Permanent link">¶</a></h4></td>
-<td><code>integer</code></td>
-<td><code>0</code></td>
-<td>First widget's index</td>
-</tr>
-<tr>
-<td><h4 id="multifader_traversing">traversing<a class="headerlink" href="#multifader_traversing" title="Permanent link">¶</a></h4></td>
-<td><code>boolean</code></td>
-<td><code>true</code></td>
-<td>Set to <code>false</code> to disable traversing gestures</td>
-</tr>
-<tr>
-<td><h4 class="thead2" id="multifader_fader">fader<a class="headerlink" href="#multifader_fader" title="Permanent link">¶</a></h4></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><h4 id="multifader_range">range<a class="headerlink" href="#multifader_range" title="Permanent link">¶</a></h4></td>
-<td><code>object</code></td>
-<td><code>{<br/>&nbsp;"min": 0,<br/>&nbsp;"max": 1<br/>}</code></td>
-<td>See fader's <code>range</code></td>
-</tr>
-<tr>
-<td><h4 id="multifader_logScale">logScale<a class="headerlink" href="#multifader_logScale" title="Permanent link">¶</a></h4></td>
-<td><code>boolean</code></td>
-<td><code>false</code></td>
-<td>See fader's <code>logScale</code></td>
-</tr>
-<tr>
-<td><h4 id="multifader_origin">origin<a class="headerlink" href="#multifader_origin" title="Permanent link">¶</a></h4></td>
-<td><code>number</code></td>
-<td><code>"auto"</code></td>
-<td>See fader's <code>origin</code></td>
-</tr>
-<tr>
-<td><h4 id="multifader_unit">unit<a class="headerlink" href="#multifader_unit" title="Permanent link">¶</a></h4></td>
-<td><code>string</code></td>
-<td><code>""</code></td>
-<td>See fader's <code>unit</code></td>
-</tr>
-<tr>
-<td><h4 id="multifader_alignRight">alignRight<a class="headerlink" href="#multifader_alignRight" title="Permanent link">¶</a></h4></td>
-<td><code>boolean</code></td>
-<td><code>false</code></td>
-<td>See fader's <code>alignRight</code></td>
-</tr>
-<tr>
-<td><h4 id="multifader_horizontal">horizontal<a class="headerlink" href="#multifader_horizontal" title="Permanent link">¶</a></h4></td>
-<td><code>boolean</code></td>
-<td><code>false</code></td>
-<td>See fader's <code>horizontal</code></td>
-</tr>
-<tr>
-<td><h4 id="multifader_pips">pips<a class="headerlink" href="#multifader_pips" title="Permanent link">¶</a></h4></td>
-<td><code>boolean</code></td>
-<td><code>false</code></td>
-<td>See fader's <code>pips</code></td>
-</tr>
-<tr>
-<td><h4 id="multifader_dashed">dashed<a class="headerlink" href="#multifader_dashed" title="Permanent link">¶</a></h4></td>
-<td><code>boolean</code></td>
-<td><code>false</code></td>
-<td>See fader's <code>dashed</code></td>
-</tr>
-<tr>
-<td><h4 id="multifader_snap">snap<a class="headerlink" href="#multifader_snap" title="Permanent link">¶</a></h4></td>
-<td><code>boolean</code></td>
-<td><code>true</code></td>
-<td>See fader's <code>snap</code></td>
-</tr>
-<tr>
-<td><h4 id="multifader_meter">meter<a class="headerlink" href="#multifader_meter" title="Permanent link">¶</a></h4></td>
-<td><code>boolean</code></td>
-<td><code>false</code></td>
-<td>See fader's <code>meter</code></td>
-</tr>
-<tr>
-<td><h4 id="multifader_input">input<a class="headerlink" href="#multifader_input" title="Permanent link">¶</a></h4></td>
-<td><code>boolean</code></td>
-<td><code>true</code></td>
-<td>See fader's <code>input</code></td>
-</tr>
-<tr>
-<td><h4 id="multifader_compact">compact<a class="headerlink" href="#multifader_compact" title="Permanent link">¶</a></h4></td>
-<td><code>boolean</code></td>
-<td><code>false</code></td>
-<td>See fader's <code>compact</code></td>
-</tr>
-<tr>
-<td><h4 class="thead2" id="multifader_osc">osc<a class="headerlink" href="#multifader_osc" title="Permanent link">¶</a></h4></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><h4 id="multifader_split">split<a class="headerlink" href="#multifader_split" title="Permanent link">¶</a></h4></td>
-<td><code>boolean</code>|<br/><code>string</code></td>
-<td><code>false</code></td>
-<td>- <code>true</code>: the widget's index will be appended to the matrice's osc address<br/>- <code>false</code>: it will be prepended to the widget's preArgs<br/>- <code>string</code>: will be used to define the widgets' addresses, replacing dollar signs (<code>$</code>) with their respective index (to insert the actual dollar sign, it must be escaped with a backslash (<code>\$</code>))</td>
-</tr>
-</tbody>
-</table>
-<h3 id="multitoggle">multitoggle<a class="headerlink" href="#multitoggle" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>property</th>
-<th>type</th>
-<th>default</th>
-<th>description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><h4 class="thead2" id="multitoggle_matrix">matrix<a class="headerlink" href="#multitoggle_matrix" title="Permanent link">¶</a></h4></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><h4 id="multitoggle_matrix">matrix<a class="headerlink" href="#multitoggle_matrix" title="Permanent link">¶</a></h4></td>
-<td><code>array</code></td>
-<td><code>[<br/>&nbsp;2,<br/>&nbsp;2<br/>]</code></td>
-<td>Defines the number of columns and and rows in the matrix. Each cell will contain a toggle button that will inherit its parent's properties and the following ones (where i is the toggle's index)<br/>- <code>id</code>: same as the widget's with /i appended to it<br/>- <code>label</code>: i<br/>- <code>address</code>: see split</td>
-</tr>
-<tr>
-<td><h4 id="multitoggle_start">start<a class="headerlink" href="#multitoggle_start" title="Permanent link">¶</a></h4></td>
-<td><code>integer</code></td>
-<td><code>0</code></td>
-<td>First widget's index</td>
-</tr>
-<tr>
-<td><h4 id="multitoggle_spacing">spacing<a class="headerlink" href="#multitoggle_spacing" title="Permanent link">¶</a></h4></td>
-<td><code>integer</code></td>
-<td><code>0</code></td>
-<td>Adds space between widgets</td>
-</tr>
-<tr>
-<td><h4 id="multitoggle_traversing">traversing<a class="headerlink" href="#multitoggle_traversing" title="Permanent link">¶</a></h4></td>
-<td><code>boolean</code></td>
-<td><code>true</code></td>
-<td>Set to <code>false</code> to disable traversing gestures</td>
-</tr>
-<tr>
-<td><h4 class="thead2" id="multitoggle_toggle">toggle<a class="headerlink" href="#multitoggle_toggle" title="Permanent link">¶</a></h4></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><h4 id="multitoggle_led">led<a class="headerlink" href="#multitoggle_led" title="Permanent link">¶</a></h4></td>
-<td><code>boolean</code></td>
-<td><code>false</code></td>
-<td>Set to <code>true</code> to display the toggle's state with a led</td>
-</tr>
-<tr>
-<td><h4 id="multitoggle_on">on<a class="headerlink" href="#multitoggle_on" title="Permanent link">¶</a></h4></td>
-<td><code>*</code></td>
-<td><code>1</code></td>
-<td>Set to <code>null</code> to send send no argument in the osc message<br/><br/>Can be an <code>object</code> if the type needs to be specified (see preArgs)</td>
-</tr>
-<tr>
-<td><h4 id="multitoggle_off">off<a class="headerlink" href="#multitoggle_off" title="Permanent link">¶</a></h4></td>
-<td><code>*</code></td>
-<td><code>0</code></td>
-<td>Set to <code>null</code> to send send no argument in the osc message<br/><br/>Can be an <code>object</code> if the type needs to be specified (see <code>preArgs</code>)</td>
-</tr>
-<tr>
-<td><h4 class="thead2" id="multitoggle_osc">osc<a class="headerlink" href="#multitoggle_osc" title="Permanent link">¶</a></h4></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><h4 id="multitoggle_split">split<a class="headerlink" href="#multitoggle_split" title="Permanent link">¶</a></h4></td>
-<td><code>boolean</code>|<br/><code>string</code></td>
-<td><code>false</code></td>
-<td><code>true</code>: the widget's index will be appended to the matrice's osc address<br/><br/><code>false</code>: it will be prepended to the widget's <code>preArgs</code><br/><br/><code>string</code>: will be used to define the widgets' addresses, replacing dollar signs (<code>$</code>) with their respective index (to insert the actual dollar sign, it must be escaped with a backslash (<code>\$</code>))</td>
-</tr>
-</tbody>
-</table>
-<h3 id="multipush">multipush<a class="headerlink" href="#multipush" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>property</th>
-<th>type</th>
-<th>default</th>
-<th>description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><h4 class="thead2" id="multipush_matrix">matrix<a class="headerlink" href="#multipush_matrix" title="Permanent link">¶</a></h4></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><h4 id="multipush_matrix">matrix<a class="headerlink" href="#multipush_matrix" title="Permanent link">¶</a></h4></td>
-<td><code>array</code></td>
-<td><code>[<br/>&nbsp;2,<br/>&nbsp;2<br/>]</code></td>
-<td>Defines the number of columns and and rows in the matrix. Each cell will contain a push button that will inherit its parent's properties and the following ones (where i is the push's index)<br/>- <code>id</code>: same as the widget's with /i appended to it<br/>- <code>label</code>: i<br/>- <code>address</code>: see split</td>
-</tr>
-<tr>
-<td><h4 id="multipush_start">start<a class="headerlink" href="#multipush_start" title="Permanent link">¶</a></h4></td>
-<td><code>integer</code></td>
-<td><code>0</code></td>
-<td>First widget's index</td>
-</tr>
-<tr>
-<td><h4 id="multipush_traversing">traversing<a class="headerlink" href="#multipush_traversing" title="Permanent link">¶</a></h4></td>
-<td><code>boolean</code></td>
-<td><code>true</code></td>
-<td>Set to <code>false</code> to disable traversing gestures</td>
-</tr>
-<tr>
-<td><h4 id="multipush_spacing">spacing<a class="headerlink" href="#multipush_spacing" title="Permanent link">¶</a></h4></td>
-<td><code>integer</code></td>
-<td><code>0</code></td>
-<td>Adds space between widgets</td>
-</tr>
-<tr>
-<td><h4 class="thead2" id="multipush_push">push<a class="headerlink" href="#multipush_push" title="Permanent link">¶</a></h4></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><h4 id="multipush_on">on<a class="headerlink" href="#multipush_on" title="Permanent link">¶</a></h4></td>
-<td><code>*</code></td>
-<td><code>1</code></td>
-<td>Set to <code>null</code> to send send no argument in the osc message<br/><br/>Can be an <code>object</code> if the type needs to be specified (see preArgs)</td>
-</tr>
-<tr>
-<td><h4 id="multipush_off">off<a class="headerlink" href="#multipush_off" title="Permanent link">¶</a></h4></td>
-<td><code>*</code></td>
-<td><code>0</code></td>
-<td>Set to <code>null</code> to send send no argument in the osc message<br/><br/>Can be an <code>object</code> if the type needs to be specified (see preArgs)</td>
-</tr>
-<tr>
-<td><h4 id="multipush_norelease">norelease<a class="headerlink" href="#multipush_norelease" title="Permanent link">¶</a></h4></td>
-<td><code>boolean</code></td>
-<td><code>false</code></td>
-<td>Set to <code>true</code> to prevent sending any osc message when releasing the button</td>
-</tr>
-<tr>
-<td><h4 class="thead2" id="multipush_osc">osc<a class="headerlink" href="#multipush_osc" title="Permanent link">¶</a></h4></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><h4 id="multipush_split">split<a class="headerlink" href="#multipush_split" title="Permanent link">¶</a></h4></td>
-<td><code>boolean</code>|<br/><code>string</code></td>
-<td><code>false</code></td>
-<td><code>true</code>: the widget's index will be appended to the matrice's osc address<br/><br/><code>false</code>: it will be prepended to the widget's preArgs<br/><br/><code>string</code>: will be used to define the widgets' addresses, replacing dollar signs (<code>$</code>) with their respective index (to insert the actual dollar sign, it must be escaped with a backslash (<code>\$</code>))</td>
-</tr>
-</tbody>
-</table>
 <h3 id="keyboard">keyboard<a class="headerlink" href="#keyboard" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -2977,9 +2650,9 @@
 </tr>
 <tr>
 <td><h4 id="meter_gradient">gradient<a class="headerlink" href="#meter_gradient" title="Permanent link">¶</a></h4></td>
-<td><code>array</code></td>
+<td><code>array</code>|<br/><code>object</code></td>
 <td><code>[]</code></td>
-<td>When set, the meter's gauge will be filled with a linear color gradient : each item must be a CSS color string. Example: <code>['blue', 'red']</code></td>
+<td>When set, the meter's gauge will be filled with a linear color gradient<br/>- each item must be a CSS color string.<br/>- as an <code>object</code>: each key must be a number between 0 and 1<br/>- each item must be a CSS color string.<br/><br/>Examples: <code>['blue', 'red']</code>, {'0': 'blue', '0.9': 'blue', '1': 'red'}</td>
 </tr>
 </tbody>
 </table>
@@ -3255,7 +2928,7 @@
 <tr>
 <td><h4 id="strip_stretch">stretch<a class="headerlink" href="#strip_stretch" title="Permanent link">¶</a></h4></td>
 <td><code>boolean</code></td>
-<td><code>true</code></td>
+<td><code>false</code></td>
 <td>Set to <code>true</code> to stretch widgets evenly</td>
 </tr>
 <tr>
