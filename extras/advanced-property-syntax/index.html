@@ -672,6 +672,10 @@
 <p><div class="codehilite"><pre><span></span>OSC{/address, 1}
 </pre></div>
 Will return <code>1</code> at first and listen for osc messages on address <code>/address</code>. Each time a value is received, the property will be updated.</p>
+<p>If the leading slash (<code>/</code>) is omitted, the address will be prefixed with the widget's <code>address</code> property:</p>
+<p><div class="codehilite"><pre><span></span>OSC{color, &quot;auto&quot;}
+</pre></div>
+Will listen for osc messages on address <code>/widget_address/color</code>.</p>
 <hr />
 <h2 id="formulas">Formulas: <code>#{}</code><a class="headerlink" href="#formulas" title="Permanent link">&para;</a></h2>
 <p>The following syntax allow writing mathematical formulas in widgets' properties:</p>
