@@ -349,6 +349,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#save-as" title="Save As" class="md-nav__link">
+    Save As
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#load" title="Load" class="md-nav__link">
     Load
   </a>
@@ -578,6 +585,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#save-as" title="Save As" class="md-nav__link">
+    Save As
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#load" title="Load" class="md-nav__link">
     Load
   </a>
@@ -649,7 +663,12 @@
 <li><code>Delete</code>: delete selected tab or widget</li>
 </ul>
 <h2 id="save">Save<a class="headerlink" href="#save" title="Permanent link">&para;</a></h2>
-<p>Current session can be exported as a <code>.json</code> file. When overwriting a session file that's currently is use by other clients, they will reload it automatically.</p>
+<p>When working on a sessions that has been loaded from the server's filesystem, it is possible to save it remotely. When doing so, all the other clients working on the same session will be reloaded automatically.</p>
+<p>It is possible to limit this feature to specific client addresses by using the server's <code>--remote-saving</code> option. For example:
+<code>open-stage-control --remote-saving 127.0.0.1|192.168.0.10</code></p>
+<p>Will disable remote saving except for the clients with ip addresses <code>127.0.0.1</code> (the server's local address) and <code>192.168.0.10</code>.</p>
+<h2 id="save-as">Save As<a class="headerlink" href="#save-as" title="Permanent link">&para;</a></h2>
+<p>Session can be exported as a <code>.json</code> file on the client's filesystem.</p>
 <h2 id="load">Load<a class="headerlink" href="#load" title="Permanent link">&para;</a></h2>
 <p>Loading a session file doesn't affect other clients.</p>
 <h2 id="grid">Grid<a class="headerlink" href="#grid" title="Permanent link">&para;</a></h2>
@@ -675,7 +694,11 @@
 </tr>
 <tr>
 <td><code>mod + s</code></td>
-<td>save session as...</td>
+<td>save session</td>
+</tr>
+<tr>
+<td><code>mod + shift s</code></td>
+<td>export session as...</td>
 </tr>
 <tr>
 <td><code>mod + o</code></td>

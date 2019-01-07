@@ -480,6 +480,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#patchbay" title="patchbay" class="md-nav__link">
+    patchbay
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -977,6 +984,13 @@
           <li class="md-nav__item">
   <a href="#keyboard" title="keyboard" class="md-nav__link">
     keyboard
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#patchbay" title="patchbay" class="md-nav__link">
+    patchbay
   </a>
   
 </li>
@@ -2322,6 +2336,49 @@
 <td><code>boolean</code>|<br/><code>string</code></td>
 <td><code>false</code></td>
 <td><code>true</code>: the widget's index will be appended to the matrice's osc address<br/><br/><code>false</code>: it will be prepended to the widget's preArgs<br/><br/><code>string</code>: will be used to define the widgets' addresses, replacing dollar signs (<code>$</code>) with their respective index (to insert the actual dollar sign, it must be escaped with a backslash (<code>\$</code>))</td>
+</tr>
+</tbody>
+</table>
+<h3 id="patchbay">patchbay<a class="headerlink" href="#patchbay" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>property</th>
+<th>type</th>
+<th>default</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><h4 class="thead2" id="patchbay_style">style<a class="headerlink" href="#patchbay_style" title="Permanent link">¶</a></h4></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><h4 id="patchbay_css">css<i class="dynamic-prop-icon" title="dynamic"></i><a class="headerlink" href="#patchbay_css" title="Permanent link">¶</a></h4></td>
+<td><code>string</code></td>
+<td><code>""</code></td>
+<td>The inputs/ouputs width can be adjusted by using the  <code>.nodes</code> selector:<br/><br/><code>.nodes { width: 25% }</code></td>
+</tr>
+<tr>
+<td><h4 class="thead2" id="patchbay_patchbay">patchbay<a class="headerlink" href="#patchbay_patchbay" title="Permanent link">¶</a></h4></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><h4 id="patchbay_inputs">inputs<a class="headerlink" href="#patchbay_inputs" title="Permanent link">¶</a></h4></td>
+<td><code>array</code>|<br/><code>object</code></td>
+<td><code>[<br/>&nbsp;"input_1",<br/>&nbsp;"input_2"<br/>]</code></td>
+<td>- <code>Array</code> of input names : <code>['input_1', 'input_2']</code><br/>- <code>Object</code> of <code>&quot;label_1&quot;: &quot;input_1&quot;</code> pairs. Numeric labels must be prepended or appended with a white space (or any other non-numeric character) otherwise the order of the values won't be kept<br/><br/><br/><br/>Patchbay inputs can be connected to one or more outputs and will send messages of the following form when they are connected/disconnected: <br/><br/><code>/patchbay_address input_x output_x output_y etc</code><br/><br/>If no output is connected to the input, the message will be <code>/patchbay_address input_x</code><br/><br/>The inputs values can be consumed with the property inheritance syntax: <code>@{patchbay_id/input_1}</code> returns an array of output names connected to <code>input_1</code></td>
+</tr>
+<tr>
+<td><h4 id="patchbay_outputs">outputs<a class="headerlink" href="#patchbay_outputs" title="Permanent link">¶</a></h4></td>
+<td><code>array</code>|<br/><code>object</code></td>
+<td><code>[<br/>&nbsp;"output_1",<br/>&nbsp;"output_2"<br/>]</code></td>
+<td>List of output values the inputs can connect to (see <code>inputs</code>).</td>
 </tr>
 </tbody>
 </table>
