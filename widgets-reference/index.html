@@ -1408,7 +1408,7 @@
 <td><h4 id="fader_meter">meter<a class="headerlink" href="#fader_meter" title="Permanent link">¶</a></h4></td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
-<td>Set to true to display a vu-meter next in the fader<br/>- the meter's <code>id</code> will be the same as the widget's with <code>/meter</code> appended to it<br/>- the meter's <code>id</code> will be the same as the widget's with <code>/meter</code> appended to it</td>
+<td>Set to true to display a vu-meter next in the fader<br/>- the meter's <code>id</code> will be the same as the widget's with <code>/meter</code> appended to it<br/>- the meter's <code>address</code> will be the same as the widget's with <code>/meter</code> appended to it</td>
 </tr>
 <tr>
 <td><h4 id="fader_compact">compact<a class="headerlink" href="#fader_compact" title="Permanent link">¶</a></h4></td>
@@ -3288,7 +3288,7 @@
 <td><h4 id="keys_keydown">keydown<i class="dynamic-prop-icon" title="dynamic"></i><a class="headerlink" href="#keys_keydown" title="Permanent link">¶</a></h4></td>
 <td><code>string</code></td>
 <td><code>""</code></td>
-<td>This property is evaluated each time the key combo is pressed. Formulas are given extras variables in this context:<br/>- <code>key</code>: pressed key name (usefull for handling multiple keys with a single keys widget)<br/>- <code>ctrl</code>: control key state<br/>- <code>alt</code>: alt key state<br/>- <code>shift</code>: shift key state<br/>- <code>super</code>: command/windows key state</td>
+<td>This property is evaluated each time the key combo is pressed and defines the widget's own value. Formulas are given extras variables in this context:<br/>- <code>key</code>: pressed key name (usefull for handling multiple keys with a single keys widget)<br/>- <code>ctrl</code>: control key state<br/>- <code>alt</code>: alt key state<br/>- <code>shift</code>: shift key state<br/>- <code>super</code>: command/windows key state</td>
 </tr>
 <tr>
 <td><h4 id="keys_keyup">keyup<i class="dynamic-prop-icon" title="dynamic"></i><a class="headerlink" href="#keys_keyup" title="Permanent link">¶</a></h4></td>
