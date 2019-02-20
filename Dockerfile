@@ -1,7 +1,7 @@
 FROM node
 
 RUN mkdir /open-stage-control
-RUN git clone https://github.com/talltechdude/open-stage-control /open-stage-control
+RUN git clone https://github.com/dewiweb/open-stage-control /open-stage-control
 WORKDIR /open-stage-control
 RUN cd /open-stage-control && npm install
 RUN npm run postinstall
