@@ -12,6 +12,6 @@ EXPOSE 8080
 
 VOLUME /data
 
-RUN ["chmod", "+x", "run.sh"]
+RUN ["chmod", "+x", "/run.sh"]
 
 CMD /run.sh
