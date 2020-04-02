@@ -1,7 +1,7 @@
 var osc = require('./osc'),
     settings = require('../settings'),
     zeroconf = require('../zeroconf'),
-    oscInPort = settings.read('oscInPort') || settings.read('httpPort')
+    oscInPort = settings.read('osc-port') || settings.read('port') || 8080
 
 var oscUDPServer = new osc.UDPPort({
     localAddress: '0.0.0.0',
@@ -10,17 +10,19 @@ var oscUDPServer = new osc.UDPPort({
     broadcast: true
 })
 
-oscUDPServer.on('error', function(error) {
-    console.error(error)
+oscUDPServer.on('error', function(e) {
+    if (e.code === 'EADDRINUSE') {
+        console.error(`(ERROR, UDP) could not open port ${oscInPort} (already in use) `)
+    } else {
+        console.error(`(ERROR, UDP) ${e.message}`)
+    }
 })
 
 zeroconf.publish({
-    name: settings.read('appName') + (settings.read('instanceName') ? ' (' + settings.read('instanceName') + ')' : ''),
+    name: settings.infos.appName + (settings.read('instance-name') ? ' (' + settings.read('instance-name') + ')' : ''),
     protocol: 'udp',
     type: 'osc',
     port: oscInPort
-}).on('error', (e)=>{
-    console.error(`Error: Zeroconf: ${e.message}`)
 })
 
 module.exports = oscUDPServer

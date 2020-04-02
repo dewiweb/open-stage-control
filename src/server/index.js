@@ -7,16 +7,16 @@ var serverStarted
 
 function nodeMode() {
 
-    console.warn('Running with node')
+    console.warn('(INFO) Running with node')
 
-    if (!settings.read('noGui')) {
+    if (!settings.read('no-gui')) {
         settings.cli = true
-        settings.write('noGui', true, true)
-        console.warn('Headless mode (--no-gui) enabled automatically')
+        settings.write('no-gui', true, true)
+        console.warn('(INFO) Headless mode (--no-gui) enabled automatically')
     }
 
     process.on('uncaughtException', (err)=>{
-        console.error('A JavaScript error occurred in the main process:')
+        console.error('(ERROR) A JavaScript error occurred in the main process:')
         console.error(err.stack)
     })
 
@@ -42,9 +42,9 @@ if (process.title === 'node' || process.title === 'node.exe') {
 
 }
 
-var start = function(readyApp) {
+function start() {
 
-    if (!settings.read('guiOnly') && !serverStarted) {
+    if (!serverStarted) {
 
         var server = require('./server'),
             osc = require('./osc'),
@@ -61,32 +61,36 @@ var start = function(readyApp) {
 
     }
 
-    if (!settings.read('noGui')) {
+}
 
-        var app = require('./electron-app')
-        var address = typeof settings.read('guiOnly')=='string'? 'http://' + settings.read('guiOnly') : settings.read('appAddresses')[0]
-        address += settings.read('urlOptions')
+function openClient() {
 
-        var launch = ()=>{
-            var win = require('./electron-window')({address:address, shortcuts:true, zoom:false, fullscreen: settings.read('fullScreen')})
-            return win
-        }
-        if (app.isReady()) {
-            return launch()
-        } else {
-            app.on('ready',function(){
-                launch()
-            })
-        }
+    var app = require('./electron-app')
+    var address = settings.appAddresses()[0]
+
+    var launch = ()=>{
+        var win = require('./electron-window')({address:address, shortcuts:true, fullscreen: settings.read('fullscreen')})
+        win.on('error', ()=>{
+            console.log('ERR')
+        })
+        return win
+    }
+    if (app.isReady()) {
+        return launch()
+    } else {
+        app.on('ready',function(){
+            launch()
+        })
     }
 
 }
 
 
-
 if (settings.cli) {
 
     start()
+    if (!settings.read('no-gui')) openClient()
+
 
 } else {
 
@@ -94,50 +98,99 @@ if (settings.cli) {
         path = require('path'),
         address = 'file://' + path.resolve(__dirname + '/../launcher/' + 'index.html'),
         {ipcMain} = require('electron'),
+        {spawn} = require('child_process'),
         launcher
+
+    process.on('exit',()=>{
+        if (global.serverProcess) global.serverProcess.kill()
+    })
 
     app.on('ready',function(){
         global.settings = settings
-        launcher = require('./electron-window')({address:address, shortcuts:dev, width:680, height:(100 + 8*3 + 29 * Object.keys(settings.options).filter(x=>settings.options[x].launcher !== false).length), node:true, color:'#253040'})
+        global.midilist = require('./midi').list
+        global.serverProcess = null
+        global.clientWindows = []
+        launcher = require('./electron-window')({address:address, shortcuts:dev, width:680, height:(40 + 200 + 20 + 24 * Object.keys(settings.options).filter(x=>settings.options[x].launcher !== false).length / 2), node:true, color:'#151a24'})
+        launcher.on('close', ()=>{
+            process.stdout.write = stdoutWrite
+            process.stderr.write = stderrWrite
+            if (process.log) process.log = processLog
+        })
     })
 
-    if (process.log) {
-        process.log = (function(write) {
-            return function(string, encoding, fd) {
-                write.apply(process, arguments)
-                launcher.webContents.send('stdout', string)
-            }
-        })(process.log)
-    }
+    let processLog = process.log,
+        stdoutWrite = process.stdout.write,
+        stderrWrite = process.stderr.write
 
-    process.stdout.write = (function(write) {
-        return function(string, encoding, fd) {
-            write.apply(process.stdout, arguments)
+    if (process.log) {
+        process.log = function(string, encoding, fd) {
+            processLog.apply(process, arguments)
             launcher.webContents.send('stdout', string)
         }
-    })(process.stdout.write)
+    }
 
-    process.stderr.write = (function(write) {
-        return function(string, encoding, fd) {
-            write.apply(process.stdout, arguments)
-            launcher.webContents.send('stderr', string)
-        }
-    })(process.stderr.write)
+    process.stdout.write = function(string, encoding, fd) {
+        stdoutWrite.apply(process.stdout, arguments)
+        launcher.webContents.send('stdout', string)
+    }
 
+    process.stderr.write = function(string, encoding, fd) {
+        stderrWrite.apply(process.stderr, arguments)
+        launcher.webContents.send('stderr', string)
+    }
 
     ipcMain.on('start',function(e, options){
 
-        var gui = start()
-
-        if (settings.read('guiOnly')) {
-            launcher.hide()
-            gui.on('close',()=>{
-                launcher.close()
-            })
-        } else {
-            launcher.webContents.send('started')
+        var args = ['--no-gui']
+        for (var k in settings.read('options')) {
+            args.push('--' + k)
+            var val = settings.read(k)
+            if (typeof val === 'object') {
+                args = args.concat(val)
+            } else if (typeof val !== 'boolean') {
+                args.push(val)
+            }
         }
 
+        global.serverProcess = spawn(process.argv[0], process.argv.slice(1).concat(args), {stdio: 'pipe'/*, env: {"ELECTRON_RUN_AS_NODE":"1"}*/})
+        launcher.webContents.send('server-started')
+
+        if (!settings.read('no-gui')) {
+            global.serverProcess.stdout.once('data', (data) => {
+                global.clientWindows.push(openClient())
+            })
+        }
+
+        global.serverProcess.stdout.on('data', (data) => {
+            console.log(String(data).trim())
+        })
+
+        global.serverProcess.stderr.on('data', (data) => {
+            console.error(String(data).trim())
+        })
+
+        global.serverProcess.on('close', (code) => {
+            console.log('(INFO) Server stopped')
+            global.serverProcess = null
+            if (global.defaultClient) global.defaultClient.close()
+            if (!launcher.isDestroyed()) launcher.webContents.send('server-stopped')
+        })
+
+    })
+
+    ipcMain.on('stop',function(e, options){
+
+        if (global.serverProcess) global.serverProcess.kill()
+        for (var w of [...global.clientWindows]) {
+            if (w && !w.isDestroyed()) w.close()
+        }
+        global.clientWindows = []
+
+    })
+
+    ipcMain.on('openClient',function(e, options){
+
+        global.clientWindows.push(openClient())
 
     })
 

@@ -1,24 +1,37 @@
-require('./app/stacktrace')
-require('./app/globals')
-
-var {loading} = require('./app/ui/utils'),
-    locales = require('./app/locales')
-
 document.addEventListener('DOMContentLoaded', function(event) {
+
+    require('./globals')
+    require('./stacktrace')
+
+    var locales = require('./locales'),
+        html = require('nanohtml')
+
+    DOM.get(document, '#osc-greeting-header')[0].appendChild(html`${PACKAGE.productName} <span class="version">v${PACKAGE.version}</span>`)
 
     DOM.init()
 
-    LOADING = loading(locales('loading_server'))
+    var uiLoading = require('./ui/ui-loading')
+    uiLoading(locales('loading_server'))
 
     setTimeout(()=>{
 
-        var ipc = require('./app/ipc/')
+        var ipc = require('./ipc/'),
+            backup = require('./backup')
 
         ipc.init()
 
-        require('./app/ui/init')
 
-        ipc.send('ready', {backupId: ARGV.backupId})
+        require('./ui/init')
+
+        document.title = TITLE
+
+        ipc.send('open', {hotReload: backup.exists})
+
+        window.onunload = ()=>{
+            ipc.send('close')
+        }
+
+        backup.load()
 
 
     }, 100)

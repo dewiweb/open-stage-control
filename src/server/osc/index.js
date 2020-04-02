@@ -1,6 +1,7 @@
-var ipc = require('../server').ipc,
+var path = require('path'),
+    ipc = require('../server').ipc,
     settings = require('../settings'),
-    tcpInPort = settings.read('tcpInPort'),
+    tcpInPort = settings.read('tcp-port'),
     debug = settings.read('debug'),
     vm = require('vm'),
     fs = require('fs'),
@@ -10,6 +11,8 @@ var ipc = require('../server').ipc,
     EventEmitter = require('events').EventEmitter
 
 
+if (midi) midi = new midi()
+
 class OscServer {
 
     constructor(){
@@ -17,15 +20,15 @@ class OscServer {
         this.customModuleEventEmitter = new EventEmitter()
         this.customModule = (()=>{
 
-            var customModule = settings.read('customModule')
+            var customModule = settings.read('custom-module')
             if (!customModule) return false
 
             // consolidate path containing whitespaces
             if (!customModule[0].includes('.js')) {
                 var index = customModule.findIndex(x => typeof x === 'string' && x.includes('.js'))
                 if (index !== undefined) {
-                    var path = customModule.slice(0, index + 1).join(' ')
-                    customModule.splice(0, index + 1, path)
+                    var _path = customModule.slice(0, index + 1).join(' ')
+                    customModule.splice(0, index + 1, _path)
                 }
             }
 
@@ -33,26 +36,76 @@ class OscServer {
                     try {
                         return fs.readFileSync(customModule[0], 'utf8')
                     } catch(err) {
-                        console.log('CustomModule Error: File not found: ' + customModule[0])
+                        console.error('(ERROR) Custom module not found: ' + customModule[0])
                         return false
                     }
                 })(),
                 mod,
-                context = {
+                context = vm.createContext({
                     console,
                     sendOsc: this.sendOsc.bind(this),
                     receiveOsc: this.receiveOsc.bind(this),
+                    send: (host, port, address, ...args)=>{
+                        this.sendOsc({host, port, address, args:args.map(x=>this.parseArg(x))})
+                    },
+                    receive: (host, port, address, ...args)=>{
+                        if (host[0] === '/') {
+                            // host and port can be skipped
+                            if (address !== undefined) args.unshift(address)
+                            if (port !== undefined) args.unshift(port)
+                            address = host
+                            host = port = undefined
+                        }
+                        var lastArg = args[args.length - 1],
+                            options = {}
+                        if (typeof lastArg === 'object' && lastArg !== null && lastArg.clientId !== undefined) {
+                            options = args.pop()
+                        }
+                        this.receiveOsc({host, port, address, args:args.map(x=>this.parseArg(x))}, options.clientId)
+                    },
+                    loadJSON: (url)=>{
+                        if (url.split('.').pop() === 'json') {
+                            try {
+                                url = path.resolve(path.dirname(customModule[0]), url)
+                                return JSON.parse(fs.readFileSync(url, 'utf8'))
+                            } catch(e) {
+                                console.error('(ERROR) could not load json file from ' + url)
+                                console.error(e.message)
+                            }
+                        } else {
+                            console.error('(ERROR) unauthorized file type for loadJSON')
+                        }
+                    },
+                    saveJSON: (url, data)=>{
+                        if (url.split('.').pop() === 'json') {
+                            url = path.resolve(path.dirname(customModule[0]), url)
+                            try {
+                                return fs.writeFileSync(url, JSON.stringify(data, null, '  '))
+                            } catch(e) {
+                                console.error('(ERROR) could not save json file to ' + url)
+                                console.error(e.message)
+                            }
+                        } else {
+                            console.error('(ERROR) unauthorized file type for saveJSON')
+                        }
+                    },
                     app: this.customModuleEventEmitter,
-                    setTimeout,
-                    clearTimeout,
-                    setInterval,
-                    clearInterval,
+                    setTimeout, clearTimeout,
+                    setInterval, clearInterval,
                     settings,
-                    options: customModule.slice(1, customModule.length)
-                }
+                    options: customModule.slice(1, customModule.length),
+                    module: {},
+                })
 
             try {
-                mod = vm.runInContext(file, vm.createContext(context))
+                // remove require function (not needed at runtime)
+                // wrong: this.constructor.constructor("return process")().mainModule.require
+                process.mainModule.require = process.dlopen = null
+                // run
+                mod = vm.runInContext(file, context, {
+                    filename: customModule[0]
+                })
+                if (context.module.exports) mod = context.module.exports
             } catch(err) {
                 console.error(err)
                 return false
@@ -65,36 +118,41 @@ class OscServer {
 
     }
 
-    parseType(type){
-        var t = type[0].match(/[bhtdscrmifTFNI]/)
+    parseArg(arg, type){
 
-        if (t!==null) {
-            return t[0]
-        } else {
-            return 's'
+        if (arg === null) return null
+
+        if (type && type[0].match(/[bhtdscrmifTFNI]/)) {
+
+            type = type[0]
+
+            switch (type) {
+                case 'i':
+                    return {type: type, value: parseInt(arg)}
+                case 'd':
+                case 'f':
+                    return {type: type, value: parseFloat(arg)}
+                case 'T':
+                case 'F':
+                case 'N':
+                    return {type: type}
+                default:
+                    return {type: type, value: arg}
+
+
+            }
+
         }
 
-    }
-
-    parseArg(arg, precision){
-        if (arg==null) return null
         switch (typeof arg) {
             case 'number':
-                var typeTagMatch = typeof precision == 'string' ? precision.match(/[0-9]+([a-zA-Z]{1})/) : null,
-                    typeTag = typeTagMatch === null ? precision == 0 ? 'i' : 'f' : typeTagMatch[1],
-                    precisionValue = parseFloat(precision) || 0
-
-                return {type: typeTag, value: parseFloat(arg.toFixed(precisionValue))}
+                return {type: 'f', value: arg}
             case 'boolean':
-                return {type: arg ? 'T' : 'F', value: arg}
-            case 'object':
-                if (arg.type) {
-                    return {type: this.parseType(arg.type), value: arg.value}
-                } else {
-                    return {type: 's', value:JSON.stringify(arg)}
-                }
+                return {type: arg ? 'T' : 'F'}
             case 'string':
                 return {type: 's', value:arg}
+            case 'object':
+                if (arg.type) return arg
             default:
                 return {type: 's', value:JSON.stringify(arg)}
         }
@@ -111,42 +169,46 @@ class OscServer {
         } else {
 
             if (typeof data.address !== 'string' || data.address[0] !== '/') {
-                console.error('OSC error: malformed address: "' + data.address + '')
+                console.error('(ERROR, OSC) Malformed address: ' + data.address)
                 return
             }
 
-            oscUDPServer.send({
-                address: data.address,
-                args: data.args
-            }, data.host, data.port)
-
             if (tcpInPort && oscTCPServer.clients[data.host] && oscTCPServer.clients[data.host][data.port]) {
+
                 oscTCPServer.clients[data.host][data.port].send({
                     address: data.address,
                     args: data.args
                 })
+
+            } else {
+
+                oscUDPServer.send({
+                    address: data.address,
+                    args: data.args
+                }, data.host, data.port)
+
             }
 
-            if (debug) console.log('OSC sent: ',{address:data.address, args: data.args}, 'To : ' + data.host + ':' + data.port)
+            if (debug) console.log('(OSC) Out: ',{address:data.address, args: data.args}, 'To: ' + data.host + ':' + data.port)
 
         }
 
 
     }
 
-    receiveOsc(data, info){
+    receiveOsc(data, clientId){
 
         if (!data) return
 
-        for (i in data.args) {
+        for (var i in data.args) {
             data.args[i] = data.args[i].value
         }
 
         if (data.args.length==1) data.args = data.args[0]
 
-        ipc.send('receiveOsc',data)
+        ipc.send('receiveOsc', data, clientId)
 
-        if (debug) console.log('OSC received: ', {address:data.address, args: data.args}, 'From : ' + data.host + ':' + data.port)
+        if (debug) console.log('(OSC) In: ', {address:data.address, args: data.args}, 'From: ' + data.host + ':' + data.port)
 
     }
 
@@ -200,7 +262,7 @@ class OscServer {
         oscUDPServer.on('message', this.oscInHandlerWrapper.bind(this))
         oscUDPServer.open()
 
-        if (settings.read('tcpInPort')) {
+        if (settings.read('tcp-port')) {
             oscTCPServer.on('message', this.oscInHandlerWrapper.bind(this))
             oscTCPServer.open()
         }
@@ -220,19 +282,28 @@ oscServer.init()
 
 module.exports = {
     server: oscServer,
-    send: function(host,port,address,args,precision) {
+    send: function(host, port, address, args, typeTags, clientId) {
 
         var message = []
 
         if (!Array.isArray(args)) args = [args]
-        if (typeof args=='object' && args!==null) {
-            for (var i in args) {
-                var arg = oscServer.parseArg(args[i],precision)
-                if (arg!=null) message.push(arg)
+
+        if (typeof args === 'object' && args !== null) {
+
+            var typeTag,
+                arg
+
+            for (var i = 0; i < args.length; i++) {
+
+                typeTag = typeTags[i] || typeTag
+                arg = oscServer.parseArg(args[i], typeTag)
+
+                if (arg !== null) message.push(arg)
+
             }
         }
 
-        var data = oscServer.oscOutFilter({address:address, args: message, host: host, port: port})
+        var data = oscServer.oscOutFilter({address:address, args: message, host: host, port: port, clientId: clientId})
 
         oscServer.sendOsc(data)
 

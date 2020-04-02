@@ -1,0 +1,66 @@
+.fader-container,
+.knob-container,
+.encoder-container,
+.range-container {
+
+    inner {
+        flex: 1;
+    }
+
+    canvas {
+        image-rendering: pixelated;
+        width: 100%;
+        height: 100%;
+    }
+
+}
+
+.fader-container,
+.range-container {
+
+    width: 50rem;
+    height: 200rem;
+
+    --widget-padding: 1rem;
+
+    canvas {
+        text-align: left;
+    }
+
+    &.horizontal {
+        width: 200rem;
+        height: 50rem;
+    }
+
+    &.design-default {
+        --widget-padding: 10rem;
+        --alpha-stroke: 0.5;
+        --alpha-fill-off: 0.25;
+        --alpha-fill-on: 1;
+    }
+
+    &.design-round {
+        --widget-padding: 10rem;
+        --alpha-stroke: 0.25;
+        --alpha-fill-off: 0.25;
+        --alpha-fill-on: 1;
+    }
+
+}
+
+.knob-container,
+.encoder-container {
+
+    width: 100rem;
+    height: 100rem;
+
+    --widget-padding: 1rem;
+    --alpha-stroke: 0.75;
+
+    &.design-classic {
+        --alpha-stroke: 0.5;
+        --alpha-fill-off: 0.25;
+        --alpha-fill-on: 1;
+    }
+
+}

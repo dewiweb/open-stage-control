@@ -1,0 +1,616 @@
+.panel-container {
+    width: 200rem;
+    height: 200rem;
+}
+.modal-container {
+    width: 90rem;
+    height: 60rem;
+}
+.keyboard-container {
+    width: 220rem;
+    height: 90rem;
+}
+.patchbay-container {
+    width: 240rem;
+    height: 160rem;
+}
+
+
+.widget-panel-base {
+
+    --widget-padding: 4rem;
+
+    background-color: var(--color-background);
+
+
+    > inner {
+        --widget-spacing: var(--widget-padding);
+        flex: 1;
+        position: relative;
+        overflow: auto;
+        margin: calc(var(--widget-spacing) / 2) calc(1rem + var(--widget-spacing) / 2) calc(1rem + var(--widget-spacing) / 2);
+    }
+
+    &.no-scroll > inner {
+        overflow: hidden;
+    }
+
+    &.contains-widgets {
+
+        > inner > .widget {
+            padding: calc(var(--widget-spacing) / 2);
+        }
+
+        &.layout-default > inner {
+            display: block;
+        }
+        &.layout-horizontal > inner {
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+            > .widget {
+                top:auto!important;
+                left:auto!important;
+                position: relative!important;
+                height: auto!important;
+                min-height: auto!important;
+                min-width: auto!important;
+                max-height: 100%;
+                max-width: 100%;
+            }
+            > .flex-expand {
+                flex: 1
+            }
+        }
+        &.layout-vertical > inner {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            > .widget {
+                top:auto!important;
+                left:auto!important;
+                position: relative!important;
+                width: auto!important;
+                min-height: auto!important;
+                min-width: auto!important;
+                max-height: 100%;
+                max-width: 100%;
+            }
+            > .flex-expand {
+                flex: 1
+            }
+        }
+        &.layout-grid > inner {
+            display: grid;
+            > .widget {
+                top:auto!important;
+                left:auto!important;
+                position: relative!important;
+                height: auto!important;
+                width: auto!important;
+                min-height: auto!important;
+                max-height: auto!important;
+                min-width: auto!important;
+                max-width: auto!important;
+            }
+        }
+
+    }
+
+
+    &.contains-tabs {
+
+        > inner {
+
+            --widget-spacing: 0;
+
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+
+            > .widget {
+                flex: 1;
+                width: 100%;
+                height: auto;
+                padding: 0;
+            }
+        }
+
+        &.vertical-tabs {
+
+            > inner {
+                flex-direction: row;
+            }
+
+        }
+    }
+
+}
+
+.tab-container {
+    @extend .widget-panel-base;
+
+    // --widget-padding: 0rem;
+    --alpha-fill-on: 0.75;
+
+    width: 100%;
+    flex: 1;
+    height: 100%;
+    background-color: var(--color-background);
+
+    &:not(.show) {
+        display:none
+    }
+
+    > label {
+        display: none;
+    }
+
+}
+
+.panel-container {
+
+    @extend .widget-panel-base;
+
+    --alpha-fill-on: 0.75;
+
+    @include pseudo-stroke($z: 1);
+    &:before {
+        margin: calc(var(--widget-spacing) / 2);
+    }
+
+    > label {
+
+        position: relative;
+        // background-color: var(--color-background);
+        @include pseudo-stroke($z: 10);
+        &:before {
+            border-width: 0 0 1rem 0;
+            margin: 0 1rem;
+        }
+    }
+
+    &.contains-widgets.no-label > inner {
+        border-top: 1rem solid var(--color-background);
+    }
+
+    &.contains-tabs > inner > .navigation {
+        margin: 0 1rem;
+        &.vertical {
+            margin: 1rem 0;
+        }
+    }
+
+
+}
+
+.root-container {
+
+    @extend .widget-panel-base;
+
+    --alpha-fill-on: 0.75;
+
+    width: 100%;
+    height: 100%;
+
+    > inner {
+        margin: calc(var(--widget-spacing) / 2);
+    }
+}
+
+
+
+.navigation {
+
+    background-color: var(--color-ui-background);
+
+    height:calc(var(--nav-height) - 1rem);
+    flex-shrink:0;
+    display: flex;
+    padding-bottom: 1rem;
+    position: relative;
+
+    &:before {
+        content:"";
+        position: absolute;
+        // border-bottom: 1rem solid var(--color-stroke);
+        opacity: var(--alpha-stroke);
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+    div {
+
+        // --color-stroke:var(--color-widget);
+        --color-fill:var(--color-widget);
+
+        color: var(--color-text);
+
+        line-height:calc(var(--nav-height) - 1rem);
+        display:flex;
+        min-width:0;
+        flex: 1 1 100%;
+        cursor:pointer;
+        height:100%;
+        align-items: center;
+        align-items: center;
+        justify-content: center;
+        position:relative;
+        letter-spacing: 1rem;
+        font-size: 109%;
+        text-overflow: ellipsis;
+        padding: 0 8rem;
+        overflow: hidden!important;
+        white-space: pre-wrap;
+        text-align: center;
+
+        i {
+            pointer-events: none;
+            position: relative;
+        }
+
+        &.on {
+            z-index: 1;overflow: visible;
+            &:before {
+                content: "";
+                position: absolute;
+                left: 0rem;
+                right: 0rem;
+                bottom: 0rem;
+                opacity: var(--alpha-fill-on);
+                height: 4rem;
+                background: var(--color-fill);
+                z-index: 101;
+            }
+            &:first-child:before {
+                margin-left: 1rem;
+            }
+            &:last-child:before {
+                margin-right: 1rem;
+            }
+
+        }
+    }
+
+    &.vertical {
+        flex-direction: column;
+        height: 100%;
+        padding-bottom: 0;
+        padding-right: 1rem;
+
+        div {
+            height: 100%;
+            padding: 0 12rem;
+            line-height: normal;
+            // justify-content: flex-start;
+            // text-align: left;
+
+            &.on:before {
+                content: "";
+                position: absolute;
+                left: auto;
+                top: 0rem;
+                right: 0rem;
+                bottom: 0rem;
+                opacity: var(--alpha-fill-on);
+                width: 4rem;
+                height: auto;
+                background: var(--color-fill);
+                z-index: 101;
+            }
+            &:first-child:before {
+                margin-top: 1rem;
+                margin-left: 0;
+            }
+            &:last-child:before {
+                margin-bottom: 1rem;
+                margin-right: 0;
+            }
+        }
+    }
+}
+
+
+.clone-container {
+
+    &.empty {
+        @include pseudo-stroke();
+        &:before {
+            content:"clone"
+        }
+    }
+
+    &:before {
+        content: none
+    }
+
+
+    > label {
+        display: none;
+    }
+
+    > .clone {
+
+        --widget-spacing: 0;
+        flex: 1;
+
+        > .widget {
+            border:0!important;
+            box-shadow: none!important;
+            background: transparent!important;
+            position: relative!important;
+            left:auto!important;
+            bottom:auto!important;
+            right:auto!important;
+            top: auto!important;
+            width: 100%!important;
+            height: 100%!important;
+            min-height: initial!important;
+            max-height: initial!important;
+            min-width: initial!important;
+            max-width: initial!important;
+            padding: 0!important;
+        }
+    }
+}
+
+
+
+.modal-container {
+
+
+    > .toggle {
+
+        --alpha-fill-off: 0;
+        --alpha-fill-on: .75;
+        --widget-padding: -1rem;
+        position: absolute;
+        top:0;
+        left:0;
+        right:0;
+        bottom:0;
+        margin: calc(var(--widget-spacing) / 2);
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        border-radius: inherit;
+
+        @include pseudo-stroke();
+        @include pseudo-fill($z: -1);
+
+    }
+
+    > label {
+
+        flex: 1;
+        max-height: initial;
+        text-align: center;
+        pointer-events:none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1;
+        color: var(--color-text);
+
+
+        &:after {
+            content:"\f0da";
+            font-family: FontAwesome;
+            transform: rotateZ(-45deg);
+            font-size: 20rem;
+            display: block;
+            width:8rem;
+            height:6rem;
+            right:2rem;
+            top:1rem;
+            line-height: 10rem;
+            text-align: center;
+            float:right;
+            position: absolute;
+            box-shadow: none;
+            background: none!important;
+            color: var(--color-stroke);
+            opacity: var(--alpha-stroke);
+            margin: calc(var(--widget-spacing) / 2);
+        }
+
+    }
+
+    &.on {
+        contain: size;
+        @supports not (contain: strict) {
+            transform: none; // cancel new stacking context
+        }
+
+        z-index: 9999999999999!important;
+        overflow: visible;
+        > .toggle {
+            --alpha-fill:var(--alpha-fill-on);
+        }
+        > label, > label:after {
+            color: var(--color-background);
+            opacity: 1;
+        }
+
+    }
+
+
+
+
+
+
+    > inner {
+        display: none;
+    }
+    > .popup {
+        padding:0;
+
+        > .popup-wrapper {
+            width: var(--width, 100%);
+            height: var(--height, 100%);
+            .popup-content {
+                // contain:unset; // == no restrain
+                &:before {
+                    content: none;
+                }
+
+                > inner {
+                    margin: calc(var(--widget-spacing) / 2) calc(var(--widget-spacing) / 2) calc(var(--widget-spacing) / 2);
+                }
+            }
+        }
+
+        &.x-positionned {
+            justify-content: flex-start;
+            > .popup-wrapper {
+                left: var(--left);
+            }
+        }
+        &.y-positionned {
+            align-items:flex-start;
+            > .popup-wrapper {
+                top: var(--top);
+            }
+        }
+
+    }
+
+}
+
+
+.matrix-container {
+
+    @extend .panel-container;
+
+
+    &.layout-vertical, &.layout-horizontal {
+        > inner > .widget {
+            flex: 1;
+        }
+    }
+
+}
+
+
+.patchbaynode-container {
+
+    justify-content: center;
+
+
+    label {
+        flex: 1;
+        pointer-events: none;
+        display: flex;
+    }
+
+}
+.patchbay-container {
+
+    --alpha-fill-on: .75;
+    --alpha-fill-off: 0.25;
+
+    inner {
+        display: flex;
+        flex-direction: row;
+
+        @include pseudo-stroke();
+        padding: var(--widget-padding);
+
+        canvas {
+            flex: 1;
+            width: 0;
+        }
+        .nodes {
+            display: flex;
+            flex-direction: column;
+            align-items:stretch;
+            margin-bottom: 1rem;
+            width: 25%;
+        }
+
+        .inputs, .outputs {
+            position: relative;
+            @include pseudo-stroke();
+            top: 1rem;
+        }
+
+        .inputs:before {
+            border-width: 0 1rem 0 0;
+        }
+        .outputs:before {
+            border-width: 0 0 0 1rem;
+        }
+    }
+
+}
+
+
+.keyboard-container {
+
+    --widget-padding: 0rem;
+    --alpha-fill-off: 0;
+    --alpha-fill-on: .75;
+
+    --color-key-on: var(--color-fill);
+    --alpha-key-off: var(--alpha-fill-off);
+    --alpha-key-on: var(--alpha-fill-on);
+    --color-white-key: #ccc;
+    --color-black-key: #1A1A1A;
+
+    --widget-keypad: var(--widget-padding);
+
+    > inner {
+
+        padding: var(--widget-padding);
+        flex: 1;
+        @include pseudo-stroke($z: 2);
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        overflow: hidden;
+    }
+
+    .key {
+
+        --alpha-fill-off: var(--alpha-key-off);
+        --alpha-fill-on: var(--alpha-key-on);
+        inner {
+            margin: 1rem 0.5rem!important;
+            --widget-padding: -1rem;
+            &:before {
+                content: none;
+            }
+            &:after {
+                background: var(--color-key-on);
+            }
+        }
+    }
+
+    .white {
+        flex: 1;
+        width: auto;
+        min-width: auto;
+        height: auto;
+        inner {
+            background: var(--color-white-key);
+        }
+    }
+
+    .black {
+        position: absolute;
+        z-index: 1;
+
+        left: calc((100% - var(--widget-keypad) * 2) / var(--nkeys) * var(--rank));
+        width: calc(100% / var(--nkeys) * 0.6);
+        margin-left: calc(100% / var(--nkeys) * -0.3 + var(--widget-keypad));
+        height: calc((100% - var(--widget-keypad) * 2) * 0.65);
+
+        inner {
+            margin-left: 0!important;
+            margin-right: 0!important;
+            background: var(--color-black-key);
+        }
+    }
+
+}

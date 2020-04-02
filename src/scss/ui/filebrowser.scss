@@ -1,0 +1,93 @@
+$padding: 8rem;
+
+.file-browser {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+
+    .ariane {
+        height: 40rem;
+        flex-shrink: 0;
+        line-height: 40rem;
+        padding-left: $padding;
+        background: var(--color-background);
+        margin-bottom: 2rem;
+
+    }
+    .file-list {
+        overflow-y: auto;
+        flex:1;
+        background: var(--color-background);
+        padding: 0 $padding;
+    }
+    .file {
+        position: relative;
+        height: 40rem;
+        line-height: 40rem;
+        input {
+            position: absolute;
+            width:100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .label {
+            position: absolute;
+            width:100%;
+            height: 100%;
+            pointer-events: none;
+            white-space: nowrap;
+            span {
+                display: block;
+                width: 100%;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+        }
+        input:checked + .label {
+            color: var(--color-widget);
+            &:before {
+                content:"";
+                position: absolute;
+                left:-$padding;
+                right:-$padding;
+                height: 100%;
+                background: var(--color-widget);
+                opacity: 0.1;
+            }
+        }
+    }
+    .file-actions {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: flex-end;
+        height: 40rem;
+        flex-shrink: 0;
+        margin-top: $padding;
+        div {
+            margin-left: $padding;
+            text-overflow: clip;
+            min-width: 0;
+        }
+        i {
+            pointer-events: none;
+        }
+        .save-as {
+            flex:1;
+            height: 40rem;
+            line-height: 40rem;
+            border: 0;
+            padding: 0 10rem;
+            font-size: 120%;
+            top: -1rem;
+            position: relative;
+            background: var(--color-background);
+            min-width: 0;
+            &[disabled] {
+                display: none
+            }
+        }
+    }
+}

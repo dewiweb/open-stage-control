@@ -1,0 +1,31 @@
+.image-container,
+.html-container,
+.svg-container,
+.frame-container {
+
+    width: 120rem;
+    height: 120rem;
+
+    inner {
+        position: relative;
+        flex: 1;
+        display: flex;
+        padding: var(--widget-padding);
+        background-clip: content-box;
+
+        @include pseudo-stroke();
+    }
+
+    .frame {
+        position: relative;
+        width: 100%;
+        flex: 1;
+    }
+
+}
+
+.frame-container {
+    iframe[src=""] {
+        pointer-events: none;
+    }
+}

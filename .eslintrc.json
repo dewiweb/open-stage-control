@@ -1,4 +1,5 @@
 {
+  "parser": "babel-eslint",
   "env": {
     "es6": true,
     "browser": true,
@@ -12,10 +13,12 @@
     }
   },
   "rules": {
+    "no-prototype-builtins": "off",
     "no-console": "off",
     "no-undef": "off",
     "no-useless-escape": "off",
     "no-self-assign": "off",
+    "no-fallthrough": "off",
     "no-empty": [
       "error",
       {
@@ -40,7 +43,7 @@
         "ObjectExpression": 1,
         "ArrayExpression": 1,
         "MemberExpression": "off",
-        "ignoredNodes": ["ConditionalExpression"]
+        "ignoredNodes": ["ConditionalExpression", "TemplateElement"]
       }
     ],
     "linebreak-style": [
